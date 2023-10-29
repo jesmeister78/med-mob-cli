@@ -5,114 +5,130 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
   Text,
   useColorScheme,
   View,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
 
 import {
   Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+import {Camera, useCameraDevice, useCameraDevices} from 'react-native-vision-camera';
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+/*
+  local imports
+*/
+import styles from './styles';
 
-function App(): JSX.Element {
+function App(){
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const camera = useRef<Camera>(null);
+  const devices = useCameraDevices();
+  console.log(devices);
+  const device = useCameraDevice('back');
+
+  const [showCamera, setShowCamera] = useState(false);
+  const [imageSource, setImageSource] = useState('');
+
+  useEffect(() => {
+    async function getPermission() {
+      const newCameraPermission = await Camera.requestCameraPermission();
+      console.log(newCameraPermission);
+    }
+    getPermission();
+  }, []);
+
+  const capturePhoto = async () => {
+    if (camera.current !== null) {
+      const photo = await camera.current.takePhoto({});
+      setImageSource(photo.path);
+      setShowCamera(false);
+      console.log(photo.path);
+    }
+  };
+
+  if (device == null) {
+    return <Text>Camera not available</Text>;
+  }
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits. jesse
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    
+    <View style={styles.container}>
+    {showCamera ? (
+      <>
+        <Camera
+          ref={camera}
+          style={styles.image}
+          device={device}
+          isActive={showCamera}
+          photo={true}
+        />
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.camButton}
+            onPress={() => capturePhoto()}
+          />
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </>
+    ) : (
+      <>
+        {imageSource !== '' ? (
+          <Image
+            style={styles.image}
+            source={{
+              uri: `file://'${imageSource}`,
+            }}
+          />
+        ) : null}
+
+        <View style={styles.backButtonContainer}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => setShowCamera(true)}>
+            <Text style={{color: 'black', fontWeight: '500'}}>Back</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.buttonContainer}>
+          <View style={styles.buttons}>
+            <TouchableOpacity
+              style={styles.retakeButton}
+              onPress={() => setShowCamera(true)}>
+              <Text style={{color: '#77c3ec', fontWeight: '500'}}>
+                Retake
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.retakeButton}
+              onPress={() => setShowCamera(true)}>
+              <Text style={{color: '#77c3ec', fontWeight: '500'}}>
+                Save Image
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.usePhotoButton}
+              onPress={() => setShowCamera(true)}>
+              <Text style={{color: 'white', fontWeight: '500'}}>
+                Process Image
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </>
+    )}
+  </View>
   );
 }
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
