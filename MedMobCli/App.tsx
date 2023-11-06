@@ -14,7 +14,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, NavigationProp } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import {
@@ -29,18 +29,25 @@ import { Camera, useCameraDevice, useCameraDevices } from 'react-native-vision-c
 import styles from './styles';
 import HomeScreen from './components/HomeScreen';
 import CaptureImage from './components/CaptureImage';
+import Case from './components/Case';
 
-function App() {
+export type ScreenNames = ["Home", "Capture", "Case"] // type these manually
+export type RootStackParamList = Record<ScreenNames[number], undefined>;
+export type StackNavigation = NavigationProp<RootStackParamList>;
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const App = () => {
 
   // setup navigation
 
-  const Stack = createNativeStackNavigator();
  
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Capture" component={CaptureImage} />
+        <Stack.Screen name="Case" component={Case} />
       </Stack.Navigator>
     </NavigationContainer>
 

@@ -3,9 +3,13 @@ import { Camera, useCameraDevice, useCameraDevices } from "react-native-vision-c
 import styles from "../styles";
 import { useRef, useState, useEffect } from "react";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+import { StackNavigation } from "../App";
 
+interface CaptureScreenProps {
+  navigation: StackNavigation;
+}
 
-function CaptureImage(){
+const CaptureImage: React.FC<CaptureScreenProps> =({ navigation }) =>{
     const isDarkMode = useColorScheme() === 'dark';
 
     const backgroundStyle = {
@@ -72,8 +76,8 @@ function CaptureImage(){
         <View style={styles.backButtonContainer}>
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => setShowCamera(true)}>
-            <Text style={{ color: 'black', fontWeight: '500' }}>Back</Text>
+            onPress={() => navigation.navigate('Home')}>
+            <Text style={{ color: 'black', fontWeight: '500' }}>Go Home</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
