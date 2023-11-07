@@ -2,11 +2,22 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
+  loader: {
+    marginTop: 'auto',
+    marginBottom: 'auto'
+  },
+  container: {
+    flexDirection: 'row',
+    marginVertical: 10
+  },
+  dataContainer: {
+    flexDirection: 'row'
+  },
+    // container: {
+    //   flex: 1,
+    //   justifyContent: 'center',
+    //   alignItems: 'center',
+    // },
     button: {
       backgroundColor: 'gray',
     },

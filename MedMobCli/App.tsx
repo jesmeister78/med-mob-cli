@@ -30,6 +30,8 @@ import styles from './styles';
 import HomeScreen from './components/HomeScreen';
 import CaptureImage from './components/CaptureImage';
 import Case from './components/Case';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 export type ScreenNames = ["Home", "Capture", "Case"] // type these manually
 export type RootStackParamList = Record<ScreenNames[number], undefined>;
@@ -41,16 +43,17 @@ const App = () => {
 
   // setup navigation
 
- 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Capture" component={CaptureImage} />
-        <Stack.Screen name="Case" component={Case} />
-      </Stack.Navigator>
-    </NavigationContainer>
 
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Capture" component={CaptureImage} />
+          <Stack.Screen name="Case" component={Case} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

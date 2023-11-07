@@ -1,47 +1,50 @@
-import { Button, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Button, Text, TouchableOpacity, View } from "react-native";
 import { StackNavigation } from "../App";
 import styles from "../styles";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchCases, selectAllCases } from "../store/cases";
+import { AppDispatch, RootState } from "../store";
 
 
 interface CaseScreenProps {
-  navigation: StackNavigation;
+    navigation: StackNavigation;
 }
 
-const HomeScreen: React.FC<CaseScreenProps>= ({ navigation }) => {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Capture Image"
-        onPress={() => navigation.navigate('Capture')}
-      />
-      <View style={styles.buttonContainer}>
-          <View style={styles.buttons}>
-            <TouchableOpacity
-              style={styles.retakeButton}
-              onPress={() => navigation.navigate('Capture')}>
-              <Text style={{ color: '#77c3ec', fontWeight: '500' }}>
-                Add New Image
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.retakeButton}
-              onPress={() => navigation.navigate('Home')}>
-              <Text style={{ color: '#77c3ec', fontWeight: '500' }}>
-                Save Case
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.usePhotoButton}
-              onPress={() => navigation.navigate('Home')}>
-              <Text style={{ color: 'white', fontWeight: '500' }}>
-                Edit
-              </Text>
-            </TouchableOpacity>
-          </View>
+const CaseScreen: React.FC<CaseScreenProps> = ({ navigation }) => {
+    const dispatch = useDispatch<AppDispatch>();
+    const { loading } = useSelector((state: RootState) => state.cases);
+    const cases = useSelector(selectAllCases);
+
+    useEffect(() => {
+        dispatch(fetchCases());
+    }, []);
+
+    if (loading) {
+        return <ActivityIndicator size="large" style={styles.loader} />;
+    }
+
+    return (
+        <View>
+            <Button title={'Reload'} onPress={() => dispatch(fetchCases())} />
+            {cases.map((c) => {
+                return (
+                    <View style={styles.container} key={c.id}>
+                        <View>
+                            <View style={styles.dataContainer}>
+                                <Text>
+                                    {c.name}
+                                </Text>
+                            </View>
+                            <View style={styles.dataContainer}>
+                                <Text>{c.year}</Text>
+                            </View>
+                        </View>
+                    </View>
+                );
+            })}
         </View>
-    </View>
-  );
+    );
 }
 
-export default HomeScreen;
+export default CaseScreen;

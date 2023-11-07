@@ -11,7 +11,7 @@ const HomeScreen: React.FC<HomeScreenProps>= ({ navigation }) => {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
       <Button
-        title="Go to Capture Image"
+        title="Capture Image"
         onPress={() => navigation.navigate('Capture')}
       />
       <Button

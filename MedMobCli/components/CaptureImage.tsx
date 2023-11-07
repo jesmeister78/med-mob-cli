@@ -21,7 +21,7 @@ const CaptureImage: React.FC<CaptureScreenProps> =({ navigation }) =>{
     console.log(devices);
     const device = useCameraDevice('back');
   
-    const [showCamera, setShowCamera] = useState(false);
+    const [showCamera, setShowCamera] = useState(true);
     const [imageSource, setImageSource] = useState('');
   
     useEffect(() => {
