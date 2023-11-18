@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 // import messageReducer from './message';
 import casesReducer from './cases';
+import usersReducer from './users';
 
 export const store = configureStore({
   reducer: {
     // message: messageReducer,
-    cases: casesReducer
+    cases: casesReducer,
+    users: usersReducer
   }
 });
 

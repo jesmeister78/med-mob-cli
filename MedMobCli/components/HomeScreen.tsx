@@ -18,6 +18,10 @@ const HomeScreen: React.FC<HomeScreenProps>= ({ navigation }) => {
         title="Create/Edit Case"
         onPress={() => navigation.navigate('Case')}
       />
+      <Button
+        title="Users"
+        onPress={() => navigation.navigate('Users')}
+      />
     </View>
   );
 }

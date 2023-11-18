@@ -8,8 +8,11 @@ import { Case } from '../models/case.model';
   
   
   export const fetchCases = createAsyncThunk('cases/fetchCases', async () => {
-    const response = await fetch('https://reqres.in/api/cases?delay=1');
-    return (await response.json()).data as Case[];
+    const response = await fetch('https://reqres.in/api/cases?delay=10');
+    console.log(response);
+    const responseJson = await response.json();
+    console.log(responseJson);
+    return responseJson.data as Case[];
   });
   
   export const casesAdapter = createEntityAdapter<Case>();

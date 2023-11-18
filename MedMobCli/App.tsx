@@ -32,8 +32,9 @@ import CaptureImage from './components/CaptureImage';
 import Case from './components/Case';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import Users from './components/Users';
 
-export type ScreenNames = ["Home", "Capture", "Case"] // type these manually
+export type ScreenNames = ["Home", "Capture", "Case", "Users"] // type these manually
 export type RootStackParamList = Record<ScreenNames[number], undefined>;
 export type StackNavigation = NavigationProp<RootStackParamList>;
 
@@ -41,7 +42,6 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App = () => {
 
-  // setup navigation
 
 
   return (
@@ -51,6 +51,7 @@ const App = () => {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Capture" component={CaptureImage} />
           <Stack.Screen name="Case" component={Case} />
+          <Stack.Screen name="Users" component={Users} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

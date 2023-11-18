@@ -27,7 +27,7 @@ const CaptureImage: React.FC<CaptureScreenProps> =({ navigation }) =>{
     useEffect(() => {
       async function getPermission() {
         const newCameraPermission = await Camera.requestCameraPermission();
-        console.log(newCameraPermission);
+        console.log("Camera permission: " + newCameraPermission);
       }
       getPermission();
     }, []);
