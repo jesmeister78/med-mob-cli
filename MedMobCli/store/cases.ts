@@ -4,7 +4,7 @@ import {
     createSlice
   } from '@reduxjs/toolkit';
   import { RootState } from '.';
-import { Case } from '../models/case.model';
+import { Case } from '../data/schema/case.model';
   
   
   export const fetchCases = createAsyncThunk('cases/fetchCases', async () => {

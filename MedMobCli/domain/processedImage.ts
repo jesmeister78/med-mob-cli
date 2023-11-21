@@ -1,4 +1,4 @@
-import { RawImage } from "./rawImage.model";
+import { RawImage } from "./rawImage"
 
 export interface ProcessedImage extends RawImage {
     processedDate: Date

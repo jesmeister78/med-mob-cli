@@ -1,15 +1,21 @@
 import { View, TouchableOpacity, Image, Text, useColorScheme } from "react-native";
 import { Camera, useCameraDevice, useCameraDevices } from "react-native-vision-camera";
-import styles from "../styles";
+import styles from "../../styles";
 import { useRef, useState, useEffect } from "react";
 import { Colors } from "react-native/Libraries/NewAppScreen";
-import { StackNavigation } from "../App";
+import { CompositeNavigationProp, useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "./rootStackParams";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { MainBottomTabParamList } from "./mainBottomTabParams";
 
-interface CaptureScreenProps {
-  navigation: StackNavigation;
-}
+type CaptureScreenProp = CompositeNavigationProp<
+  StackNavigationProp<RootStackParamList, 'Main'>,
+  BottomTabNavigationProp<MainBottomTabParamList, 'Capture'>
+>;
 
-const CaptureImage: React.FC<CaptureScreenProps> =({ navigation }) =>{
+function CaptureScreen() {
+  const navigation = useNavigation<CaptureScreenProp>();
     const isDarkMode = useColorScheme() === 'dark';
 
     const backgroundStyle = {
@@ -110,4 +116,4 @@ const CaptureImage: React.FC<CaptureScreenProps> =({ navigation }) =>{
   </View>
 }
 
-export default CaptureImage;
+export default CaptureScreen;

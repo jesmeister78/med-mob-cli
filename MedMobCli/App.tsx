@@ -5,56 +5,52 @@
  * @format
  */
 
-import React, { useEffect, useState, useRef } from 'react';
-import type { PropsWithChildren } from 'react';
-import {
-  Text,
-  useColorScheme,
-  View,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import React, { } from 'react';
 import { NavigationContainer, NavigationProp } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
 
-import { Camera, useCameraDevice, useCameraDevices } from 'react-native-vision-camera';
 
 /*
   local imports
 */
-import styles from './styles';
-import HomeScreen from './components/HomeScreen';
-import CaptureImage from './components/CaptureImage';
-import Case from './components/Case';
+import HomeScreen from './screens/main/Home';
+import CaptureImage from './screens/main/Capture';
+import Case from './components/SurgeryList';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import Users from './components/Users';
+import { RealmProvider } from './data/realmProvider';
+import { RootStackParamList } from './screens/main/rootStackParams';
+import AuthScreen from './screens/auth/Auth';
+import MainScreen from './screens/main';
 
-export type ScreenNames = ["Home", "Capture", "Case", "Users"] // type these manually
-export type RootStackParamList = Record<ScreenNames[number], undefined>;
-export type StackNavigation = NavigationProp<RootStackParamList>;
+// export type ScreenNames = ["Home", "Capture", "Case", "Users"] // type these manually
+// export type RootStackParamList = Record<ScreenNames[number], undefined>;
+// export type StackNavigation = NavigationProp<RootStackParamList>;
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
 
 const App = () => {
 
 
 
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Capture" component={CaptureImage} />
-          <Stack.Screen name="Case" component={Case} />
-          <Stack.Screen name="Users" component={Users} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+    <RealmProvider>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Main" component={MainScreen} />
+            <Stack.Screen name="Auth" component={AuthScreen} />
+            {/* <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Capture" component={CaptureImage} />
+            <Stack.Screen name="Case" component={Case} />
+            <Stack.Screen name="Users" component={Users} /> */}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
+    </RealmProvider>
   );
 }
 
