@@ -21,9 +21,10 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import Users from './components/Users';
 import { RealmProvider } from './data/realmProvider';
-import { RootStackParamList } from './screens/main/rootStackParams';
+import { RootStackParamList } from './screens/navigation/rootStackParams';
 import AuthScreen from './screens/auth/Auth';
 import MainScreen from './screens/main';
+import { ScreenStackHeaderConfig } from 'react-native-screens';
 
 // export type ScreenNames = ["Home", "Capture", "Case", "Users"] // type these manually
 // export type RootStackParamList = Record<ScreenNames[number], undefined>;
@@ -40,8 +41,8 @@ const App = () => {
     <RealmProvider>
       <Provider store={store}>
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Main" component={MainScreen} />
+          <Stack.Navigator >
+            <Stack.Screen name="Main" component={MainScreen} options={{title: "x-rAy-I Mobile"}} />
             <Stack.Screen name="Auth" component={AuthScreen} />
             {/* <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Capture" component={CaptureImage} />

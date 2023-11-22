@@ -5,9 +5,9 @@ import { useRef, useState, useEffect } from "react";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { CompositeNavigationProp, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "./rootStackParams";
+import { RootStackParamList } from "../navigation/rootStackParams";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { MainBottomTabParamList } from "./mainBottomTabParams";
+import { MainBottomTabParamList } from "../navigation/mainBottomTabParams";
 
 type CaptureScreenProp = CompositeNavigationProp<
   StackNavigationProp<RootStackParamList, 'Main'>,
