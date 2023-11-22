@@ -42,7 +42,7 @@ const App = () => {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator >
-            <Stack.Screen name="Main" component={MainScreen} options={{title: "x-rAy-I Mobile"}} />
+            <Stack.Screen name="Main" component={MainScreen} options={{title: "x-rAy-I mobile"}} />
             <Stack.Screen name="Auth" component={AuthScreen} />
             {/* <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Capture" component={CaptureImage} />
