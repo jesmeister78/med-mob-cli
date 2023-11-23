@@ -1,8 +1,8 @@
 import Realm, { ObjectSchema } from "realm";
 import { RawImageModel } from "./rawImage.model";
-import { Procedure } from "../../domain/surgery";
+import { Procedure } from "../../domain/procedure";
 
-export class SurgeryModel extends Realm.Object<SurgeryModel> implements Procedure {
+export class ProcedureModel extends Realm.Object<ProcedureModel> implements Procedure {
 
     id!: string; // uuidv4()
     caseNumber!: number
@@ -15,7 +15,7 @@ export class SurgeryModel extends Realm.Object<SurgeryModel> implements Procedur
     images?: RawImageModel[]
 
     static schema: ObjectSchema = {
-        name: 'Surgery',
+        name: 'Procedure',
         properties: {
             id: {
                 type: 'string',

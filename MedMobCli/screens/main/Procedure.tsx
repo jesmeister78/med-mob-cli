@@ -6,6 +6,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import { RootStackParamList } from '../navigation/rootStackParams';
 import { MainBottomTabParamList } from '../navigation/mainBottomTabParams';
+import Procedure from '../../components/Procedure';
 
 type ProcedureScreenProp = CompositeNavigationProp<
   StackNavigationProp<RootStackParamList, 'Main'>,
@@ -17,8 +18,8 @@ function ProcedureScreen() {
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-      <Button title="Login" onPress={() => navigation.navigate('Auth')} />
+      
+      <Procedure/>
     </View>
   );
 }

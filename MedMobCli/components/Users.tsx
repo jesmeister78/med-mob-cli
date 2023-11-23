@@ -9,15 +9,23 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { fetchUsers, selectAllUsers } from '../store/users';
-import { StackNavigation } from '../App';
 import { useAppDispatch, useAppSelector } from '../hooks';
+import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { MainBottomTabParamList } from '../screens/navigation/mainBottomTabParams';
+import { RootStackParamList } from '../screens/navigation/rootStackParams';
 
-interface UsersScreenProps {
-  navigation: StackNavigation;
-}
-const Users: React.FC<UsersScreenProps>= ({ navigation }) => {
-  const dispatch = useAppDispatch();
+type UsersScreenProps = CompositeNavigationProp<
+  StackNavigationProp<RootStackParamList, 'Main'>,
+  BottomTabNavigationProp<MainBottomTabParamList, 'Capture'>
+>;
+
+function UsersScreen() {
+  const navigation = useNavigation<UsersScreenProps>();
   const { loading } = useAppSelector((state: RootState) => state.users);
+  const dispatch = useAppDispatch();
+
   const users = useAppSelector(selectAllUsers);
 
   useEffect(() => {
@@ -51,7 +59,7 @@ const Users: React.FC<UsersScreenProps>= ({ navigation }) => {
   );
 };
 
-export default Users;
+export default UsersScreen;
 
 const styles = StyleSheet.create({
   loader: {

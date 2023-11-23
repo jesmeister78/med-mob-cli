@@ -5,17 +5,17 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import styles from "../styles";
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { fetchSurgeries, selectAllSurgeries } from "../store/surgeries";
+import { fetchProcedures, selectAllProcedures } from "../store/procedures";
 
 
 function SurgeryList() {
 
   const dispatch = useAppDispatch();
-  const { loading } = useAppSelector((state: RootState) => state.surgeries);
-  const surgeries = useAppSelector(selectAllSurgeries);
+  const { loading } = useAppSelector((state: RootState) => state.procedures);
+  const procedures = useAppSelector(selectAllProcedures);
 
   useEffect(() => {
-    dispatch(fetchSurgeries()).unwrap()
+    dispatch(fetchProcedures()).unwrap()
       .then((originalPromiseResult) => {
         // handle result here
         console.log(originalPromiseResult)
@@ -31,7 +31,7 @@ function SurgeryList() {
     return <ActivityIndicator size="large" style={styles.loader} />;
   }
   const handleReload = async () => {
-    await dispatch(fetchSurgeries())
+    await dispatch(fetchProcedures())
       .then(unwrapResult)
       .then(originalPromiseResult => {
         <View style={styles.dataContainer}>
@@ -45,17 +45,17 @@ function SurgeryList() {
   return (
     <View>
       <Button title={'Reload'} onPress={handleReload} />
-      {surgeries.map((surgery) => {
+      {procedures.map((procedure) => {
         return (
-          <View style={styles.container} key={surgery.id}>
+          <View style={styles.container} key={procedure.id}>
             <View>
               <View style={styles.dataContainer}>
                 <Text>
-                  {surgery.id} {surgery.patientName} {surgery.date.toISOString()}
+                  {procedure.id} {procedure.patientName} {procedure.date.toISOString()}
                 </Text>
               </View>
               <View style={styles.dataContainer}>
-                <Text>{surgery.surgeon} {surgery.hospital}</Text>
+                <Text>{procedure.surgeon} {procedure.hospital}</Text>
               </View>
             </View>
           </View>

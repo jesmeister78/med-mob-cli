@@ -16,7 +16,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 */
 import HomeScreen from './screens/main/Home';
 import CaptureImage from './screens/main/Capture';
-import Case from './components/SurgeryList';
+import Case from './components/ProcedureList';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import Users from './components/Users';

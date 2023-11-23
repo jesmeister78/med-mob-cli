@@ -1,43 +1,43 @@
 import { useQuery } from "@realm/react";
-import { SurgeryModel } from "./schema/surgery.model"
-import { Procedure } from "../domain/surgery";
+import { ProcedureModel } from "./schema/procedure.model"
+import { Procedure } from "../domain/procedure";
 import { useRealm } from "./realmProvider";
 
 export class realmUtil {
 
-    public static fetchSurgeries = () => {
+    public static fetchProcedures = () => {
         return new Promise((resolve, reject) => {
             try {
                 //let db = useRealm();
                 //db.objects(SurgeryModel)
-                let surgeries = useQuery(SurgeryModel); 
+                let procedures = useQuery(ProcedureModel); 
 
-                resolve(surgeries)
+                resolve(procedures)
             } catch (e) {
                 reject(e)
             }
         });
     }
 
-    public static addSurgery = (surgery:Procedure) => {
+    public static addProcedure = (procedure:Procedure) => {
         return new Promise((resolve, reject) => {
             try {
                 let realm = useRealm();
                 // db.objects(SurgeryModel)
                 // let surgeries = useQuery(SurgeryModel); 
                 realm.write(() => {
-                    realm.create('Surgery', {
-                        id: surgery.id, 
-                        caseNumber: surgery.caseNumber, 
-                        patientName: surgery.patientName,
-                        urIdentifier: surgery.urIdentifier,
-                        date: surgery.date,
-                        surgeon: surgery.surgeon,
-                        hospital: surgery.hospital,
-                        indication: surgery.indication
+                    realm.create('Procedure', {
+                        id: procedure.id, 
+                        caseNumber: procedure.caseNumber, 
+                        patientName: procedure.patientName,
+                        urIdentifier: procedure.urIdentifier,
+                        date: procedure.date,
+                        surgeon: procedure.surgeon,
+                        hospital: procedure.hospital,
+                        indication: procedure.indication
                     });
                   });
-                resolve(surgery)
+                resolve(procedure)
             } catch (e) {
                 reject(e)
             }
