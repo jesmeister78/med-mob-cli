@@ -1,4 +1,5 @@
 import {
+    PayloadAction,
     createAsyncThunk,
     createEntityAdapter,
     createSlice
@@ -16,19 +17,19 @@ export const fetchProcedures = createAsyncThunk('procedures/fetchProcedures', as
     return  [{id: '1', caseNumber: 1,
     patientName: 'jesse',
     urIdentifier: 'ur1',
-    date: new Date(),
+    date: '2023-11-24',
     hospital: 'epworth',
     surgeon: 'henry',
 
     indication: 'Routine'}] as Procedure[];
 });
 
-export const ProceduresAdapter = createEntityAdapter<Procedure>();
+export const proceduresAdapter = createEntityAdapter<Procedure>();
 
-const ProceduresSlice = createSlice({
+const proceduresSlice = createSlice({
     name: 'procedures',
-    initialState: ProceduresAdapter.addMany(
-        ProceduresAdapter.getInitialState({
+    initialState: proceduresAdapter.addMany(
+        proceduresAdapter.getInitialState({
           loading: false
         }),
         [
@@ -37,7 +38,7 @@ const ProceduresSlice = createSlice({
             caseNumber: 1,
             patientName: 'jesse',
             urIdentifier: 'ur1',
-            date: new Date(),
+            date: '2023-11-24',
             hospital: 'epworth',
             surgeon: 'dr henry',
         
@@ -52,13 +53,16 @@ const ProceduresSlice = createSlice({
           }
         ]
       ),
-    reducers: {},
+    reducers: {
+        //patientName: (state, action: PayloadAction<{id:string, name:string}>) => state,
+        procedureUpdated: proceduresAdapter.updateOne
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchProcedures.pending, (state) => {
             state.loading = true;
         });
         builder.addCase(fetchProcedures.fulfilled, (state, action) => {
-            ProceduresAdapter.setAll(state, action.payload);
+            proceduresAdapter.setAll(state, action.payload);
             state.loading = false;
         });
         builder.addCase(fetchProcedures.rejected, (state) => {
@@ -74,6 +78,7 @@ export const {
     selectEntities: selectProcedureEntities,
     selectAll: selectAllProcedures,
     selectTotal: selectTotalProcedures
-} = ProceduresAdapter.getSelectors((state: RootState) => state.procedures);
+} = proceduresAdapter.getSelectors((state: RootState) => state.procedures);
 
-export default ProceduresSlice.reducer;
+export const { procedureUpdated } = proceduresSlice.actions;
+export default proceduresSlice.reducer;

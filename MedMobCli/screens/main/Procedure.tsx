@@ -17,7 +17,7 @@ function ProcedureScreen() {
   const navigation = useNavigation<ProcedureScreenProp>();
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View >
       
       <Procedure/>
     </View>

@@ -15,6 +15,7 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { MainBottomTabParamList } from '../screens/navigation/mainBottomTabParams';
 import { RootStackParamList } from '../screens/navigation/rootStackParams';
+import styles from '../styles';
 
 type UsersScreenProps = CompositeNavigationProp<
   StackNavigationProp<RootStackParamList, 'Main'>,
@@ -43,12 +44,12 @@ function UsersScreen() {
         return (
           <View style={styles.container} key={user.id}>
             <View>
-              <View style={styles.dataContainer}>
+              <View >
                 <Text>
                   {user.first_name} {user.last_name}
                 </Text>
               </View>
-              <View style={styles.dataContainer}>
+              <View >
                 <Text>{user.email}</Text>
               </View>
             </View>
@@ -61,16 +62,3 @@ function UsersScreen() {
 
 export default UsersScreen;
 
-const styles = StyleSheet.create({
-  loader: {
-    marginTop: 'auto',
-    marginBottom: 'auto'
-  },
-  container: {
-    flexDirection: 'row',
-    marginVertical: 10
-  },
-  dataContainer: {
-    flexDirection: 'row'
-  }
-});

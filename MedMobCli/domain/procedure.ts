@@ -5,7 +5,7 @@ export interface Procedure {
     caseNumber: number
     patientName: string
     urIdentifier: string
-    date: Date
+    date: string
     hospital: string
     surgeon: string
 

@@ -7,11 +7,21 @@ const styles = StyleSheet.create({
     marginBottom: 'auto'
   },
   container: {
-    flexDirection: 'row',
+    flexDirection: 'col',
     marginVertical: 10
   },
-  dataContainer: {
-    flexDirection: 'row'
+ 
+  procedureRow: {
+    flexDirection: 'row',
+    border: '5px solid black',
+  },
+  procLabel: {
+    backgroundColor: 'green',
+
+  },
+  procInput: {
+    backgroundColor: 'red',
+
   },
     // container: {
     //   flex: 1,

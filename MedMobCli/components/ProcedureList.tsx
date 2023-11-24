@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchProcedures, selectAllProcedures } from "../store/procedures";
 
 
-function SurgeryList() {
+function ProcedureList() {
 
   const dispatch = useAppDispatch();
   const { loading } = useAppSelector((state: RootState) => state.procedures);
@@ -34,7 +34,7 @@ function SurgeryList() {
     await dispatch(fetchProcedures())
       .then(unwrapResult)
       .then(originalPromiseResult => {
-        <View style={styles.dataContainer}>
+        <View >
         <Text>{originalPromiseResult.toString()}</Text>
       </View>
       })
@@ -49,12 +49,12 @@ function SurgeryList() {
         return (
           <View style={styles.container} key={procedure.id}>
             <View>
-              <View style={styles.dataContainer}>
+              <View >
                 <Text>
                   {procedure.id} {procedure.patientName} {procedure.date.toISOString()}
                 </Text>
               </View>
-              <View style={styles.dataContainer}>
+              <View >
                 <Text>{procedure.surgeon} {procedure.hospital}</Text>
               </View>
             </View>
@@ -65,4 +65,4 @@ function SurgeryList() {
   );
 }
 
-export default SurgeryList;
+export default ProcedureList;

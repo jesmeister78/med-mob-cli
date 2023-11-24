@@ -72,7 +72,6 @@ function CaptureScreen() {
       <>
         {imageSource !== '' ? (
           <Image
-            style={styles.image}
             source={{
               uri: `file://'${imageSource}`,
             }}
