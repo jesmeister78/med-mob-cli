@@ -41,6 +41,7 @@ const proceduresSlice = createSlice({
             date: '2023-11-24',
             hospital: 'epworth',
             surgeon: 'dr henry',
+            surgeryType: 'laparoscopic cholecystectomy',
         
             /*
                 Routine
@@ -50,6 +51,25 @@ const proceduresSlice = createSlice({
                 Other (free text)
             */
             indication: 'Routine',
+          },
+          {
+            id: '2', // uuidv4()
+            caseNumber: 2,
+            patientName: 'belinda',
+            urIdentifier: 'ur2',
+            date: '2023-11-25',
+            hospital: 'monash',
+            surgeon: 'dr yuming',
+            surgeryType: 'open cholecystectomy',
+        
+            /*
+                Routine
+                Suspected choledocholithiasis
+                Deranged LFTs
+                Pancreatitis
+                Other (free text)
+            */
+            indication: 'Deranged LFTs',
           }
         ]
       ),

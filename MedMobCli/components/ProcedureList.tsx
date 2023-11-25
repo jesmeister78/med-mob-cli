@@ -6,6 +6,7 @@ import styles from "../styles";
 import { RootState } from "../store";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { fetchProcedures, selectAllProcedures } from "../store/procedures";
+import ProcedureSummary from "./ProcedureSummary";
 
 
 function ProcedureList() {
@@ -47,18 +48,7 @@ function ProcedureList() {
       <Button title={'Reload'} onPress={handleReload} />
       {procedures.map((procedure) => {
         return (
-          <View style={styles.container} key={procedure.id}>
-            <View>
-              <View >
-                <Text>
-                  {procedure.id} {procedure.patientName} {procedure.date.toISOString()}
-                </Text>
-              </View>
-              <View >
-                <Text>{procedure.surgeon} {procedure.hospital}</Text>
-              </View>
-            </View>
-          </View>
+          <ProcedureSummary  key={procedure.id} id={procedure.id} />
         );
       })}
     </View>

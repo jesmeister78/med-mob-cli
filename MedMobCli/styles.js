@@ -10,7 +10,14 @@ const styles = StyleSheet.create({
     flexDirection: 'col',
     marginVertical: 10
   },
- 
+  paper: {
+    padding: 8,
+    height: 80,
+    width: 80,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
+  },
   procedureRow: {
     flexDirection: 'row',
     border: '5px solid black',

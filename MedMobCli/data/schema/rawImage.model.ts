@@ -11,8 +11,8 @@ import { ProcedureModel } from "./procedure.model";
 export class RawImageModel extends Realm.Object<RawImageModel> implements RawImage {
     _id!: Realm.BSON.ObjectId;
     id!: string // uuidv4()
-    timestamp!: Date
-    data!: Uint8Array // this is the rendered image BEFORE processing
+    imageTimestamp!: Date
+    imageData!: Uint8Array // this is the rendered image BEFORE processing
     surgery?: ProcedureModel
 
     static schema: ObjectSchema = {

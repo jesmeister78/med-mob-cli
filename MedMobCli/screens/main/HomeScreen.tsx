@@ -7,13 +7,13 @@ import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import { RootStackParamList } from '../navigation/rootStackParams';
 import { MainBottomTabParamList } from '../navigation/mainBottomTabParams';
 
-type HomeScreenProp = CompositeNavigationProp<
+type HomeScreenNavProp = CompositeNavigationProp<
   StackNavigationProp<RootStackParamList, 'Main'>,
   BottomTabNavigationProp<MainBottomTabParamList, 'Home'>
 >;
 
 function HomeScreen() {
-  const navigation = useNavigation<HomeScreenProp>();
+  const navigation = useNavigation<HomeScreenNavProp>();
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MainBottomTabParamList } from '../navigation/mainBottomTabParams';
-import HomeScreen from './Home';
-import CaptureScreen from './Capture';
-import ProcedureScreen from './Procedure';
+import HomeScreen from './HomeScreen';
+import CaptureScreen from './CaptureScreen';
+import ProcedureScreen from './ProcedureScreen';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 

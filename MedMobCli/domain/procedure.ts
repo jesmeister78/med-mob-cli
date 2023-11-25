@@ -10,6 +10,13 @@ export interface Procedure {
     surgeon: string
 
     /*
+        laparoscopic cholecystectomy; 
+        open cholecystectomy; 
+        other (free text) 
+    */
+    surgeryType: string
+
+    /*
         Routine
         Suspected choledocholithiasis
         Deranged LFTs

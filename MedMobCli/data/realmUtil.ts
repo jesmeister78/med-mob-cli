@@ -2,6 +2,7 @@ import { useQuery } from "@realm/react";
 import { ProcedureModel } from "./schema/procedure.model"
 import { Procedure } from "../domain/procedure";
 import { useRealm } from "./realmProvider";
+import { RawImageModel } from "./schema/rawImage.model";
 
 export class realmUtil {
 
@@ -13,6 +14,20 @@ export class realmUtil {
                 let procedures = useQuery(ProcedureModel); 
 
                 resolve(procedures)
+            } catch (e) {
+                reject(e)
+            }
+        });
+    }
+    
+    public static fetchImages = () => {
+        return new Promise((resolve, reject) => {
+            try {
+                //let db = useRealm();
+                //db.objects(SurgeryModel)
+                let images = useQuery(RawImageModel); 
+
+                resolve(images)
             } catch (e) {
                 reject(e)
             }
