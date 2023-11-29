@@ -1,3 +1,4 @@
+import 'react-native-get-random-values';
 import { configureStore } from '@reduxjs/toolkit';
 // import messageReducer from './message';
 import usersReducer from './users';

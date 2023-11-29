@@ -3,6 +3,8 @@ import styles from "../styles";
 import { Camera, useCameraDevice, useCameraDevices } from "react-native-vision-camera";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { GetImageProp } from "./props/getImageProps";
+import { Surface } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 
@@ -11,10 +13,10 @@ function CaptureImage(props: GetImageProp) {
 
     const camera = useRef<Camera>(null);
     const devices = useCameraDevices();
-    console.log(devices);
+    console.log("devices: " + devices);
     const device = useCameraDevice('back');
 
-    const [showCamera, setShowCamera] = useState(true);
+   // const [showCamera, setShowCamera] = useState(true);
 
     useEffect(() => {
         async function getPermission() {
@@ -29,13 +31,13 @@ function CaptureImage(props: GetImageProp) {
             const photo = await camera.current.takePhoto({});
 
             // close the camera
-            setShowCamera(false);
+            props.setShowCamera(false);
 
             // add the image to the store
             if (props.setImage)
                 props.setImage(photo.path)
             // close the component
-            props.setVisible(false);
+            props.setShowCamera(false);
 
             console.log(photo.path);
         }
@@ -47,15 +49,16 @@ function CaptureImage(props: GetImageProp) {
         return <Text>Camera not available</Text>;
     } else {
         return (
-            <View style={styles.container}>
+            <Surface>
+                <SafeAreaView>
                 <Camera
-                    key={device.id} // add this
-                    ref={camera}
-                    style={styles.image}
+                    //key={device.id} // add this
+                    //ref={camera}
+                    style={{ width: 500, height: 500 }}
                     device={device}
-                    isActive={showCamera}
-                    photo={true}
-                    orientation="portrait"
+                    isActive={props.show}
+                    //photo={true}
+                    //orientation="portrait"
                 />
 
                 <View style={styles.buttonContainer}>
@@ -64,7 +67,9 @@ function CaptureImage(props: GetImageProp) {
                         onPress={() => capturePhoto()}
                     />
                 </View>
-            </View>
+                </SafeAreaView>
+                
+            </Surface>
 
         );
     }

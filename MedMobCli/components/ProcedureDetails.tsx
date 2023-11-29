@@ -9,7 +9,7 @@ import AddImage from "./AddImageToProcedure";
 import React from "react";
 
 
-function Procedure(props: ProcedureProp) {
+function ProcedureDetails(props: ProcedureProp) {
 
     const dispatch = useAppDispatch();
     const { loading } = useAppSelector((state: RootState) => state.procedures);
@@ -68,4 +68,4 @@ function Procedure(props: ProcedureProp) {
     );
 }
 
-export default Procedure;
+export default ProcedureDetails;

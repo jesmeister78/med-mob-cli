@@ -1,6 +1,6 @@
 import React from 'react';
 import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MainBottomTabParamList } from '../navigation/mainBottomTabParams';
+import { MainBottomTabParamList } from '../navigation/bottomTabParams';
 import HomeScreen from './HomeScreen';
 import CaptureScreen from './CaptureScreen';
 import ProcedureScreen from './ProcedureScreen';

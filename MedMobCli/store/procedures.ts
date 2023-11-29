@@ -75,7 +75,8 @@ const proceduresSlice = createSlice({
       ),
     reducers: {
         //patientName: (state, action: PayloadAction<{id:string, name:string}>) => state,
-        procedureUpdated: proceduresAdapter.updateOne
+        procedureUpdated: proceduresAdapter.updateOne,
+        procedureAdded: proceduresAdapter.addOne
     },
     extraReducers: (builder) => {
         builder.addCase(fetchProcedures.pending, (state) => {
@@ -100,5 +101,5 @@ export const {
     selectTotal: selectTotalProcedures
 } = proceduresAdapter.getSelectors((state: RootState) => state.procedures);
 
-export const { procedureUpdated } = proceduresSlice.actions;
+export const { procedureUpdated, procedureAdded } = proceduresSlice.actions;
 export default proceduresSlice.reducer;

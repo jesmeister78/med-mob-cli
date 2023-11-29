@@ -19,11 +19,11 @@ function ImageSelectFromFile(props: GetImageProp){
       setFileResponse(response);
 
       // close the component
-      props.setVisible(false);
+      props.setShowCamera(false);
 
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
-        props.setVisible(false);
+        props.setShowCamera(false);
       } else {
         console.error(err)
       }

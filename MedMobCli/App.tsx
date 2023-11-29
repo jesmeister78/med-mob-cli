@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, { } from 'react';
+import React, { StrictMode } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -27,7 +27,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const App = () => {
 
   return (
-    <RealmProvider>
+    <StrictMode>
+<RealmProvider>
       <Provider store={store}>
         <PaperProvider>
         <NavigationContainer>
@@ -39,6 +40,8 @@ const App = () => {
         </PaperProvider>
       </Provider>
     </RealmProvider>
+    </StrictMode>
+    
   );
 }
 

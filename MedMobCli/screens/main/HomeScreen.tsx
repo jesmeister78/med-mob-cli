@@ -1,11 +1,11 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {View, Text, Button} from 'react-native';
 import {CompositeNavigationProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import { RootStackParamList } from '../navigation/rootStackParams';
-import { MainBottomTabParamList } from '../navigation/mainBottomTabParams';
+import { MainBottomTabParamList, ProcedureScreenMode } from '../navigation/bottomTabParams';
+import { Button, Surface, Text } from 'react-native-paper';
 
 type HomeScreenNavProp = CompositeNavigationProp<
   StackNavigationProp<RootStackParamList, 'Main'>,
@@ -16,10 +16,15 @@ function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavProp>();
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-      <Button title="Login" onPress={() => navigation.navigate('Auth')} />
-    </View>
+    <Surface 
+      elevation={2}
+    >
+      <Text variant='titleSmall'>HOME</Text>
+      <Button  onPress={() => navigation.navigate('Auth')} >Login</Button>
+      <Button  onPress={() => navigation.navigate('Capture')} >Capture Image</Button>
+      <Button  onPress={() => navigation.navigate('Procedure', {mode: ProcedureScreenMode.ADD})} >Add New Case</Button>
+      <Button  onPress={() => navigation.navigate('Procedure', {mode: ProcedureScreenMode.LIST})} >View Case List</Button>
+    </Surface>
   );
 }
 

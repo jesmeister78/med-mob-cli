@@ -1,15 +1,15 @@
+import { useState } from "react";
 import { View } from "react-native";
+import { Button, Text, Card } from "react-native-paper";
+
 import styles from "../styles";
 import { useAppSelector } from "../hooks";
 import { RootState } from "../store";
 import { selectProcedureById } from "../store/procedures";
 import { ProcedureProp } from "./props/procedureProps";
-import { Button, Text, Card } from "react-native-paper";
-import Procedure from "./Procedure";
-import { useState } from "react";
+import ProcedureDetails from "./ProcedureDetails";
 import AddImage from "./AddImageToProcedure";
-import * as React from 'react';
-import CardContent from "react-native-paper/lib/typescript/components/Card/CardContent";
+import ProcedureImage from "./ProcedureImage";
 
 function ProcedureSummary(props: ProcedureProp) {
 
@@ -20,30 +20,30 @@ function ProcedureSummary(props: ProcedureProp) {
         if (isExpanded) {
             return (
                 <Card key={procedure.id}>
-                    <Procedure key={procedure.id} id={props.id} />
+                    <ProcedureDetails id={props.id} />
                     <Button
                         onPress={() => setIsExpanded(!isExpanded)}>Collapse</Button>
                 </Card>
             );
         } else {
             return (
-                <Card key={procedure.id}>
+                <Card key={procedure.id}
+                    elevation={2}
+                >
                     <Card.Title
-                        title={procedure.patientName}
-                    >
-                        <Text>
-                            Patient: {procedure.patientName} Date: {procedure.date}
-                        </Text>
-                    </Card.Title>
+                        title={"Case#: " + procedure.caseNumber}
+                    />
+                   <ProcedureImage imageSource={props.imageSource} />
                     <Card.Content>
                         <Text>
-                            Case#: {procedure.caseNumber} Patient: {procedure.patientName} Date: {procedure.date}
+                            Patient: {procedure.patientName} Surgeon: {procedure.surgeon} Date: {procedure.date}
                         </Text>
                     </Card.Content>
 
-                    <AddImage procedureId={procedure.id} />
                     <Card.Actions>
+                        <AddImage procedureId={procedure.id} />
                         <Button
+                            mode="contained"
                             onPress={() => setIsExpanded(!isExpanded)}>Edit</Button>
                     </Card.Actions>
 

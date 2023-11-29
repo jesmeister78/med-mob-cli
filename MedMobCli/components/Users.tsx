@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { MainBottomTabParamList } from '../screens/navigation/mainBottomTabParams';
+import { MainBottomTabParamList } from '../screens/navigation/bottomTabParams';
 import { RootStackParamList } from '../screens/navigation/rootStackParams';
 import styles from '../styles';
 
