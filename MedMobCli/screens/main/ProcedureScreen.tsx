@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import ProcedureList from '../../components/ProcedureList';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,10 +18,12 @@ export type ProcedureScreenProp = {
 
 const ProcedureScreen = ({ route, navigation }: PSNProps) => {
   // const navigation = useNavigation<ProcedureScreenProp>();
-  const imageSource = route.params.imageSource;
-  const mode = route.params.mode;
+  const imageSource = route.params?.imageSource;
 
-  console.log("ProcedureScreen::imageSource" + imageSource)
+  // default mode is LIST when we get here from the bottom tab nav
+  const mode = route.params?.mode ?? ProcedureScreenMode.LIST;
+
+  console.log("ProcedureScreen::route.params?.imageSource: " + imageSource ?? 'no image source in route params')
 
   // if mode is ADD then we need to add a new procedure to the store before we can render it
   if (mode === ProcedureScreenMode.ADD) {
@@ -52,7 +54,8 @@ const ProcedureScreen = ({ route, navigation }: PSNProps) => {
       indication: ''
     } as Procedure
 
-    dispatch(procedureAdded(newProcedure))
+    useEffect(() => {dispatch(procedureAdded(newProcedure))}, [])
+    
 
     return (
       <Surface
