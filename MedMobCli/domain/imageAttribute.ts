@@ -1,7 +1,9 @@
+import ImageAttributeDetail from "./imageAttributeDetail";
+
 type ImageAttribute = {
     name: string
     isPresent: boolean
-    details?: {label:string, value:string}[]
+    details?: ImageAttributeDetail[]
 };
 
 export default ImageAttribute;

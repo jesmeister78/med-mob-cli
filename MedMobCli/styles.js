@@ -2,6 +2,10 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+  imgAttributeSection: {
+    flexDirection: 'row',
+
+  },
   loader: {
     marginTop: 'auto',
     marginBottom: 'auto'

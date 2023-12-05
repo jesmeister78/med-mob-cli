@@ -11,21 +11,24 @@ function ImageSummary(props: ImageSummaryProps) {
 
     return <View>
         <Image
-            alt={`source: ${props.rawImageSource}`}
+                style={{ width: 200, height: 200 }}
+                alt={`source: ${props.rawImageSource}`}
             source={{
                 uri: `file://${props.rawImageSource}`,
             }}
         />
 
         <Image
-            alt={`source: ${props.compositeImageSource}`}
+                style={{ width: 200, height: 200 }}
+                alt={`source: ${props.compositeImageSource}`}
             source={{
                 uri: `file://${props.compositeImageSource}`,
             }}
         />
 
         <Image
-            alt={`source: ${props.labelsImageSource}`}
+                style={{ width: 200, height: 200 }}
+                alt={`source: ${props.labelsImageSource}`}
             source={{
                 uri: `file://${props.labelsImageSource}`,
             }}

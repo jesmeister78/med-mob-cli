@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Button, Card } from "react-native-paper";
-import ImageSelectFromFile from "../image/SelectImageFromFile";
-import { useAppDispatch } from "../../hooks";
 import { useNavigation } from "@react-navigation/native";
+import { v4 as uuidv4 } from 'uuid';
+
+import { useAppDispatch } from "../../hooks";
+import ImageSelectFromFile from "../image/SelectImageFromFile";
 import { ProcedureScreenNavProp } from "../../screens/navigation/screenNavProps";
-import { ProcedureScreenMode } from "../../screens/navigation/bottomTabParams";
 import { ProcessedImage } from "../../domain/processedImage";
 import { processedImageAdded } from "../../store/processedImages";
 
@@ -22,7 +23,7 @@ function AddImage(props: AddImageProps) {
 
     const addImageToProc = () => {
         const newImage = {
-            id: 'todo: generate uuidv4',
+            id: uuidv4(),
             procedureId: props.procedureId,
             imageTimestamp: Date.now(),
             rawImageSource: props.addImageSource
