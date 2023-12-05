@@ -21,9 +21,10 @@ function HomeScreen() {
     >
       <Text variant='titleSmall'>HOME</Text>
       <Button  onPress={() => navigation.navigate('Auth')} >Login</Button>
-      <Button  onPress={() => navigation.navigate('Capture')} >Capture Image</Button>
-      <Button  onPress={() => navigation.navigate('Procedure', {mode: ProcedureScreenMode.ADD})} >Add New Case</Button>
-      <Button  onPress={() => navigation.navigate('Procedure', {mode: ProcedureScreenMode.LIST})} >View Case List</Button>
+      <Button  onPress={() => navigation.navigate('Capture', {})} >Capture Image</Button>
+      <Button  onPress={() => navigation.navigate('Procedure', {isCreateNew:true})} >Add New Case</Button>
+      <Button  onPress={() => navigation.navigate('Procedure', {})} >View Case List</Button>
+      <Button  onPress={() => navigation.navigate('ProcessedImage', {procedureId: '1'})} >Processed Image - Test</Button>
     </Surface>
   );
 }

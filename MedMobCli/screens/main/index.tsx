@@ -1,6 +1,6 @@
 import React from 'react';
 import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MainBottomTabParamList } from '../navigation/bottomTabParams';
+import { MainBottomTabParamList, ProcedureScreenMode } from '../navigation/bottomTabParams';
 import HomeScreen from './HomeScreen';
 import CaptureScreen from './CaptureScreen';
 import ProcedureScreen from './ProcedureScreen';
@@ -38,10 +38,18 @@ function MainScreen() {
       <BottomTab.Screen
         name="Procedure"
         component={ProcedureScreen}
+        initialParams={{ imageSource: undefined, procedureId: undefined }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate('Procedure', { imageSource: undefined, procedureId: undefined });
+          },
+      })}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="article" color={color} size={size} />
           ),
+          
         }}
       />
     </BottomTab.Navigator>

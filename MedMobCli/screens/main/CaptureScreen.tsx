@@ -6,16 +6,16 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/rootStackParams";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { MainBottomTabParamList } from "../navigation/bottomTabParams";
-import CaptureImage from "../../components/CaptureImage";
-import ImageCaptured from "../../components/ImageCaptured";
+import CaptureImage from "../../components/image/CaptureImage";
+import ImageCaptured from "../../components/image/ImageCaptured";
 import { Surface, Text } from "react-native-paper";
-import { CaptureScreenNavProp } from "../navigation/screenNavProps";
+import { CaptureScreenNavProp, CaptureScreenRouteProp } from "../navigation/screenNavProps";
 
 type CaptureScreenProp = {
 
 }
 
-function CaptureScreen() {
+function CaptureScreen({ route }: CaptureScreenRouteProp) {
   const navigation = useNavigation<CaptureScreenNavProp>();
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -23,41 +23,16 @@ function CaptureScreen() {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  // const camera = useRef<Camera>(null);
-  // const devices = useCameraDevices();
-  // console.log(devices);
-  // const device = useCameraDevice('back');
-
   const [showCamera, setShowCamera] = useState(true);
   const [imageSource, setImageSource] = useState('');
 
-  // useEffect(() => {
-  //   async function getPermission() {
-  //     const newCameraPermission = await Camera.requestCameraPermission();
-  //     console.log("Camera permission: " + newCameraPermission);
-  //   }
-  //   getPermission();
-  // }, []);
-
-  // const capturePhoto = async () => {
-  //   if (camera.current !== null) {
-  //     const photo = await camera.current.takePhoto({});
-  //     setImageSource(photo.path);
-  //     setShowCamera(false);
-  //     console.log(photo.path);
-  //   }
-  // };
-
-  // if (device == null) {
-  //   return <Text>Camera not available</Text>;
-  // }
   return (
     <Surface
       elevation={2}
     >
       <Text variant='titleSmall'>IMAGE</Text>
       <CaptureImage show={showCamera} setShowCamera={setShowCamera} setImage={setImageSource} />
-      <ImageCaptured imageSource={imageSource} show={!showCamera} setShowCamera={setShowCamera} />
+      <ImageCaptured imageSource={imageSource} show={!showCamera} setShowCamera={setShowCamera} procedureId={route.params?.procedureId} />
     </Surface>
   );
 }

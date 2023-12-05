@@ -6,9 +6,16 @@ const styles = StyleSheet.create({
     marginTop: 'auto',
     marginBottom: 'auto'
   },
-  container: {
+  outerSurface: {
     flexDirection: 'col',
-    marginVertical: 10
+    padding: 5,
+    marginBottom: 10
+  },
+  procedureSummaryCard: {
+    marginBottom: 5
+  },
+  spacerStyle: {
+    marginBottom: 15,
   },
   paper: {
     padding: 8,
@@ -27,8 +34,8 @@ const styles = StyleSheet.create({
 
   },
   procInput: {
-    backgroundColor: 'red',
-
+    // marginLeft: 5,
+    // marginRight: 5
   },
     // container: {
     //   flex: 1,

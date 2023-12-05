@@ -1,8 +1,8 @@
 import { Text, TouchableOpacity, View } from "react-native";
-import styles from "../styles";
+import styles from "../../styles";
 import { Camera, useCameraDevice, useCameraDevices } from "react-native-vision-camera";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { GetImageProp } from "./props/getImageProps";
+import { GetImageProp } from "../props/getImageProps";
 import { Surface } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -29,7 +29,7 @@ function CaptureImage(props: GetImageProp) {
     const capturePhoto = async () => {
         if (camera.current !== null) {
             const photo = await camera.current.takePhoto({});
-
+console.log('photo taken')
             // close the camera
             props.setShowCamera(false);
 
@@ -52,13 +52,13 @@ function CaptureImage(props: GetImageProp) {
             <Surface>
                 <SafeAreaView>
                 <Camera
-                    //key={device.id} // add this
-                    //ref={camera}
+                    key={device.id} // add this
+                    ref={camera}
                     style={{ width: 500, height: 500 }}
                     device={device}
                     isActive={props.show}
-                    //photo={true}
-                    //orientation="portrait"
+                    photo={true}
+                    orientation="portrait"
                 />
 
                 <View style={styles.buttonContainer}>

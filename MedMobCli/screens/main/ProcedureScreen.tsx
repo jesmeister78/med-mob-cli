@@ -1,13 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { ScrollView } from 'react-native';
-import ProcedureList from '../../components/ProcedureList';
+import ProcedureList from '../../components/procedure/ProcedureList';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Surface, Text } from 'react-native-paper';
 import { v4 as uuidv4 } from 'uuid';
-import { PSNProps, ProcedureScreenNavProp } from '../navigation/screenNavProps';
+import { ProcedureScreenNavProp, ProcedureScreenRouteProp } from '../navigation/screenNavProps';
 import { ProcedureScreenMode } from '../navigation/bottomTabParams';
-import ProcedureDetails from '../../components/ProcedureDetails';
+import ProcedureDetails from '../../components/procedure/ProcedureDetails';
 import { useAppDispatch } from '../../hooks';
 import { Procedure } from '../../domain/procedure';
 import { procedureAdded } from '../../store/procedures';
@@ -16,12 +16,35 @@ export type ProcedureScreenProp = {
   attachMode?: boolean
 }
 
-const ProcedureScreen = ({ route, navigation }: PSNProps) => {
+const ProcedureScreen = ({ route, navigation }: ProcedureScreenRouteProp) => {
   // const navigation = useNavigation<ProcedureScreenProp>();
   const imageSource = route.params?.imageSource;
 
   // default mode is LIST when we get here from the bottom tab nav
-  const mode = route.params?.mode ?? ProcedureScreenMode.LIST;
+  const mode =
+    route.params?.imageSource ?
+      (
+        route.params.procedureId ?
+          (
+            ProcedureScreenMode.EDIT
+          ) : (
+            route.params.isCreateNew ?
+              (
+                ProcedureScreenMode.ADD
+              ) : (
+                ProcedureScreenMode.LIST
+              )
+          )
+      ) : (
+        route.params?.isCreateNew ?
+          (
+            ProcedureScreenMode.ADD
+          ) : (
+            ProcedureScreenMode.LIST
+          )
+      );
+
+
 
   console.log("ProcedureScreen::route.params?.imageSource: " + imageSource ?? 'no image source in route params')
 
@@ -54,27 +77,44 @@ const ProcedureScreen = ({ route, navigation }: PSNProps) => {
       indication: ''
     } as Procedure
 
-    useEffect(() => {dispatch(procedureAdded(newProcedure))}, [])
-    
+    useEffect(() => { dispatch(procedureAdded(newProcedure)) }, [])
+
 
     return (
       <Surface
-      elevation={2}
-    >
-      <Text variant='titleSmall'>ADD NEW CASE</Text>
+        elevation={2}
+      >
+        <Text variant='titleSmall'>ADD NEW CASE</Text>
 
-      <SafeAreaView >
-        <ScrollView>
-          <ProcedureDetails id={newProcedure.id}  />
+        <SafeAreaView >
+          <ScrollView>
+            <ProcedureDetails id={newProcedure.id} />
 
-        </ScrollView>
-      </SafeAreaView>
+          </ScrollView>
+        </SafeAreaView>
 
-    </Surface>
+      </Surface>
+    )
+  } else if (mode === ProcedureScreenMode.EDIT) {
+
+    return (
+      <Surface
+        elevation={2}
+      >
+        <Text variant='titleSmall'>EDIT CASE</Text>
+
+        <SafeAreaView >
+          <ScrollView>
+            <ProcedureDetails id={route.params.procedureId!} />
+
+          </ScrollView>
+        </SafeAreaView>
+
+      </Surface>
     )
   }
 
-  return  (
+  return (
     <Surface
       elevation={2}
     >
@@ -82,13 +122,13 @@ const ProcedureScreen = ({ route, navigation }: PSNProps) => {
 
       <SafeAreaView >
         <ScrollView>
-          <ProcedureList imageSource={imageSource} />
+          <ProcedureList addImageSource={imageSource} />
 
         </ScrollView>
       </SafeAreaView>
 
     </Surface>
-  ) 
+  )
 }
 
 export default ProcedureScreen;

@@ -9,16 +9,27 @@ export type CaptureScreenNavProp = CompositeNavigationProp<
   BottomTabNavigationProp<MainBottomTabParamList, 'Capture'>
 >;
 
+export type CaptureScreenRouteProp = CompositeScreenProps<
+  StackScreenProps<MainBottomTabParamList, "Capture">,
+  CompositeScreenProps<
+    BottomTabScreenProps<RootStackParamList, "Main">, 
+    StackScreenProps<RootStackParamList>
+  >
+>
 export type ProcedureScreenNavProp = CompositeNavigationProp<
   StackNavigationProp<RootStackParamList, 'Main'>,
   BottomTabNavigationProp<MainBottomTabParamList, 'Procedure'>
 >;
 
-export type PSNProps = CompositeScreenProps<
+export type ProcedureScreenRouteProp = CompositeScreenProps<
   StackScreenProps<MainBottomTabParamList, "Procedure">,
   CompositeScreenProps<
     BottomTabScreenProps<RootStackParamList, "Main">, 
     StackScreenProps<RootStackParamList>
   >
 >
+
+export type AuthScreenNavProp = StackNavigationProp<RootStackParamList, 'Auth'>;
+export type ProcessedImageScreenNavProp = StackNavigationProp<RootStackParamList, 'ProcessedImage'>;
+export type ProcessedImageScreenRouteProp = StackScreenProps<RootStackParamList, 'ProcessedImage'>;
 

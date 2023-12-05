@@ -3,11 +3,11 @@ import {View, Text, Button} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/rootStackParams';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { AuthScreenNavProp } from '../navigation/screenNavProps';
 
-type authScreenProp = StackNavigationProp<RootStackParamList, 'Auth'>;
 
 function AuthScreen() {
-  const navigation = useNavigation<authScreenProp>();
+  const navigation = useNavigation<AuthScreenNavProp>();
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>

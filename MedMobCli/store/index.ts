@@ -3,13 +3,15 @@ import { configureStore } from '@reduxjs/toolkit';
 // import messageReducer from './message';
 import usersReducer from './users';
 import surgeriesReducer from './procedures';
-import imagesReducer from './images';
+import rawImagesReducer from './rawImages';
+import processedImagesReducer from './processedImages';
 
 export const store = configureStore({
   reducer: {
     // message: messageReducer,
     procedures: surgeriesReducer,
-    images: imagesReducer,
+    rawImages: rawImagesReducer,
+    processedImages: processedImagesReducer,
     users: usersReducer
   }
 });

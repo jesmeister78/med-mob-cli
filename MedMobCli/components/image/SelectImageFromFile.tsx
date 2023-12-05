@@ -4,8 +4,8 @@ import { StatusBar, View } from "react-native";
 import DocumentPicker, { DocumentPickerResponse } from 'react-native-document-picker';
 import { Button, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import styles from "../styles";
-import { GetImageProp } from "./props/getImageProps";
+import styles from "../../styles";
+import { GetImageProp } from "../props/getImageProps";
 
 function ImageSelectFromFile(props: GetImageProp){
     const [fileResponse, setFileResponse] = useState<DocumentPickerResponse[]>([]);

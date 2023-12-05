@@ -3,5 +3,5 @@ export interface RawImage {
     procedureId: string
     imageTimestamp: number
     //imageData: Uint8Array // this is the rendered image BEFORE processing
-    imageSource: string
+    rawImageSource: string
 }

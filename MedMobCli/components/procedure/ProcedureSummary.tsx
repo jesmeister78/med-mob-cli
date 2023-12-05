@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { View } from "react-native";
-import { Button, Text, Card } from "react-native-paper";
+import { Button, Text, Card, Surface } from "react-native-paper";
 
-import styles from "../styles";
-import { useAppSelector } from "../hooks";
-import { RootState } from "../store";
-import { selectProcedureById } from "../store/procedures";
-import { ProcedureProp } from "./props/procedureProps";
+import styles from "../../styles";
+import { useAppSelector } from "../../hooks";
+import { RootState } from "../../store";
+import { selectProcedureById } from "../../store/procedures";
+import { ProcedureProp } from "../props/procedureProps";
 import ProcedureDetails from "./ProcedureDetails";
 import AddImage from "./AddImageToProcedure";
-import ProcedureImage from "./ProcedureImage";
+import ProcedureCardCover from "./ProcedureCardCover";
 
 function ProcedureSummary(props: ProcedureProp) {
 
@@ -27,13 +27,13 @@ function ProcedureSummary(props: ProcedureProp) {
             );
         } else {
             return (
-                <Card key={procedure.id}
+                <Card key={procedure.id} style={styles.procedureSummaryCard}
                     elevation={2}
                 >
                     <Card.Title
                         title={"Case#: " + procedure.caseNumber}
                     />
-                   <ProcedureImage imageSource={props.imageSource} />
+                   <ProcedureCardCover procedureId={procedure.id} addImageSource={props.addImageSource} />
                     <Card.Content>
                         <Text>
                             Patient: {procedure.patientName} Surgeon: {procedure.surgeon} Date: {procedure.date}
@@ -41,7 +41,7 @@ function ProcedureSummary(props: ProcedureProp) {
                     </Card.Content>
 
                     <Card.Actions>
-                        <AddImage procedureId={procedure.id} />
+                        <AddImage procedureId={procedure.id} addImageSource={props.addImageSource} />
                         <Button
                             mode="contained"
                             onPress={() => setIsExpanded(!isExpanded)}>Edit</Button>
@@ -52,12 +52,8 @@ function ProcedureSummary(props: ProcedureProp) {
         }
     }
     else return (
-        <View style={styles.container} >
-            <Text>
-                Procedure Not Found
-            </Text>
+        <Surface style={styles.outerSurface}><Text>Procedure not found.</Text></Surface>
 
-        </View>
     );
 }
 
