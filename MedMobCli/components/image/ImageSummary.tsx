@@ -17,7 +17,7 @@ function ImageSummary(props: ImageSummaryProps) {
                 uri: `file://${props.rawImageSource}`,
             }}
         />
-
+{/* 
         <Image
                 style={{ width: 200, height: 200 }}
                 alt={`source: ${props.compositeImageSource}`}
@@ -32,7 +32,8 @@ function ImageSummary(props: ImageSummaryProps) {
             source={{
                 uri: `file://${props.labelsImageSource}`,
             }}
-        /></View>
+        /> */}
+        </View>
 
 }
 

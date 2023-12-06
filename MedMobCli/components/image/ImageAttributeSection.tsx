@@ -13,7 +13,7 @@ function ImageAttributeSection(props: ImageAttributeSectionProp){
 
     return (
         <View key={props.imageAttribute.name} style={styles.imgAttributeSection}>
-            <Text variant="titleSmall">{props.imageAttribute.name}</Text>
+            <Text variant="titleMedium">{props.imageAttribute.name}</Text>
             <ImageAttributeToggle isPresent={props.imageAttribute.isPresent} />
             <ImageAttributeDetails details={props.imageAttribute.details} />
         </View>

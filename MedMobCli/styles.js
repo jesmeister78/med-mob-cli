@@ -3,7 +3,18 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   imgAttributeSection: {
+    alignItems: 'left',
     flexDirection: 'row',
+
+  }, 
+  imgAttributeDetailSection: {
+    alignItems: 'left',
+    flexDirection: 'row',
+
+  },
+  imgAttributeDetailContainer: {
+    alignItems: 'left',
+    flexDirection: 'col',
 
   },
   loader: {

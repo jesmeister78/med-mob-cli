@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Card } from "react-native-paper";
+import { Button, Card, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -29,7 +29,7 @@ function AddImage(props: AddImageProps) {
             rawImageSource: props.addImageSource
         } as ProcessedImage;
         dispatch(processedImageAdded(newImage));
-        navigation.navigate("Procedure", {imageSource:props.addImageSource, procedureId:props.procedureId})
+        navigation.navigate("Procedure", { imageSource: props.addImageSource, procedureId: props.procedureId })
     };
 
     const addImgThenNavToProcDetails = () => {
@@ -39,17 +39,23 @@ function AddImage(props: AddImageProps) {
     return (
         !props.addImageSource ? ( // no image source yet, need to get it from camera or file
             <Card.Actions>
-                <Button onPress={() => setSelectImageFromFile(true)}>Choose from Device</Button>
+                <IconButton
+                    icon={"folder"}
+                            mode="contained"
+                            onPress={() => setSelectImageFromFile(true)} />
 
                 <ImageSelectFromFile show={selectImageFromFile} setShowCamera={setSelectImageFromFile} setImage={addImageToProc} />
 
-                <Button onPress={() => navigation.navigate('Capture', {procedureId:props.procedureId})} >Capture</Button>
+                <IconButton
+                    icon={"camera"}
+                            mode="contained"
+                            onPress={() => navigation.navigate('Capture', { procedureId: props.procedureId })} />
 
             </Card.Actions>
         ) : ( // we have already captured the image, let's add it to a procedure
 
             <Card.Actions>
-                <Button icon="paperclip" onPress={() => addImageToProc()}>Attach</Button>
+                <IconButton icon="paperclip" onPress={() => addImageToProc()}/>
             </Card.Actions>
 
         )
