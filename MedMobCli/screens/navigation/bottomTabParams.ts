@@ -2,7 +2,12 @@
 export type MainBottomTabParamList = {
     Home: undefined;
     Details: undefined;
-    Capture: { procedureId?: string };
+
+    Capture: { 
+        showCamera: boolean
+        procedureId?: string 
+    };
+
     Procedure: { 
         //mode: ProcedureScreenMode,
         imageSource?: string,  

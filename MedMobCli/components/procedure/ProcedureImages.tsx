@@ -1,5 +1,6 @@
-import { Image } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import { ProcessedImage } from "../../domain/processedImage";
+import { Images } from "../../styles";
 
 
 type ProcedureImagesProp = {
@@ -15,12 +16,16 @@ function ProcedureImages(props: ProcedureImagesProp) {
         props.procedureImages.map(img => {
             const src = img.labelsImageSource ?? img.compositeImageSource ?? img.rawImageSource;
             return <Image key={img.id}
-                style={{ width: 50, height: 50 }}
+                style={styles.imgThumbnail}
                 source={{ uri: `file:///${src}` }}
                 resizeMode={'cover'}
             />
         })
     ) : (null)
 }
+
+const styles = StyleSheet.create({
+    imgThumbnail: { ...Images.images.thumbnail }
+});
 
 export default ProcedureImages;

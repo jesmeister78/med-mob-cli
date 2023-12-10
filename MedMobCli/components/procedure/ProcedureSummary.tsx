@@ -1,65 +1,63 @@
 import { useState } from "react";
-import { View } from "react-native";
-import { Button, Text, Card, Surface, IconButton } from "react-native-paper";
+import { StyleSheet } from "react-native";
+import { Text, Card, Surface, IconButton } from "react-native-paper";
 
-import styles from "../../styles";
+import { Cards, Containers } from "../../styles";
 import { useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
 import { selectProcedureById } from "../../store/procedures";
 import { ProcedureProp } from "../props/procedureProps";
-import ProcedureDetails from "./ProcedureDetails";
-import AddImage from "./AddImageToProcedure";
+import AddImageToProcedure from "./AddImageToProcedure";
 import ProcedureCardCover from "./ProcedureCardCover";
 import SendImageToRobot from "../image/ProcessImage";
 import { selectProcessedImagesByProcedureId } from "../../store/processedImages";
+import { useNavigation } from "@react-navigation/native";
+import { ProcedureScreenNavProp } from "../../screens/navigation/screenNavProps";
 
 function ProcedureSummary(props: ProcedureProp) {
 
+    const navigation = useNavigation<ProcedureScreenNavProp>();
     const procedure = useAppSelector((state: RootState) => selectProcedureById(state, props.id));
-    const images = useAppSelector((state:RootState) => selectProcessedImagesByProcedureId(state, props.id));
+    const images = useAppSelector((state: RootState) => selectProcessedImagesByProcedureId(state, props.id));
     const [isExpanded, setIsExpanded] = useState(false);
 
     if (procedure) {
-        if (isExpanded) {
-            return (
-                <Card key={procedure.id}>
-                    <ProcedureDetails id={props.id} />
-                    <Button
-                        onPress={() => setIsExpanded(!isExpanded)}>Collapse</Button>
-                </Card>
-            );
-        } else {
-            return (
-                <Card key={procedure.id} style={styles.procedureSummaryCard}
-                    elevation={2}
-                >
-                    <Card.Title
-                        title={"Case#: " + procedure.caseNumber}
-                    />
-                    <ProcedureCardCover procedureId={procedure.id} addImageSource={props.addImageSource} />
-                    <Card.Content>
-                        <Text>
-                            Patient: {procedure.patientName} Surgeon: {procedure.surgeon} Date: {procedure.date}
-                        </Text>
-                    </Card.Content>
 
-                    <Card.Actions>
-                        <SendImageToRobot img={images[0]} />
-                        <AddImage procedureId={procedure.id} addImageSource={props.addImageSource} />
-                        <IconButton
-                            icon={"pencil"}
-                            mode="contained"
-                            onPress={() => setIsExpanded(!isExpanded)} />
-                    </Card.Actions>
+        return (
+            <Card key={procedure.id}
+                style={styles.card}
+            >
+                <Card.Title
+                    title={"Case#: " + procedure.caseNumber}
+                />
+                <ProcedureCardCover procedureId={procedure.id} />
+                <Card.Content>
+                    <Text>
+                        Patient: {procedure.patientName} Surgeon: {procedure.surgeon} Date: {procedure.date}
+                    </Text>
+                </Card.Content>
 
-                </Card>
-            );
-        }
+                <Card.Actions>
+                    <SendImageToRobot img={images[0]} />
+                    <AddImageToProcedure procedureId={procedure.id} addImageSource={props.addImageSource} />
+                    <IconButton
+                        icon={"pencil"}
+                        mode="contained"
+                        onPress={() => navigation.navigate("Procedure", { procedureId: procedure.id })} />
+                </Card.Actions>
+
+            </Card>
+        );
     }
     else return (
-        <Surface style={styles.outerSurface}><Text>Procedure not found.</Text></Surface>
+        <Surface style={styles.surface}><Text>Procedure not found.</Text></Surface>
 
     );
 }
+
+const styles = StyleSheet.create({
+    surface: { ...Containers.container.outerSurface },
+    card: { ...Cards.cards.procedureSummary }
+});
 
 export default ProcedureSummary;

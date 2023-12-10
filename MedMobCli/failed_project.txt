@@ -1,0 +1,1 @@
+C:\Git\integrator-shared\Integrator.Shared.Auth\Integrator.Shared.Auth.csproj

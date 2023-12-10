@@ -1,21 +1,21 @@
-import { useColorScheme } from "react-native";
+import { StyleSheet, useColorScheme } from "react-native";
 import { useState } from "react";
 import { Colors } from "react-native/Libraries/NewAppScreen";
-import { CompositeNavigationProp, useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "../navigation/rootStackParams";
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { MainBottomTabParamList } from "../navigation/bottomTabParams";
+import { useNavigation } from "@react-navigation/native";
 import CaptureImage from "../../components/image/CaptureImage";
 import ImageCaptured from "../../components/image/ImageCaptured";
-import { Surface, Text } from "react-native-paper";
+import { Surface } from "react-native-paper";
 import { CaptureScreenNavProp, CaptureScreenRouteProp } from "../navigation/screenNavProps";
+import { Containers } from "../../styles";
 
 type CaptureScreenProp = {
 
 }
 
 function CaptureScreen({ route }: CaptureScreenRouteProp) {
+
+  console.log("CaptureScreen::route.params.showCamera: " + route.params.showCamera)
+
   const navigation = useNavigation<CaptureScreenNavProp>();
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -23,18 +23,29 @@ function CaptureScreen({ route }: CaptureScreenRouteProp) {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const [showCamera, setShowCamera] = useState(true);
+  const [showCamera, setShowCamera] = useState(route.params.showCamera);
+  console.log("CaptureScreen::showCamera: " + showCamera)
+
   const [imageSource, setImageSource] = useState('');
 
   return (
     <Surface
-      elevation={2}
+      style={styles.surface}
     >
-      <Text variant='titleSmall'>IMAGE</Text>
-      <CaptureImage show={showCamera} setShowCamera={setShowCamera} setImage={setImageSource} />
-      <ImageCaptured imageSource={imageSource} show={!showCamera} setShowCamera={setShowCamera} procedureId={route.params?.procedureId} />
+      {
+        showCamera ? 
+        (
+          <CaptureImage setShowCamera={setShowCamera} setImage={setImageSource} />
+        ) : (
+          <ImageCaptured imageSource={imageSource} setShowCamera={setShowCamera} procedureId={route.params?.procedureId} />
+        )
+      }
     </Surface>
   );
 }
+
+const styles = StyleSheet.create({
+  surface: { ...Containers.container.outerSurface },
+});
 
 export default CaptureScreen;

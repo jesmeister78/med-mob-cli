@@ -12,19 +12,12 @@ type imageCapturedProp = {
 
 function ImageCaptured(props: imageCapturedProp) {
     const navigation = useNavigation<ProcedureScreenNavProp>();
-    // const attachImage = () => {
-    //     if (props.procedureId) {
-    //         const mode = props.procedureId ? ProcedureScreenMode.EDIT : ProcedureScreenMode.LIST;
-    //         navigation.navigate("Procedure", { mode: mode })
-    //     }
-    // }
-
-    if (props.imageSource !== '') {
-        const imagePath = `file://${props.imageSource}`;
+   
+    if (props.imageSource) {
         return (
             <Card>
                 <Card.Title title="Process Image"></Card.Title>
-                <Card.Cover source={{ uri: imagePath }} />
+                <Card.Cover source={{ uri: `file://${props.imageSource}` }} />
                 <Card.Actions>
                     <Button
                         icon="camera"

@@ -18,7 +18,6 @@ function AttachImageButton(props: AttachImageProp) {
     const navigation = useNavigation<ProcedureScreenNavProp>();
     const dispatch = useAppDispatch();
 
-    const imagePath = `file://${props.imageSource}`;
     const AddImageToProcedure = () => {
         if (props.procedureId) {
             const newImage: ProcessedImage = {
@@ -29,24 +28,11 @@ function AttachImageButton(props: AttachImageProp) {
                 rawImageSource: props.imageSource,
                 processedDate: new Date().toISOString(),
                 processorVersion: 'string', // version of the ai model used to generate the processed image
-
-                // chd: ImageAttribute
-                // cbd: ImageAttribute
-                // rahd: ImageAttribute
-                // lhd: ImageAttribute
-                // cysticDuct: ImageAttribute
-                // duodenum: ImageAttribute
-                // fillingDefects: ImageAttribute
-
-                // attributes?: ImageAttribute[]
-
-                // compositeImageSource?: string
-                // labelsImageSource?: string
             };
 
             dispatch(processedImageAdded(newImage));
         }
-        navigation.navigate('Procedure', { imageSource: imagePath, procedureId: props.procedureId });
+        navigation.navigate('Procedure', { imageSource: props.imageSource, procedureId: props.procedureId });
     };
 
     return (

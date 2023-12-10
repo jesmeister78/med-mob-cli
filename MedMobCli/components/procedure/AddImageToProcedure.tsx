@@ -8,6 +8,7 @@ import ImageSelectFromFile from "../image/SelectImageFromFile";
 import { ProcedureScreenNavProp } from "../../screens/navigation/screenNavProps";
 import { ProcessedImage } from "../../domain/processedImage";
 import { processedImageAdded } from "../../store/processedImages";
+import AttachImageButton from "../image/AttachImageButton";
 
 
 type AddImageProps = {
@@ -15,7 +16,7 @@ type AddImageProps = {
     addImageSource?: string
 }
 
-function AddImage(props: AddImageProps) {
+function AddImageToProcedure(props: AddImageProps) {
     const dispatch = useAppDispatch();
     const navigation = useNavigation<ProcedureScreenNavProp>();
 
@@ -37,29 +38,30 @@ function AddImage(props: AddImageProps) {
     };
 
     return (
-        !props.addImageSource ? ( // no image source yet, need to get it from camera or file
+        !props.addImageSource ? 
+        ( 
+            // no image source yet, need to get it from camera or file
             <Card.Actions>
                 <IconButton
                     icon={"folder"}
-                            mode="contained"
-                            onPress={() => setSelectImageFromFile(true)} />
+                    mode="contained"
+                    onPress={() => setSelectImageFromFile(true)} />
 
-                <ImageSelectFromFile show={selectImageFromFile} setShowCamera={setSelectImageFromFile} setImage={addImageToProc} />
+                <ImageSelectFromFile show={selectImageFromFile} setShow={setSelectImageFromFile} setImage={addImageToProc} />
 
                 <IconButton
                     icon={"camera"}
-                            mode="contained"
-                            onPress={() => navigation.navigate('Capture', { procedureId: props.procedureId })} />
+                    mode="contained"
+                    onPress={() => navigation.navigate('Capture', { procedureId: props.procedureId, showCamera: true })} />
 
             </Card.Actions>
-        ) : ( // we have already captured the image, let's add it to a procedure
-
+        ) : ( 
+            // we have already captured the image, let's add it to a procedure
             <Card.Actions>
-                <IconButton icon="paperclip" onPress={() => addImageToProc()}/>
+                <AttachImageButton procedureId={props.procedureId} imageSource={props.addImageSource} />
             </Card.Actions>
-
         )
     )
 }
 
-export default AddImage;
+export default AddImageToProcedure;

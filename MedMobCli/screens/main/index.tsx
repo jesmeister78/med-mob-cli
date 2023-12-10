@@ -29,6 +29,13 @@ function MainScreen() {
       <BottomTab.Screen
         name="Capture"
         component={CaptureScreen}
+        initialParams={{ showCamera: true, procedureId: undefined }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate('Capture', { showCamera: true, procedureId: undefined });
+          },
+        })}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="camera" color={color} size={size} />
@@ -44,12 +51,12 @@ function MainScreen() {
             e.preventDefault();
             navigation.navigate('Procedure', { imageSource: undefined, procedureId: undefined });
           },
-      })}
+        })}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="article" color={color} size={size} />
           ),
-          
+
         }}
       />
     </BottomTab.Navigator>

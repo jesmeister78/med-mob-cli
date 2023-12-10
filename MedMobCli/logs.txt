@@ -1,0 +1,38 @@
+Processing C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj
+Updated version to 1.0.34
+Project C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj: Command '['dotnet', 'build', 'C:\\Git\\integrator-shared\\Integrator.Shared.Domain.Security\\Integrator.Shared.Domain.Security.csproj']' returned non-zero exit status 1.
+Processing C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj
+Updated version to 1.0.35
+Build succeeded
+Failed to build and push project C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj: Command '['dotnet', 'nuget', 'push', 'C:\\Git\\integrator-shared\\Integrator.Shared.Domain.Security\\bin\\Debug\\Integrator.Shared.Domain.Security.1.0.35.nupkg', '--source', 'https://wk-crs.pkgs.visualstudio.com/f06285e1-f5d3-44b7-ae79-305226c031d8/_packaging/Integrator.Shared/nuget/v3/index.json', '--api-key', 'q2ppdjz5e3564kof5m3cocwqmr2kr3txpb35pddqho5ew7u2inha']' returned non-zero exit status 1.
+Pushed new package version
+Updated package references to match new version
+Project C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj: Error restoring packages in C:\Repo\int-shared\integrator-shared\Integrator.Shared.Auth: [WinError 3] The system cannot find the path specified: 'C:\\Repo\\int-shared\\integrator-shared\\Integrator.Shared.Auth'
+Processing C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj
+Updated version to 1.0.36
+Build succeeded
+Failed to build and push project C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj: Command '['dotnet', 'nuget', 'push', 'C:\\Git\\integrator-shared\\Integrator.Shared.Domain.Security\\bin\\Debug\\Integrator.Shared.Domain.Security.1.0.36.nupkg', '--source', 'https://wk-crs.pkgs.visualstudio.com/f06285e1-f5d3-44b7-ae79-305226c031d8/_packaging/Integrator.Shared/nuget/v3/index.json', '--api-key', 'bldg2syclg22oor6a5gtmg2z3m6siiyeg3na6njcwlhl73gl4p4a']' returned non-zero exit status 1.
+Pushed new package version
+Updated package references to match new version
+Project C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj: Error restoring packages in C:\Repo\int-shared\integrator-shared\Integrator.Shared.Auth: [WinError 3] The system cannot find the path specified: 'C:\\Repo\\int-shared\\integrator-shared\\Integrator.Shared.Auth'
+Processing C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj
+Updated version to 1.0.39
+Build succeeded
+Failed to build and push project C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj: Command '['dotnet', 'nuget', 'push', 'C:\\Git\\integrator-shared\\Integrator.Shared.Domain.Security\\bin\\Debug\\Integrator.Shared.Domain.Security.1.0.39.nupkg', '--source', 'https://wk-crs.pkgs.visualstudio.com/f06285e1-f5d3-44b7-ae79-305226c031d8/_packaging/Integrator.Shared/nuget/v3/index.json', '--api-key', 'bldg2syclg22oor6a5gtmg2z3m6siiyeg3na6njcwlhl73gl4p4a']' returned non-zero exit status 1.
+Pushed new package version
+Updated package references to match new version
+Project C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj: Error restoring packages in C:\Repo\int-shared\integrator-shared\Integrator.Shared.Auth: [WinError 3] The system cannot find the path specified: 'C:\\Repo\\int-shared\\integrator-shared\\Integrator.Shared.Auth'
+Processing C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj
+Updated version to 1.0.40
+Build succeeded
+Failed to build and push project C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj: Command '['dotnet', 'nuget', 'push', 'C:\\Git\\integrator-shared\\Integrator.Shared.Domain.Security\\bin\\Debug\\Integrator.Shared.Domain.Security.1.0.40.nupkg', '--source', 'https://wk-crs.pkgs.visualstudio.com/f06285e1-f5d3-44b7-ae79-305226c031d8/_packaging/Integrator.Shared/nuget/v3/index.json', '--api-key', 'bldg2syclg22oor6a5gtmg2z3m6siiyeg3na6njcwlhl73gl4p4a']' returned non-zero exit status 1.
+Pushed new package version
+Updated package references to match new version
+Project C:\Git\integrator-shared\Integrator.Shared.Domain.Security\Integrator.Shared.Domain.Security.csproj: Error restoring packages in C:\Repo\int-shared\integrator-shared\Integrator.Shared.Auth: [WinError 3] The system cannot find the path specified: 'C:\\Repo\\int-shared\\integrator-shared\\Integrator.Shared.Auth'
+Processing C:\Git\integrator-shared\Integrator.Shared.Auth\Integrator.Shared.Auth.csproj
+Updated version to 1.0.16
+Build succeeded
+Failed to build and push project C:\Git\integrator-shared\Integrator.Shared.Auth\Integrator.Shared.Auth.csproj: Command '['dotnet', 'nuget', 'push', 'C:\\Git\\integrator-shared\\Integrator.Shared.Auth\\bin\\Debug\\Integrator.Shared.Auth.1.0.16.nupkg', '--source', 'https://wk-crs.pkgs.visualstudio.com/f06285e1-f5d3-44b7-ae79-305226c031d8/_packaging/Integrator.Shared/nuget/v3/index.json', '--api-key', 'AZ']' returned non-zero exit status 1.
+Pushed new package version
+Updated package references to match new version
+Project C:\Git\integrator-shared\Integrator.Shared.Auth\Integrator.Shared.Auth.csproj: Error restoring packages in C:\Repo\int-shared\integrator-shared\Integrator.Shared.Auth: [WinError 3] The system cannot find the path specified: 'C:\\Repo\\int-shared\\integrator-shared\\Integrator.Shared.Auth'

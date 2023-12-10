@@ -1,27 +1,27 @@
-import { Text, TouchableOpacity, View } from "react-native";
-import styles from "../../styles";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Camera, useCameraDevice, useCameraDevices } from "react-native-vision-camera";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { GetImageProp } from "../props/getImageProps";
 import { Surface } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-
+import { Buttons, Containers } from "../../styles";
 
 function CaptureImage(props: GetImageProp) {
 
-
     const camera = useRef<Camera>(null);
     const devices = useCameraDevices();
-    console.log("devices: " + devices);
+    console.log("CaptureImage::devices: " + devices);
     const device = useCameraDevice('back');
+    const [cameraReady, setCameraReady] = useState(false);
 
-   // const [showCamera, setShowCamera] = useState(true);
+    console.log("CaptureImage::cameraReady: " + cameraReady)
+    // const [showCamera, setShowCamera] = useState(true);
 
     useEffect(() => {
         async function getPermission() {
             const newCameraPermission = await Camera.requestCameraPermission();
-            console.log("Camera permission: " + newCameraPermission);
+            setCameraReady(newCameraPermission === "granted")
+            console.log("CaptureImage::Camera permission: " + newCameraPermission);
         }
         getPermission();
     }, []);
@@ -29,7 +29,7 @@ function CaptureImage(props: GetImageProp) {
     const capturePhoto = async () => {
         if (camera.current !== null) {
             const photo = await camera.current.takePhoto({});
-console.log('photo taken')
+            console.log('CaptureImage::photo taken')
             // close the camera
             props.setShowCamera(false);
 
@@ -43,37 +43,44 @@ console.log('photo taken')
         }
     };
 
-    if (!props.show) return <View />;
-
     if (device == null) {
         return <Text>Camera not available</Text>;
     } else {
         return (
-            <Surface>
-                <SafeAreaView>
-                <Camera
-                    key={device.id} // add this
-                    ref={camera}
-                    style={{ width: 500, height: 500 }}
-                    device={device}
-                    isActive={props.show}
-                    photo={true}
-                    orientation="portrait"
-                />
-
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                        style={styles.camButton}
-                        onPress={() => capturePhoto()}
+            <SafeAreaView>
+                <Surface>
+                    <Camera
+                        key={device.id} // add this
+                        ref={camera}
+                        style={styles.camera}
+                        device={device}
+                        isActive={cameraReady}
+                        onInitialized={() => setCameraReady(true)}
+                        photo={true}
+                        orientation="portrait"
                     />
-                </View>
-                </SafeAreaView>
-                
-            </Surface>
-
+                    {
+                        cameraReady ?
+                            (
+                                <View style={styles.buttonContainer}>
+                                    <TouchableOpacity
+                                        style={styles.camButton}
+                                        onPress={() => capturePhoto()}
+                                    />
+                                </View>
+                            ) : (null)
+                    }
+                </Surface>
+            </SafeAreaView>
         );
     }
-
 }
+
+const styles = StyleSheet.create({
+    surface: { ...Containers.container.outerSurface },
+    camButton: { ...Buttons.buttons.cam },
+    buttonContainer: { ...Containers.container.camButton },
+    camera: { width: 500, height: '100%' }
+});
 
 export default CaptureImage;

@@ -1,16 +1,16 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import ProcedureList from '../../components/procedure/ProcedureList';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Surface, Text } from 'react-native-paper';
-import { v4 as uuidv4 } from 'uuid';
-import { ProcedureScreenNavProp, ProcedureScreenRouteProp } from '../navigation/screenNavProps';
+import { Surface } from 'react-native-paper';
+import { ProcedureScreenRouteProp } from '../navigation/screenNavProps';
 import { ProcedureScreenMode } from '../navigation/bottomTabParams';
 import ProcedureDetails from '../../components/procedure/ProcedureDetails';
 import { useAppDispatch } from '../../hooks';
 import { Procedure } from '../../domain/procedure';
 import { procedureAdded } from '../../store/procedures';
+import { Containers } from '../../styles';
+import createNewProcedure from '../../store/createNewProcedure';
 
 export type ProcedureScreenProp = {
   attachMode?: boolean
@@ -19,116 +19,59 @@ export type ProcedureScreenProp = {
 const ProcedureScreen = ({ route, navigation }: ProcedureScreenRouteProp) => {
   // const navigation = useNavigation<ProcedureScreenProp>();
   const imageSource = route.params?.imageSource;
+  console.log("ProcedureScreen::route.params?.imageSource: " + imageSource ?? 'no image source in route params')
 
   // default mode is LIST when we get here from the bottom tab nav
   const mode =
     route.params?.imageSource ?
       (
         route.params.procedureId ?
-          (
-            ProcedureScreenMode.EDIT
-          ) : (
-            route.params.isCreateNew ?
-              (
-                ProcedureScreenMode.ADD
-              ) : (
-                ProcedureScreenMode.LIST
-              )
-          )
+          ProcedureScreenMode.EDIT : route.params.isCreateNew ?
+            ProcedureScreenMode.ADD : ProcedureScreenMode.LIST
       ) : (
         route.params?.isCreateNew ?
-          (
-            ProcedureScreenMode.ADD
-          ) : (
-            ProcedureScreenMode.LIST
-          )
+          ProcedureScreenMode.ADD : route.params.procedureId ?
+            ProcedureScreenMode.EDIT : ProcedureScreenMode.LIST
       );
 
+  const title = mode === ProcedureScreenMode.ADD ? "ADD NEW CASE" : mode === ProcedureScreenMode.EDIT ? "EDIT CASE" : "CASES";
 
-
-  console.log("ProcedureScreen::route.params?.imageSource: " + imageSource ?? 'no image source in route params')
 
   // if mode is ADD then we need to add a new procedure to the store before we can render it
+  //if (mode === ProcedureScreenMode.ADD) {
+  const dispatch = useAppDispatch();
+  let newProcedure: Procedure | null = null;  // TODO: need to work out how to assign case numbers
+  let procedureId: string | undefined = route.params.procedureId;
   if (mode === ProcedureScreenMode.ADD) {
-    const dispatch = useAppDispatch();
-    const newProcedure = {
-      id: uuidv4(),
-      caseNumber: 3,
-      patientName: '',
-      urIdentifier: '',
-      date: '2023-11-30',
-      hospital: '',
-      surgeon: '',
-
-      /*
-          laparoscopic cholecystectomy; 
-          open cholecystectomy; 
-          other (free text) 
-      */
-      surgeryType: '',
-
-      /*
-          Routine
-          Suspected choledocholithiasis
-          Deranged LFTs
-          Pancreatitis
-          Other (free text)
-      */
-      indication: ''
-    } as Procedure
-
-    useEffect(() => { dispatch(procedureAdded(newProcedure)) }, [])
-
-
-    return (
-      <Surface
-        elevation={2}
-      >
-        <Text variant='titleSmall'>ADD NEW CASE</Text>
-
-        <SafeAreaView >
-          <ScrollView>
-            <ProcedureDetails id={newProcedure.id} />
-
-          </ScrollView>
-        </SafeAreaView>
-
-      </Surface>
-    )
-  } else if (mode === ProcedureScreenMode.EDIT) {
-
-    return (
-      <Surface
-        elevation={2}
-      >
-        <Text variant='titleSmall'>EDIT CASE</Text>
-
-        <SafeAreaView >
-          <ScrollView>
-            <ProcedureDetails id={route.params.procedureId!} />
-
-          </ScrollView>
-        </SafeAreaView>
-
-      </Surface>
-    )
+    newProcedure = createNewProcedure(3);
+    procedureId = newProcedure.id;
+    useEffect(() => { dispatch(procedureAdded(newProcedure!)) }, []);
   }
 
   return (
-    <Surface
-      elevation={2}
-    >
-      <Text variant='titleSmall'>CASES</Text>
+    <SafeAreaView >
+      <ScrollView>
+        <Surface
+          style={styles.surface}
+        >
+          {
+            mode === ProcedureScreenMode.LIST ?
+              (
+                <ProcedureList addImageSource={imageSource} />
+              ) : (
+                <ProcedureDetails id={procedureId!} />
+              )
+          }
 
-      <SafeAreaView >
-        <ScrollView>
-          <ProcedureList addImageSource={imageSource} />
+        </Surface>
+      </ScrollView>
+    </SafeAreaView>
 
-        </ScrollView>
-      </SafeAreaView>
-
-    </Surface>
   )
 }
+
+const styles = StyleSheet.create({
+  surface: { ...Containers.container.outerSurface },
+});
 
 export default ProcedureScreen;

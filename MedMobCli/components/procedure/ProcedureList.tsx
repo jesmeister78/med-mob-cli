@@ -1,7 +1,6 @@
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { useEffect } from "react";
 
-import styles from "../../styles";
 import { RootState } from "../../store";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { fetchProcedures, selectAllProcedures } from "../../store/procedures";
@@ -29,14 +28,23 @@ function ProcedureList(props: ProcedureListProp) {
   }
   
   return (
-    <Surface style={styles.outerSurface}>
+    <>
       <Button onPress={handleReload} >Reload</Button>
       {procedures.map((procedure) => 
          
           <ProcedureSummary key={procedure.id} id={procedure.id} addImageSource={props.addImageSource} />
       )}
-    </Surface>
+    </>
   );
 }
+
+const styles = StyleSheet.create(
+  {
+    loader: {
+      marginTop: 'auto',
+      marginBottom: 'auto'
+    },
+  }
+)
 
 export default ProcedureList;
