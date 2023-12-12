@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, { StrictMode } from 'react';
+import React, { StrictMode, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -22,6 +22,9 @@ import AuthScreen from './screens/auth/Auth';
 import MainScreen from './screens/main';
 import { PaperProvider } from 'react-native-paper';
 import ProcessedImageScreen from './screens/image/ProcessedImageScreen';
+import ProcedureListScreen from './screens/main/ProcedureListScreen';
+import ProcedureDetailsScreen from './screens/main/ProcedureDetailsScreen';
+import showCameraContext from './context/showCameraContext';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -32,13 +35,14 @@ const App = () => {
       <RealmProvider>
         <Provider store={store}>
           <PaperProvider>
-            <NavigationContainer>
-              <Stack.Navigator >
-                <Stack.Screen name="Main" component={MainScreen} options={{ title: "x-rAI mobile" }} />
-                <Stack.Screen name="Auth" component={AuthScreen} />
-                <Stack.Screen name="ProcessedImage" component={ProcessedImageScreen} />
-              </Stack.Navigator>
-            </NavigationContainer>
+              <NavigationContainer>
+                <Stack.Navigator >
+                  <Stack.Screen name="Main" component={MainScreen} options={{ title: "x-rAI mobile" }} />
+                  <Stack.Screen name="Auth" component={AuthScreen} />
+                  <Stack.Screen name="ProcessedImage" component={ProcessedImageScreen} />
+                  <Stack.Screen name="ProcedureDetails" component={ProcedureDetailsScreen} />
+                </Stack.Navigator>
+              </NavigationContainer>
           </PaperProvider>
         </Provider>
       </RealmProvider>

@@ -12,13 +12,13 @@ import ProcedureCardCover from "./ProcedureCardCover";
 import SendImageToRobot from "../image/ProcessImage";
 import { selectProcessedImagesByProcedureId } from "../../store/processedImages";
 import { useNavigation } from "@react-navigation/native";
-import { ProcedureScreenNavProp } from "../../screens/navigation/screenNavProps";
+import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
 
 function ProcedureSummary(props: ProcedureProp) {
 
-    const navigation = useNavigation<ProcedureScreenNavProp>();
-    const procedure = useAppSelector((state: RootState) => selectProcedureById(state, props.id));
-    const images = useAppSelector((state: RootState) => selectProcessedImagesByProcedureId(state, props.id));
+    const navigation = useNavigation<ProcedureListScreenNavProp>();
+    const procedure = useAppSelector((state: RootState) => selectProcedureById(state, props.procedureId));
+    const images = useAppSelector((state: RootState) => selectProcessedImagesByProcedureId(state, props.procedureId));
     const [isExpanded, setIsExpanded] = useState(false);
 
     if (procedure) {
@@ -39,11 +39,11 @@ function ProcedureSummary(props: ProcedureProp) {
 
                 <Card.Actions>
                     <SendImageToRobot img={images[0]} />
-                    <AddImageToProcedure procedureId={procedure.id} addImageSource={props.addImageSource} />
+                    <AddImageToProcedure procedureId={procedure.id} addImageId={props.addImageId} />
                     <IconButton
                         icon={"pencil"}
                         mode="contained"
-                        onPress={() => navigation.navigate("Procedure", { procedureId: procedure.id })} />
+                        onPress={() => navigation.navigate("ProcedureDetails", { procedureId: procedure.id })} />
                 </Card.Actions>
 
             </Card>

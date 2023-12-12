@@ -8,7 +8,7 @@ import ProcedureSummary from "./ProcedureSummary";
 import { Button, Surface } from "react-native-paper";
 
 type ProcedureListProp = {
-  addImageSource?: string,
+  imageId?: string,
 }
 
 function ProcedureList(props: ProcedureListProp) {
@@ -32,7 +32,7 @@ function ProcedureList(props: ProcedureListProp) {
       <Button onPress={handleReload} >Reload</Button>
       {procedures.map((procedure) => 
          
-          <ProcedureSummary key={procedure.id} id={procedure.id} addImageSource={props.addImageSource} />
+          <ProcedureSummary key={procedure.id} procedureId={procedure.id} addImageId={props.imageId} />
       )}
     </>
   );

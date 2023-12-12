@@ -1,5 +1,5 @@
 
 export type ProcedureProp ={
-    id: string
-    addImageSource?: string
+    procedureId: string
+    addImageId?: string
 }

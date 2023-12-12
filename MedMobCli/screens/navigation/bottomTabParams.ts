@@ -8,11 +8,14 @@ export type MainBottomTabParamList = {
         procedureId?: string 
     };
 
-    Procedure: { 
+    ProcedureList: { 
         //mode: ProcedureScreenMode,
-        imageSource?: string,  
+        imageId?: string,  
+    };
+    
+    ProcedureDetails: { 
+        //mode: ProcedureScreenMode,
         procedureId?: string,
-        isCreateNew?: boolean 
     };
 };
 

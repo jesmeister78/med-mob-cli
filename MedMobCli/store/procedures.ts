@@ -2,11 +2,13 @@ import {
     PayloadAction,
     createAsyncThunk,
     createEntityAdapter,
+    createSelector,
     createSlice
 } from '@reduxjs/toolkit';
 import { RootState } from '.';
 import { Procedure } from '../domain/procedure';
 import { realmUtil } from '../data/realmUtil';
+import { dummyProcedures } from './dummyInitState';
 
 
 export const fetchProcedures = createAsyncThunk('procedures/fetchProcedures', async () => {
@@ -14,14 +16,7 @@ export const fetchProcedures = createAsyncThunk('procedures/fetchProcedures', as
     console.log(response);
     //const responseJson = await response.json();
     //console.log(responseJson);
-    return  [{id: '1', caseNumber: 1,
-    patientName: 'jesse',
-    urIdentifier: 'ur1',
-    date: '2023-11-24',
-    hospital: 'epworth',
-    surgeon: 'henry',
-
-    indication: 'Routine'}] as Procedure[];
+    return dummyProcedures;
 });
 
 export const proceduresAdapter = createEntityAdapter<Procedure>();
@@ -30,49 +25,10 @@ const proceduresSlice = createSlice({
     name: 'procedures',
     initialState: proceduresAdapter.addMany(
         proceduresAdapter.getInitialState({
-          loading: false
+            loading: false
         }),
-        [
-          {
-            id: '1', // uuidv4()
-            caseNumber: 1,
-            patientName: 'jesse',
-            urIdentifier: 'ur1',
-            date: '2023-11-24',
-            hospital: 'epworth',
-            surgeon: 'dr henry',
-            surgeryType: 'laparoscopic cholecystectomy',
-        
-            /*
-                Routine
-                Suspected choledocholithiasis
-                Deranged LFTs
-                Pancreatitis
-                Other (free text)
-            */
-            indication: 'Routine',
-          },
-          {
-            id: '2', // uuidv4()
-            caseNumber: 2,
-            patientName: 'belinda',
-            urIdentifier: 'ur2',
-            date: '2023-11-25',
-            hospital: 'monash',
-            surgeon: 'dr yuming',
-            surgeryType: 'open cholecystectomy',
-        
-            /*
-                Routine
-                Suspected choledocholithiasis
-                Deranged LFTs
-                Pancreatitis
-                Other (free text)
-            */
-            indication: 'Deranged LFTs',
-          }
-        ]
-      ),
+        dummyProcedures
+    ),
     reducers: {
         //patientName: (state, action: PayloadAction<{id:string, name:string}>) => state,
         procedureUpdated: proceduresAdapter.updateOne,
@@ -87,7 +43,7 @@ const proceduresSlice = createSlice({
             state.loading = false;
         });
         builder.addCase(fetchProcedures.rejected, (state) => {
-           
+
             state.loading = false;
         });
     }
@@ -100,6 +56,12 @@ export const {
     selectAll: selectAllProcedures,
     selectTotal: selectTotalProcedures
 } = proceduresAdapter.getSelectors((state: RootState) => state.procedures);
+
+export const selectMaxCaseNumber = createSelector(
+    [selectAllProcedures],
+    (procedures) => Math.max.apply(null,
+        procedures.map(procedure => procedure.caseNumber))
+);
 
 export const { procedureUpdated, procedureAdded } = proceduresSlice.actions;
 export default proceduresSlice.reducer;

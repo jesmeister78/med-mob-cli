@@ -4,6 +4,7 @@ import { ViewStyle } from "react-native"
 type Containers = "outerSurface" | "spacer" | "camButton" | "procedureDetailsImage"
 
 export const container: Record<Containers, ViewStyle> = {
+
     outerSurface: {
         justifyContent: 'center',
         flexDirection: 'column',
@@ -15,15 +16,17 @@ export const container: Record<Containers, ViewStyle> = {
     spacer: {
         marginBottom: 10,
     },
+
     camButton: {
         backgroundColor: 'rgba(0,0,0,0.2)',
         position: 'absolute',
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        bottom: 40,
+        bottom: 0,
         padding: 20,
     },
+    
     procedureDetailsImage: {
         alignItems: 'flex-start',
         flexDirection: 'row',

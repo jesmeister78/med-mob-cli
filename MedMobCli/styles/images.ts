@@ -10,5 +10,7 @@ export const images: Record<Images, ImageStyle> = {
         marginRight: 5,
     },
     processed: {},
-    captured: {}
+    captured: {
+        height: 500
+    },
 }

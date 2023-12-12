@@ -1,44 +1,45 @@
-import React, { useState } from "react";
-import { Button, Card, IconButton } from "react-native-paper";
+import React, { useContext, useState } from "react";
+import { Card, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import { v4 as uuidv4 } from 'uuid';
 
 import { useAppDispatch } from "../../hooks";
 import ImageSelectFromFile from "../image/SelectImageFromFile";
-import { ProcedureScreenNavProp } from "../../screens/navigation/screenNavProps";
-import { ProcessedImage } from "../../domain/processedImage";
-import { processedImageAdded } from "../../store/processedImages";
+import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
+import { processedImageUpdated } from "../../store/processedImages";
 import AttachImageButton from "../image/AttachImageButton";
+import showCameraContext from "../../context/showCameraContext";
 
 
 type AddImageProps = {
     procedureId: string,
-    addImageSource?: string
+    addImageId?: string
 }
 
 function AddImageToProcedure(props: AddImageProps) {
+    const { setShowCamera } = useContext(showCameraContext);
     const dispatch = useAppDispatch();
-    const navigation = useNavigation<ProcedureScreenNavProp>();
+    const navigation = useNavigation<ProcedureListScreenNavProp>();
 
     const [selectImageFromFile, setSelectImageFromFile] = useState(false);
 
-    const addImageToProc = () => {
-        const newImage = {
-            id: uuidv4(),
-            procedureId: props.procedureId,
-            imageTimestamp: Date.now(),
-            rawImageSource: props.addImageSource
-        } as ProcessedImage;
-        dispatch(processedImageAdded(newImage));
-        navigation.navigate("Procedure", { imageSource: props.addImageSource, procedureId: props.procedureId })
+    const associateProcedureToImage = () => {
+        // const newImage = {
+        //     id: uuidv4(),
+        //     procedureId: props.procedureId,
+        //     imageTimestamp: Date.now(),
+        //     rawImageSource: props.addImageId
+        // } as ProcessedImage;
+        dispatch(processedImageUpdated({ id: props.procedureId, changes: { procedureId: props.procedureId } }))
+        navigation.navigate("ProcedureDetails", { procedureId: props.procedureId })
     };
 
-    const addImgThenNavToProcDetails = () => {
-
+    const captureNewImage = () => {
+        setShowCamera(true);
+        navigation.navigate('Capture', { procedureId: props.procedureId, showCamera: true })
     };
 
     return (
-        !props.addImageSource ? 
+        !props.addImageId ? 
         ( 
             // no image source yet, need to get it from camera or file
             <Card.Actions>
@@ -47,18 +48,18 @@ function AddImageToProcedure(props: AddImageProps) {
                     mode="contained"
                     onPress={() => setSelectImageFromFile(true)} />
 
-                <ImageSelectFromFile show={selectImageFromFile} setShow={setSelectImageFromFile} setImage={addImageToProc} />
+                <ImageSelectFromFile show={selectImageFromFile} setShow={setSelectImageFromFile} setImage={associateProcedureToImage} />
 
                 <IconButton
                     icon={"camera"}
                     mode="contained"
-                    onPress={() => navigation.navigate('Capture', { procedureId: props.procedureId, showCamera: true })} />
+                    onPress={() => captureNewImage()} />
 
             </Card.Actions>
         ) : ( 
             // we have already captured the image, let's add it to a procedure
             <Card.Actions>
-                <AttachImageButton procedureId={props.procedureId} imageSource={props.addImageSource} />
+                <AttachImageButton procedureId={props.procedureId} imageId={props.addImageId} />
             </Card.Actions>
         )
     )

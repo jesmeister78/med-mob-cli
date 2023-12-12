@@ -1,30 +1,39 @@
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { ProcessedImage } from "../../domain/processedImage";
-import { Images } from "../../styles";
+import { Containers, Images } from "../../styles";
+import { useAppSelector } from "../../hooks";
+import { RootState } from "../../store";
+import { selectProcessedImagesByProcedureId } from "../../store/processedImages";
 
 
 type ProcedureImagesProp = {
-    procedureImages: ProcessedImage[]
+    procedureId: string
 }
 
 function ProcedureImages(props: ProcedureImagesProp) {
+    const processedImages = useAppSelector((state: RootState) => selectProcessedImagesByProcedureId(state, props.procedureId));
 
-    console.log('ProcedureImages::props.procedureImages.length: ' + props.procedureImages?.length)
-    console.log('ProcedureImages::props.procedureImages[0].rawImageSource: ' + props.procedureImages[0]?.rawImageSource)
+    console.log('ProcedureImages::processedImages.length: ' + processedImages)
+    console.log('ProcedureImages::processedImages[0].rawImageSource: ' + processedImages[0]?.rawImageSource)
     // TODO: need to show more than just the first image
-    return props.procedureImages && props.procedureImages.length > 0 ? (
-        props.procedureImages.map(img => {
-            const src = img.labelsImageSource ?? img.compositeImageSource ?? img.rawImageSource;
-            return <Image key={img.id}
-                style={styles.imgThumbnail}
-                source={{ uri: `file:///${src}` }}
-                resizeMode={'cover'}
-            />
-        })
+    return processedImages && processedImages.length > 0 ? (
+        <View style={styles.imgContainer}>
+            {
+                processedImages.map(img => {
+                    const src = img.labelsImageSource ?? img.compositeImageSource ?? img.rawImageSource;
+                    return <Image key={img.id}
+                        style={styles.imgThumbnail}
+                        source={{ uri: `file:///${src}` }}
+                        resizeMode={'cover'}
+                    />
+                })
+            }
+        </View>
     ) : (null)
 }
 
 const styles = StyleSheet.create({
+    imgContainer: { ...Containers.container.procedureDetailsImage },
     imgThumbnail: { ...Images.images.thumbnail }
 });
 

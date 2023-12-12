@@ -1,28 +1,29 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Surface, TextInput } from "react-native-paper";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { DatePickerInput } from "react-native-paper-dates";
 import DropDown from "react-native-paper-dropdown";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
 import { procedureUpdated, selectProcedureById } from "../../store/procedures";
-import { ProcedureProp } from "../props/procedureProps";
 import AddImageToProcedure from "./AddImageToProcedure";
 import { indications } from "../../domain/constants/indications";
 import { surgeryTypes } from "../../domain/constants/surgeryTypes";
-import { selectRawImagesByProcedureId } from "../../store/rawImages";
-import { selectProcessedImagesByProcedureId } from "../../store/processedImages";
 import ProcedureImages from "./ProcedureImages";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Containers, Images, Inputs } from "../../styles";
 
+type ProcedureDetailsProp ={
+    procedureId: string
+    addImageId?: string
+    setShowCamera: Dispatch<SetStateAction<boolean>>
+}
 
-function ProcedureDetails(props: ProcedureProp) {
+function ProcedureDetails(props: ProcedureDetailsProp) {
 
     const dispatch = useAppDispatch();
     const { loading } = useAppSelector((state: RootState) => state.procedures);
-    const procedure = useAppSelector((state: RootState) => selectProcedureById(state, props.id));
-    const processedImages = useAppSelector((state: RootState) => selectProcessedImagesByProcedureId(state, props.id));
+    const procedure = useAppSelector((state: RootState) => selectProcedureById(state, props.procedureId));
     const [showSurgeryTypesDropDown, setShowSurgeryTypesDropDown] = useState(false);
     const [showIndicationsMultiselect, setShowIndicationsMultiselect] = useState(false);
     if (procedure) {
@@ -32,7 +33,7 @@ function ProcedureDetails(props: ProcedureProp) {
                     style={styles.surface}
                 >
                     <View style={styles.imgThumbnail}>
-                        <ProcedureImages procedureImages={processedImages} />
+                        <ProcedureImages procedureId={procedure.id} />
                     </View>
                     <View style={styles.spacer} />
                     <TextInput
@@ -40,7 +41,7 @@ function ProcedureDetails(props: ProcedureProp) {
                         label="Case Number"
                         value={procedure.id}
                         mode="outlined"
-                        onChangeText={text => dispatch(procedureUpdated({ id: props.id, changes: { caseNumber: +text } }))}
+                        onChangeText={text => dispatch(procedureUpdated({ id: props.procedureId, changes: { caseNumber: +text } }))}
                     />
                     <View style={styles.spacer} />
                     <TextInput
@@ -48,7 +49,7 @@ function ProcedureDetails(props: ProcedureProp) {
                         label="UR Identifier"
                         value={procedure.urIdentifier}
                         mode="outlined"
-                        onChangeText={text => dispatch(procedureUpdated({ id: props.id, changes: { urIdentifier: text } }))}
+                        onChangeText={text => dispatch(procedureUpdated({ id: props.procedureId, changes: { urIdentifier: text } }))}
                     />
                     <View style={styles.spacer} />
                     <TextInput
@@ -56,7 +57,7 @@ function ProcedureDetails(props: ProcedureProp) {
                         label="Patient Name"
                         value={procedure.patientName}
                         mode="outlined"
-                        onChangeText={text => dispatch(procedureUpdated({ id: props.id, changes: { patientName: text } }))}
+                        onChangeText={text => dispatch(procedureUpdated({ id: props.procedureId, changes: { patientName: text } }))}
                     />
                     {/* <View style={styles.spacer} /> */}
                     <DatePickerInput
@@ -64,7 +65,7 @@ function ProcedureDetails(props: ProcedureProp) {
                         locale="en-GB"
                         label="Procedure Date"
                         value={new Date(procedure.date)}
-                        onChange={d => dispatch(procedureUpdated({ id: props.id, changes: { date: d?.toISOString() } }))}
+                        onChange={d => dispatch(procedureUpdated({ id: props.procedureId, changes: { date: d?.toISOString() } }))}
                         inputMode="start"
                         mode="outlined"
                     />
@@ -74,7 +75,7 @@ function ProcedureDetails(props: ProcedureProp) {
                         label="Surgeon Name"
                         value={procedure.surgeon}
                         mode="outlined"
-                        onChangeText={text => dispatch(procedureUpdated({ id: props.id, changes: { surgeon: text } }))} />
+                        onChangeText={text => dispatch(procedureUpdated({ id: props.procedureId, changes: { surgeon: text } }))} />
                     <View style={styles.spacer} />
                     <DropDown
                         label={"Surgery Type"}
@@ -83,7 +84,7 @@ function ProcedureDetails(props: ProcedureProp) {
                         showDropDown={() => setShowSurgeryTypesDropDown(true)}
                         onDismiss={() => setShowSurgeryTypesDropDown(false)}
                         value={procedure.surgeryType}
-                        setValue={val => dispatch(procedureUpdated({ id: props.id, changes: { surgeryType: val } }))}
+                        setValue={val => dispatch(procedureUpdated({ id: props.procedureId, changes: { surgeryType: val } }))}
                         list={surgeryTypes}
                     />
                     <View style={styles.spacer} />
@@ -92,7 +93,7 @@ function ProcedureDetails(props: ProcedureProp) {
                         label="Hospital"
                         value={procedure.hospital}
                         mode="outlined"
-                        onChangeText={text => dispatch(procedureUpdated({ id: props.id, changes: { hospital: text } }))} />
+                        onChangeText={text => dispatch(procedureUpdated({ id: props.procedureId, changes: { hospital: text } }))} />
                     <View style={styles.spacer} />
 
                     <DropDown
@@ -102,12 +103,12 @@ function ProcedureDetails(props: ProcedureProp) {
                         showDropDown={() => setShowIndicationsMultiselect(true)}
                         onDismiss={() => setShowIndicationsMultiselect(false)}
                         value={procedure.indication}
-                        setValue={val => dispatch(procedureUpdated({ id: props.id, changes: { indication: val } }))}
+                        setValue={val => dispatch(procedureUpdated({ id: props.procedureId, changes: { indication: val } }))}
                         list={indications}
                         multiSelect
                     />
                     <View style={styles.spacer} />
-                    <AddImageToProcedure procedureId={procedure.id} />
+                    <AddImageToProcedure procedureId={procedure.id}  />
 
                 </Surface>
             </SafeAreaView>

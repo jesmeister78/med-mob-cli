@@ -1,12 +1,20 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Camera, useCameraDevice, useCameraDevices } from "react-native-vision-camera";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import { GetImageProp } from "../props/getImageProps";
+import { useContext, useEffect, useRef, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import { Surface } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Buttons, Containers } from "../../styles";
-
-function CaptureImage(props: GetImageProp) {
+import { ProcessedImage } from "../../domain/processedImage";
+import { useAppDispatch } from "../../hooks";
+import { processedImageAdded } from "../../store/processedImages";
+import showCameraContext from "../../context/showCameraContext";
+type CaptureImageProp = {
+    setImage: (imgSource: string) => void
+}
+function CaptureImage(props: CaptureImageProp) {
+    const { setShowCamera } = useContext(showCameraContext);
+    const dispatch = useAppDispatch();
 
     const camera = useRef<Camera>(null);
     const devices = useCameraDevices();
@@ -15,7 +23,6 @@ function CaptureImage(props: GetImageProp) {
     const [cameraReady, setCameraReady] = useState(false);
 
     console.log("CaptureImage::cameraReady: " + cameraReady)
-    // const [showCamera, setShowCamera] = useState(true);
 
     useEffect(() => {
         async function getPermission() {
@@ -30,18 +37,33 @@ function CaptureImage(props: GetImageProp) {
         if (camera.current !== null) {
             const photo = await camera.current.takePhoto({});
             console.log('CaptureImage::photo taken')
-            // close the camera
-            props.setShowCamera(false);
-
+            
             // add the image to the store
-            if (props.setImage)
-                props.setImage(photo.path)
+            createAndDispatchNewImage(photo.path)
             // close the component
-            props.setShowCamera(false);
+            setShowCamera(false);
 
             console.log(photo.path);
         }
     };
+
+    // create a new image to attach and add it to the store. we will remove it if the user hits retry
+    const createAndDispatchNewImage = (src: string) => {
+        const imageId = uuidv4();
+        // create and dispatch the new image
+        const img = {
+            id: imageId,
+            procedureId: undefined,
+            imageTimestamp: new Date().getUTCSeconds(),
+            rawImageSource: src,
+            processedDate: new Date().toISOString(),
+            processorVersion: 'string', // version of the ai model used to generate the processed image
+        } as ProcessedImage;
+        dispatch(processedImageAdded(img));
+
+        // set the image id in the parent screen so the ImageCapture component can use it
+        props.setImage(imageId);
+    }
 
     if (device == null) {
         return <Text>Camera not available</Text>;

@@ -3,7 +3,7 @@ import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-nav
 import { MainBottomTabParamList, ProcedureScreenMode } from '../navigation/bottomTabParams';
 import HomeScreen from './HomeScreen';
 import CaptureScreen from './CaptureScreen';
-import ProcedureScreen from './ProcedureScreen';
+import ProcedureListScreen from './ProcedureListScreen';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -43,18 +43,18 @@ function MainScreen() {
         }}
       />
       <BottomTab.Screen
-        name="Procedure"
-        component={ProcedureScreen}
-        initialParams={{ imageSource: undefined, procedureId: undefined }}
+        name="ProcedureList"
+        component={ProcedureListScreen}
+        initialParams={{}}
         listeners={({ navigation }) => ({
           tabPress: (e) => {
             e.preventDefault();
-            navigation.navigate('Procedure', { imageSource: undefined, procedureId: undefined });
+            navigation.navigate('ProcedureList', {});
           },
         })}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="article" color={color} size={size} />
+            <MaterialIcons name="list" color={color} size={size} />
           ),
 
         }}
