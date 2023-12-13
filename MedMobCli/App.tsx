@@ -29,12 +29,14 @@ import showCameraContext from './context/showCameraContext';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App = () => {
+  const [showCamera, setShowCamera] = useState(true);
 
   return (
     <StrictMode>
       <RealmProvider>
         <Provider store={store}>
           <PaperProvider>
+    <showCameraContext.Provider value={{ showCamera, setShowCamera }}>
               <NavigationContainer>
                 <Stack.Navigator >
                   <Stack.Screen name="Main" component={MainScreen} options={{ title: "x-rAI mobile" }} />
@@ -43,6 +45,7 @@ const App = () => {
                   <Stack.Screen name="ProcedureDetails" component={ProcedureDetailsScreen} />
                 </Stack.Navigator>
               </NavigationContainer>
+    </showCameraContext.Provider>
           </PaperProvider>
         </Provider>
       </RealmProvider>

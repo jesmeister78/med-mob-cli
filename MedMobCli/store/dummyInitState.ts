@@ -50,11 +50,11 @@ export const dummyProcedures: Procedure[] = [
     {
       id: '1', // uuidv4()
       caseNumber: 1,
-      patientName: 'jesse',
+      patientName: 'Jesse Outh-Aut',
       urIdentifier: 'ur1',
       date: '2023-11-24',
-      hospital: 'epworth',
-      surgeon: 'dr henry',
+      hospital: 'Epworth',
+      surgeon: 'Dr Henry Badgery',
       surgeryType: 'laparoscopic cholecystectomy',
   
       /*
@@ -69,11 +69,11 @@ export const dummyProcedures: Procedure[] = [
     {
       id: '2', // uuidv4()
       caseNumber: 2,
-      patientName: 'belinda',
+      patientName: 'Belinda Davey',
       urIdentifier: 'ur2',
       date: '2023-11-25',
-      hospital: 'monash',
-      surgeon: 'dr yuming',
+      hospital: 'Monash',
+      surgeon: 'Dr Yuning Zhao',
       surgeryType: 'open cholecystectomy',
   
       /*
@@ -86,3 +86,12 @@ export const dummyProcedures: Procedure[] = [
       indication: 'Deranged LFTs',
     }
   ];
+
+  export const dummyAttributes: ImageAttribute[] = [
+    { name: 'CHD', isPresent: false },
+    { name: 'CBD', isPresent: true, details: [{ label: 'Diameter (mm)', value: "5" }] },
+    { name: 'RAHD', isPresent: false },
+    { name: 'LHD', isPresent: true },
+    { name: 'Cystic Duct', isPresent: false },
+    { name: 'Duodenum', isPresent: false },
+    { name: 'Filling Defects', isPresent: true, details: [{ label: 'Number present', value: "5" }, { label: 'Size (mm)', value: "3" }] }]

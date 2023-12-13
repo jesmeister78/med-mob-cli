@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MainBottomTabParamList, ProcedureScreenMode } from '../navigation/bottomTabParams';
 import HomeScreen from './HomeScreen';
@@ -6,6 +6,7 @@ import CaptureScreen from './CaptureScreen';
 import ProcedureListScreen from './ProcedureListScreen';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import showCameraContext from '../../context/showCameraContext';
 
 const BottomTab = createBottomTabNavigator<MainBottomTabParamList>();
 const tabBarOptions: BottomTabNavigationOptions = {
@@ -15,7 +16,8 @@ const tabBarOptions: BottomTabNavigationOptions = {
 };
 
 function MainScreen() {
-  return (
+    const { setShowCamera } = useContext(showCameraContext);
+    return (
     <BottomTab.Navigator screenOptions={tabBarOptions}>
       <BottomTab.Screen
         name="Home"
@@ -33,6 +35,7 @@ function MainScreen() {
         listeners={({ navigation }) => ({
           tabPress: (e) => {
             e.preventDefault();
+            setShowCamera(true);
             navigation.navigate('Capture', { showCamera: true, procedureId: undefined });
           },
         })}

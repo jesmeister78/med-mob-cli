@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
-import { Surface, TextInput } from "react-native-paper";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { Divider, Surface, TextInput } from "react-native-paper";
+import React, { useState } from "react";
 import { DatePickerInput } from "react-native-paper-dates";
 import DropDown from "react-native-paper-dropdown";
 import { useAppDispatch, useAppSelector } from "../../hooks";
@@ -13,10 +13,9 @@ import ProcedureImages from "./ProcedureImages";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Containers, Images, Inputs } from "../../styles";
 
-type ProcedureDetailsProp ={
+type ProcedureDetailsProp = {
     procedureId: string
     addImageId?: string
-    setShowCamera: Dispatch<SetStateAction<boolean>>
 }
 
 function ProcedureDetails(props: ProcedureDetailsProp) {
@@ -32,14 +31,18 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                 <Surface key={procedure.id}
                     style={styles.surface}
                 >
+                    <View style={styles.spacer} />
                     <View style={styles.imgThumbnail}>
                         <ProcedureImages procedureId={procedure.id} />
                     </View>
                     <View style={styles.spacer} />
+                    <Divider style={styles.divider} />
+
+                    <View style={styles.spacer} />
                     <TextInput
                         style={styles.procTextInput}
                         label="Case Number"
-                        value={procedure.id}
+                        value={procedure.caseNumber.toString()}
                         mode="outlined"
                         onChangeText={text => dispatch(procedureUpdated({ id: props.procedureId, changes: { caseNumber: +text } }))}
                     />
@@ -108,7 +111,9 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                         multiSelect
                     />
                     <View style={styles.spacer} />
-                    <AddImageToProcedure procedureId={procedure.id}  />
+                    <Divider style={styles.divider} />
+                    <View style={styles.spacer} />
+                    <AddImageToProcedure procedureId={procedure.id} />
 
                 </Surface>
             </SafeAreaView>
@@ -127,7 +132,9 @@ const styles = StyleSheet.create({
     spacer: { ...Containers.container.spacer },
     procTextInput: { ...Inputs.procedure.text },
     procDateInput: { ...Inputs.procedure.datePicker },
-    imgThumbnail: { ...Images.images.thumbnail }
+    imgThumbnail: { ...Images.images.thumbnail },
+    divider: { ...Containers.container.divider },
+
 });
 
 export default ProcedureDetails;

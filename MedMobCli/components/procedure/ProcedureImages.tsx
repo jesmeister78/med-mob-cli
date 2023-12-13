@@ -4,6 +4,7 @@ import { Containers, Images } from "../../styles";
 import { useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
 import { selectProcessedImagesByProcedureId } from "../../store/processedImages";
+import { Divider } from "react-native-paper";
 
 
 type ProcedureImagesProp = {
@@ -29,12 +30,14 @@ function ProcedureImages(props: ProcedureImagesProp) {
                 })
             }
         </View>
+
+
     ) : (null)
 }
 
 const styles = StyleSheet.create({
-    imgContainer: { ...Containers.container.procedureDetailsImage },
-    imgThumbnail: { ...Images.images.thumbnail }
+    imgContainer: { ...Containers.container.row },
+    imgThumbnail: { ...Images.images.thumbnail },
 });
 
 export default ProcedureImages;

@@ -33,7 +33,7 @@ function ImageCaptured(props: imageCapturedProp) {
         dispatch(procedureAdded(newProcedure));
 
         // associate the image to the procedure
-        dispatch(processedImageUpdated({ id: props.imageId!, changes: { procedureId: props.procedureId } }));
+        dispatch(processedImageUpdated({ id: props.imageId!, changes: { procedureId: newProcedure.id} }));
 
         // navigate to the procedure details screen
         navigation.navigate("ProcedureDetails", { procedureId: newProcedure.id });

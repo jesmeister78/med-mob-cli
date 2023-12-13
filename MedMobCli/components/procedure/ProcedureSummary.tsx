@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Text, Card, Surface, IconButton } from "react-native-paper";
 
 import { Cards, Containers } from "../../styles";
@@ -9,7 +9,7 @@ import { selectProcedureById } from "../../store/procedures";
 import { ProcedureProp } from "../props/procedureProps";
 import AddImageToProcedure from "./AddImageToProcedure";
 import ProcedureCardCover from "./ProcedureCardCover";
-import SendImageToRobot from "../image/ProcessImage";
+import SendImageToRobot from "../image/SendImageToRobot";
 import { selectProcessedImagesByProcedureId } from "../../store/processedImages";
 import { useNavigation } from "@react-navigation/native";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
@@ -19,7 +19,6 @@ function ProcedureSummary(props: ProcedureProp) {
     const navigation = useNavigation<ProcedureListScreenNavProp>();
     const procedure = useAppSelector((state: RootState) => selectProcedureById(state, props.procedureId));
     const images = useAppSelector((state: RootState) => selectProcessedImagesByProcedureId(state, props.procedureId));
-    const [isExpanded, setIsExpanded] = useState(false);
 
     if (procedure) {
 
@@ -32,13 +31,41 @@ function ProcedureSummary(props: ProcedureProp) {
                 />
                 <ProcedureCardCover procedureId={procedure.id} />
                 <Card.Content>
-                    <Text>
-                        Patient: {procedure.patientName} Surgeon: {procedure.surgeon} Date: {procedure.date}
-                    </Text>
+                    <View style={styles.row}>
+                        <View style={styles.cell}>
+                            <Text variant="labelSmall">
+                                Patient:
+                            </Text>
+                            <Text variant="bodySmall">
+                                {procedure.patientName}
+                            </Text>
+                        </View>
+                        <View style={styles.cell}>
+                            <Text variant="labelSmall">
+                                Surgeon:
+                            </Text>
+                            <Text variant="bodySmall">
+                                {procedure.surgeon}
+                            </Text>
+
+                        </View>
+                        <View style={styles.cell}>
+                            <Text variant="labelSmall">
+                                Date:
+                            </Text>
+                            <Text variant="bodySmall">
+                                {new Date(procedure.date).toLocaleDateString()}
+                            </Text>
+                        </View>
+                    </View>
                 </Card.Content>
 
                 <Card.Actions>
-                    <SendImageToRobot img={images[0]} />
+                    {
+                        images && images.length > 0 ? (
+                            <SendImageToRobot imageId={images[0].id} />
+                        ) : (null)
+                    }
                     <AddImageToProcedure procedureId={procedure.id} addImageId={props.addImageId} />
                     <IconButton
                         icon={"pencil"}
@@ -57,7 +84,9 @@ function ProcedureSummary(props: ProcedureProp) {
 
 const styles = StyleSheet.create({
     surface: { ...Containers.container.outerSurface },
-    card: { ...Cards.cards.procedureSummary }
+    row: { ...Containers.container.row },
+    cell: { ...Containers.container.cell },
+    card: { ...Cards.cards.procedureSummary },
 });
 
 export default ProcedureSummary;

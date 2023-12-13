@@ -1,7 +1,7 @@
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import ImageAttributeDetail from "../../domain/imageAttributeDetail";
 import { Text } from "react-native-paper";
-import styles from "../../styles";
+import { Containers } from "../../styles";
 
 type ImageAttributeDetailsProp = {
     details?: ImageAttributeDetail[]
@@ -13,9 +13,9 @@ function ImageAttributeDetails(props: ImageAttributeDetailsProp) {
 
         props.details && props.details.length > 0 ?
             (
-                <View style={styles.imgAttributeDetailContainer}>
+                <View style={styles.cell}>
                     {props.details.map(detail =>
-                        <View key={detail.label} style={styles.imgAttributeDetailSection}>
+                        <View key={detail.label} style={styles.row}>
                             <Text>{detail.label}: </Text>
                             <Text>{detail.value}</Text>
                         </View>)}
@@ -25,4 +25,9 @@ function ImageAttributeDetails(props: ImageAttributeDetailsProp) {
     )
 }
 
+const styles = StyleSheet.create({
+    surface: { ...Containers.container.outerSurface },
+    row: { ...Containers.container.row },
+    cell: { ...Containers.container.cell },
+});
 export default ImageAttributeDetails;

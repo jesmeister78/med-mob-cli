@@ -1,5 +1,5 @@
 import { StyleSheet, useColorScheme } from "react-native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import CaptureImage from "../../components/image/CaptureImage";
 import ImageCaptured from "../../components/image/ImageCaptured";
 import { Surface } from "react-native-paper";
@@ -9,13 +9,12 @@ import showCameraContext from "../../context/showCameraContext";
 
 
 function CaptureScreen({ route }: CaptureScreenRouteProp) {
+  const { showCamera } = useContext(showCameraContext);
 
-  const [showCamera, setShowCamera] = useState(true);
   console.log("CaptureScreen::showCamera: " + showCamera)
   const [imageId, setImageId] = useState('');
 
   return (
-    <showCameraContext.Provider value={{ showCamera, setShowCamera }}>
       <Surface
         style={styles.surface}
       >
@@ -28,7 +27,6 @@ function CaptureScreen({ route }: CaptureScreenRouteProp) {
             )
         }
       </Surface>
-    </showCameraContext.Provider>
   );
 }
 
