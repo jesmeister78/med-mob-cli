@@ -1,12 +1,11 @@
 import { StyleSheet, View } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { RootState } from "../../store";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import ImageSummary from "./ImageSummary";
 import { Divider, Surface, Text } from "react-native-paper";
-import { selectRawImagesByProcedureId } from "../../store/rawImages";
-import { selectProcessedImageById, selectProcessedImagesByProcedureId } from "../../store/processedImages";
+import { fetchProcessedImages, selectProcessedImageById } from "../../store/processedImages";
 import ImageAttributeSection from "./ImageAttributeSection";
 import { Containers } from "../../styles";
 import ImageViewMode from "./ImageViewMode";
@@ -17,7 +16,14 @@ type ImageListProp = {
 
 function ImageWithAttributes(props: ImageListProp) {
     const [mode, setMode] = useState('orig');
-    const img = useAppSelector((state: RootState) => selectProcessedImageById(state, props.imageId))
+    const img = useAppSelector((state: RootState) => selectProcessedImageById(state, props.imageId));
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (img)
+            dispatch(fetchProcessedImages(img));
+    }, []);
+
     return img ? (
         <Surface style={styles.surface}>
             <ImageSummary key={img.id}
@@ -47,7 +53,7 @@ function ImageWithAttributes(props: ImageListProp) {
 
 const styles = StyleSheet.create({
     surface: { ...Containers.container.outerSurface, marginTop: 15, width: '100%' },
-    notFound: { ...Containers.container.outerSurface, marginTop: 15, width: '100%', height:'100%', justifyContent:'center' },
+    notFound: { ...Containers.container.outerSurface, marginTop: 15, width: '100%', height: '100%', justifyContent: 'center' },
     spacer: { ...Containers.container.spacer },
     row: { ...Containers.container.row },
     cell: { ...Containers.container.cell },
