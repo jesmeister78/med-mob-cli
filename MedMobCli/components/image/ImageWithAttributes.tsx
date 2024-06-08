@@ -1,9 +1,8 @@
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { useEffect, useState } from "react";
 
 import { RootState } from "../../store";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import ImageSummary from "./ImageSummary";
 import { Divider, Surface, Text } from "react-native-paper";
 import { fetchProcessedImages, selectProcessedImageById } from "../../store/processedImages";
 import ImageAttributeSection from "./ImageAttributeSection";
@@ -19,6 +18,8 @@ function ImageWithAttributes(props: ImageListProp) {
     const img = useAppSelector((state: RootState) => selectProcessedImageById(state, props.imageId));
     const dispatch = useAppDispatch();
 
+    console.log("props.imgid: " + props.imageId)
+
     useEffect(() => {
         if (img)
             dispatch(fetchProcessedImages(img));
@@ -26,12 +27,33 @@ function ImageWithAttributes(props: ImageListProp) {
 
     return img ? (
         <Surface style={styles.surface}>
-            <ImageSummary key={img.id}
-                rawImageSource={img.rawImageSource}
-                compositeImageSource={img.compositeImageSource}
-                labelsImageSource={img.labelsImageSource}
-                imageMode={mode}
-            />
+            {mode === 'orig' ? (
+                <Image
+                    style={{ width: '100%', height: 300 }}
+                    alt={`source: ${img.rawImageSource}`}
+                    source={{
+                        uri: `file://${img.rawImageSource}`,
+                    }}
+                />
+            ) : (
+                mode === 'comp' ? (
+                    <Image
+                        style={{ width: 200, height: 200 }}
+                        alt={`source: ${img.compositeImageSource}`}
+                        source={{
+                            uri: `${img.compositeImageSource}`,
+                        }}
+                    />
+                ) : (
+                    <Image
+                        style={{ width: 200, height: 200 }}
+                        alt={`source: ${img.labelsImageSource}`}
+                        source={{
+                            uri: `${img.labelsImageSource}`,
+                        }}
+                    />
+                )
+            )}
             <Divider style={styles.divider} />
             {
                 img.attributes?.map(attr => (

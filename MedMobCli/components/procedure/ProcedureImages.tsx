@@ -21,10 +21,10 @@ function ProcedureImages(props: ProcedureImagesProp) {
         <View style={styles.imgContainer}>
             {
                 processedImages.map(img => {
-                    const src = img.labelsImageSource ?? img.compositeImageSource ?? img.rawImageSource;
+                    const src = img.labelsImageSource ?? img.compositeImageSource ?? `file:///${img.rawImageSource}`;
                     return <Image key={img.id}
                         style={styles.imgThumbnail}
-                        source={{ uri: `file:///${src}` }}
+                        source={{ uri: src }}
                         resizeMode={'cover'}
                     />
                 })
