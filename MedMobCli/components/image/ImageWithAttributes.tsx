@@ -8,6 +8,7 @@ import { fetchProcessedImages, selectProcessedImageById } from "../../store/proc
 import ImageAttributeSection from "./ImageAttributeSection";
 import { Containers } from "../../styles";
 import ImageViewMode from "./ImageViewMode";
+import SendImageToRobot from "./SendImageToRobot";
 
 type ImageListProp = {
     imageId: string,
@@ -54,6 +55,8 @@ function ImageWithAttributes(props: ImageListProp) {
                     />
                 )
             )}
+            <SendImageToRobot imageId={img.id} />
+
             <Divider style={styles.divider} />
             {
                 img.attributes?.map(attr => (

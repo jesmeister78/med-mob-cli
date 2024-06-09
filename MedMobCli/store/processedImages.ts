@@ -27,6 +27,7 @@ export const fetchProcessedImages = createAsyncThunk('processedImages/fetchProce
             { name: img.id, filename: getImageFilename(img.rawImageSource), type: getImageType(img.rawImageSource), data: RNFetchBlob.wrap(img.rawImageSource) },
             // elements without property `filename` will be sent as plain text
             { name: 'name', data: img.id },
+            { name: 'caseNum', data: img.procedureId },
         ]);
         return (await response.json()) as ProcessedImage;
 
