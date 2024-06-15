@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     surface: { ...Containers.container.outerSurface },
     camButton: { ...Buttons.buttons.cam },
     buttonContainer: { ...Containers.container.camButton },
-    camera: { width: 500, height: '100%' }
+    camera: { width: 400, height: 400 }
 });
 
 export default CaptureImage;

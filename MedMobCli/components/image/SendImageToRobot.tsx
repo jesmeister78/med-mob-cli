@@ -17,7 +17,7 @@ function SendImageToRobot(props: SendImageToRobotProp) {
     const dispatch = useAppDispatch();
     const sendImageToRobot = () => {
         dispatch(processedImageUpdated({ id: props.imageId, changes: { attributes: dummyAttributes } }));
-        navigation.navigate("ProcessedImage", { imageId: props.imageId })
+        navigation.navigate("ProcessedImage", { imageId: props.imageId, mode: 'orig' })
     };
 
     return (

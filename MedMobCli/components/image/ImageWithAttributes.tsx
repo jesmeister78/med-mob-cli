@@ -9,27 +9,31 @@ import ImageAttributeSection from "./ImageAttributeSection";
 import { Containers } from "../../styles";
 import ImageViewMode from "./ImageViewMode";
 import SendImageToRobot from "./SendImageToRobot";
+import { imageMode } from "../../domain/constants/imageMode";
 
 type ImageListProp = {
     imageId: string,
+    mode: string
 }
 
 function ImageWithAttributes(props: ImageListProp) {
-    const [mode, setMode] = useState('orig');
+    const [mode, setMode] = useState(props.mode);
     const img = useAppSelector((state: RootState) => selectProcessedImageById(state, props.imageId));
     const dispatch = useAppDispatch();
 
     console.log("props.imgid: " + props.imageId)
+    console.log("props.mode: " + props.mode)
 
     useEffect(() => {
-        if (img)
+        // if we have not already processed this image we do it on screen load
+        if (img && !img.compositeImageSource)
             dispatch(fetchProcessedImages(img));
     }, []);
 
     return img ? (
         <Surface style={styles.surface}>
-            {mode === 'orig' ? (
-                <Image
+            {mode === imageMode.RAW ? (
+                <Image  key={`img.id${mode}`} 
                     style={{ width: '100%', height: 300 }}
                     alt={`source: ${img.rawImageSource}`}
                     source={{
@@ -37,17 +41,17 @@ function ImageWithAttributes(props: ImageListProp) {
                     }}
                 />
             ) : (
-                mode === 'comp' ? (
-                    <Image
-                        style={{ width: 200, height: 200 }}
+                mode === imageMode.COMPOSITE ? (
+                    <Image key={`img.id${mode}`}
+                        style={{ width: '100%', height: 300 }}
                         alt={`source: ${img.compositeImageSource}`}
                         source={{
                             uri: `${img.compositeImageSource}`,
                         }}
                     />
                 ) : (
-                    <Image
-                        style={{ width: 200, height: 200 }}
+                    <Image key={`img.id${mode}`}
+                        style={{ width: '100%', height: 300 }}
                         alt={`source: ${img.labelsImageSource}`}
                         source={{
                             uri: `${img.labelsImageSource}`,
@@ -65,7 +69,7 @@ function ImageWithAttributes(props: ImageListProp) {
                 ))
             }
             <View style={styles.spacer}></View>
-            <ImageViewMode toggleImageViewMode={(value) => setMode(value)} />
+            <ImageViewMode toggleImageViewMode={(value) => setMode(value)} mode={ props.mode} />
         </Surface>
     ) : (
         <Surface style={styles.notFound}>

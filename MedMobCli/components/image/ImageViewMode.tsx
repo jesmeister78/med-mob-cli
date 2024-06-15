@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { SegmentedButtons } from "react-native-paper";
-import { GestureResponderEvent } from "react-native";
+import { imageMode } from "../../domain/constants/imageMode";
 
 type ImageViewModeProp = {
-    toggleImageViewMode: (e: string) => void
+    toggleImageViewMode: (e: string) => void,
+    mode: string
 }
 
 function ImageViewMode(props: ImageViewModeProp) {
 
-    const [value, setValue] = useState('orig');
+    const [value, setValue] = useState(props.mode);
     const handleChange = (value: string) => {
         setValue(value);
         props.toggleImageViewMode(value);
@@ -19,16 +20,15 @@ function ImageViewMode(props: ImageViewModeProp) {
             onValueChange={handleChange}
             buttons={[
                 {
-                    value: 'orig',
+                    value: imageMode.RAW,
                     label: 'Original',
-                    //onPress: () =>props.toggleImageViewMode(value),
                 },
                 {
-                    value: 'comp',
+                    value: imageMode.COMPOSITE,
                     label: 'Composite',
                 },
                 {
-                    value: 'labels',
+                    value: imageMode.LABELS,
                     label: 'Labels',
                 },
             ]}

@@ -1,6 +1,6 @@
 export type RootStackParamList = {
     Main: undefined;
     Auth: undefined;
-    ProcessedImage: { imageId: string };
+    ProcessedImage: { imageId: string, mode: string };
     ProcedureDetails: { procedureId: string };
 };

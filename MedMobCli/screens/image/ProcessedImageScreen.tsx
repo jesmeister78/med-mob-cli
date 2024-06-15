@@ -9,13 +9,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 function ProcessedImageScreen({ route }: ProcessedImageScreenRouteProp) {
     const navigation = useNavigation<ProcessedImageScreenNavProp>();
     const imageId = route.params.imageId;
+    const mode = route.params.mode;
     console.log("ProcessedImageScreen::route.params.procedureId: " + imageId)
+    console.log("ProcessedImageScreen::route.params.mode: " + mode)
 
     return (
         <SafeAreaView>
             <ScrollView>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <ImageWithAttributes imageId={imageId} />
+                    <ImageWithAttributes imageId={imageId} mode={mode} />
                 </View>
             </ScrollView>
         </SafeAreaView>

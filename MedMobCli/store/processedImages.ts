@@ -61,7 +61,7 @@ const processedImagesSlice = createSlice({
                 
                 console.log('inside fetchProcessedImages.fulfilled reducer ');
                 
-                const apiImagePath = 'http://192.168.50.53:5001/'; //Config.XRAI_API_IMAGES;
+                const apiImagePath = 'http://192.168.50.53:5001'; //Config.XRAI_API_IMAGES;
                 const img = action.payload;
                 let procImg = {
                     id: img.id,
