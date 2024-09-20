@@ -10,6 +10,7 @@ import { Containers } from "../../styles";
 import ImageViewMode from "./ImageViewMode";
 import SendImageToRobot from "./SendImageToRobot";
 import { imageMode } from "../../domain/constants/imageMode";
+import { env } from "../../environment";
 
 type ImageListProp = {
     imageId: string,
@@ -21,12 +22,16 @@ function ImageWithAttributes(props: ImageListProp) {
     const img = useAppSelector((state: RootState) => selectProcessedImageById(state, props.imageId));
     const dispatch = useAppDispatch();
 
+    const defaultImgPath = env.XRAI_API_HOST + env.XRAI_API_DEFAULT_IMG;
+
     console.log("props.imgid: " + props.imageId)
     console.log("props.mode: " + props.mode)
 
     useEffect(() => {
+        console.log('ImageWithAttributes::img.compositeImageSource = ' + img!.compositeImageSource)
+        console.log('ImageWithAttributes::env.XRAI_API_DEFAULT_IMG = ' + env.XRAI_API_DEFAULT_IMG)
         // if we have not already processed this image we do it on screen load
-        if (img && !img.compositeImageSource)
+        if (img && (!img.compositeImageSource || img.compositeImageSource === defaultImgPath))
             dispatch(fetchProcessedImages(img));
     }, []);
 
@@ -63,8 +68,8 @@ function ImageWithAttributes(props: ImageListProp) {
 
             <Divider style={styles.divider} />
             {
-                img.attributes?.map(attr => (
-                    <ImageAttributeSection key={attr.name} imageAttribute={attr} />
+                img.attributes?.map((attr, index) => (
+                    <ImageAttributeSection key={attr.name} imageAttribute={attr} index={index} toggleFunc={()=>null} />
 
                 ))
             }

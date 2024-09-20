@@ -1,5 +1,5 @@
 {
-  "name": "MedMobCli",
+  "name": "xrAImobile",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-camera-roll/camera-roll": "^7.8.1",
     "@react-native-community/cli-doctor": "^11.3.8",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.5.11",
@@ -28,6 +29,7 @@
     "react-native-paper": "^5.11.2",
     "react-native-paper-dates": "^0.20.4",
     "react-native-paper-dropdown": "^1.0.7",
+    "react-native-permissions": "^4.1.5",
     "react-native-safe-area-context": "^3.4.1",
     "react-native-screens": "^3.14.0",
     "react-native-vector-icons": "^10.0.2",

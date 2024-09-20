@@ -35,7 +35,8 @@ export const container: Record<Containers, ViewStyle> = {
     cell: {
         alignItems: 'flex-start',
         flexDirection: 'column',
-        marginRight: 10,
-        justifyContent: 'center'
+        flex: 2,
+        //marginRight: 10,
+        //justifyContent: 'center'
     }
 }

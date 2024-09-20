@@ -2,8 +2,9 @@ import React from 'react';
 import { View, Text, Button, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ProcessedImageScreenNavProp, ProcessedImageScreenRouteProp } from '../navigation/screenNavProps';
-import ImageWithAttributes from '../../components/image/ImageWithAttributes';
+// import ImageWithAttributes from '../../components/image/ImageWithAttributes';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ImageViewer from '../../components/image/ImageViewer';
 
 
 function ProcessedImageScreen({ route }: ProcessedImageScreenRouteProp) {
@@ -17,7 +18,8 @@ function ProcessedImageScreen({ route }: ProcessedImageScreenRouteProp) {
         <SafeAreaView>
             <ScrollView>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <ImageWithAttributes imageId={imageId} mode={mode} />
+                    {/* <ImageWithAttributes imageId={imageId} mode={mode} /> */}
+                    <ImageViewer imageId={imageId} mode={mode}/>
                 </View>
             </ScrollView>
         </SafeAreaView>

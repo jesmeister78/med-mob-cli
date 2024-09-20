@@ -6,6 +6,7 @@ import { RootState } from "../../store";
 import { selectProcessedImagesByProcedureId } from "../../store/processedImages";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
 import { imageMode } from "../../domain/constants/imageMode";
+import { env } from "../../environment";
 
 
 type ProcedureImagesProp = {
@@ -18,69 +19,29 @@ function ProcedureImages(props: ProcedureImagesProp) {
     const navToProcessedImageDetails = (imageId: string, imgMode: string) => {
         navigation.navigate("ProcessedImage", { imageId: imageId, mode: imgMode })
     };
-    console.log('ProcedureImages::processedImages.length: ' + processedImages)
-    console.log('ProcedureImages::processedImages[0].rawImageSource: ' + processedImages[0]?.rawImageSource)
-    console.log('ProcedureImages::processedImages[0].compositeImageSource: ' + processedImages[0]?.compositeImageSource)
+    const defaultImgPath = env.XRAI_API_HOST + env.XRAI_API_DEFAULT_IMG;
+
+    console.log('ProcedureImages::processedImages.length: ' + processedImages.length)
+    if (processedImages.length > 0) {
+        console.log('ProcedureImages::processedImages[0].rawImageSource: ' + processedImages[0]?.rawImageSource)
+        console.log('ProcedureImages::processedImages[0].compositeImageSource: ' + processedImages[0]?.compositeImageSource)
+    }
+
     // TODO: need to show more than just the first image
     return processedImages && processedImages.length > 0 ? (
         <View style={styles.imgContainer}>
             {
-                processedImages.map(img => {
-                    const src = img.labelsImageSource ?? img.compositeImageSource ?? `file:///${img.rawImageSource}`;
-                    return img.labelsImageSource ? (
-                        <>
-                            <TouchableOpacity
-                                onPress={() => navToProcessedImageDetails(img.id, imageMode.LABELS)}
-                            >
-                                <Image key={img.id}
-                                    style={styles.imgThumbnail}
-                                    source={{ uri: img.labelsImageSource }}
-                                    resizeMode={'cover'}
-                                /></TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => navToProcessedImageDetails(img.id, imageMode.COMPOSITE)}
-                            >
-                                <Image key={img.id}
-                                    style={styles.imgThumbnail}
-                                    source={{ uri: img.compositeImageSource }}
-                                    resizeMode={'cover'}
-                                /></TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => navToProcessedImageDetails(img.id, imageMode.RAW)}
-                            >
-                                <Image key={img.id}
-                                style={styles.imgThumbnail}
-                                source={{ uri: `file:///${img.rawImageSource}` }}
-                                resizeMode={'cover'}
-                                /></TouchableOpacity></>
-                    ) : img.compositeImageSource ? (
-                        <>
-                            <TouchableOpacity
-                                onPress={() => navToProcessedImageDetails(img.id, imageMode.COMPOSITE)}
-                            >
-                                <Image key={img.id}
-                                    style={styles.imgThumbnail}
-                                    source={{ uri: img.compositeImageSource }}
-                                    resizeMode={'cover'}
-                                /></TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => navToProcessedImageDetails(img.id, imageMode.RAW)}
-                            >
-                                <Image key={img.id}
-                                    style={styles.imgThumbnail}
-                                    source={{ uri: `file:///${img.rawImageSource}` }}
-                                    resizeMode={'cover'}
-                                /></TouchableOpacity></>
-                    ) : (
-                        <TouchableOpacity
+                processedImages.map((img, index) => {
+                    return img.rawImageSource ? (
+                        <TouchableOpacity key={index}
                             onPress={() => navToProcessedImageDetails(img.id, imageMode.RAW)}
                         >
-                            <Image key={img.id}
+                            <Image key={index}
                                 style={styles.imgThumbnail}
                                 source={{ uri: `file:///${img.rawImageSource}` }}
                                 resizeMode={'cover'}
                             /></TouchableOpacity>
-                    )
+                    ) : (null)
                 })
             }
         </View>

@@ -22,6 +22,10 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires access to your camera to capture images to send to the XRai Engine Service for processing</string>
+  <key>NSAppleMusicUsageDescription</key>
+  <string>$(PRODUCT_NAME) requires access to your media library images to send to the XRai Engine Service for processing</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>$(PRODUCT_NAME) requires access to your photo library so you can upload and process photos you have taken outside of the application</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -55,6 +59,13 @@
 				<key>NSExceptionAllowArbitraryLoads</key>
 				<true/>
 			</dict>
+      <key>45.113.232.152</key>
+      <dict>
+        <key>NSExceptionAllowsInsecureHTTPLoads</key>
+        <true/>
+        <key>NSExceptionAllowArbitraryLoads</key>
+        <true/>
+      </dict>
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>

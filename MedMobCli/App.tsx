@@ -36,7 +36,7 @@ const App = () => {
       <RealmProvider>
         <Provider store={store}>
           <PaperProvider>
-    <showCameraContext.Provider value={{ showCamera, setShowCamera }}>
+            <showCameraContext.Provider value={{ showCamera, setShowCamera }}>
               <NavigationContainer>
                 <Stack.Navigator >
                   <Stack.Screen name="Main" component={MainScreen} options={{ title: "x-rAI mobile" }} />
@@ -45,7 +45,7 @@ const App = () => {
                   <Stack.Screen name="ProcedureDetails" component={ProcedureDetailsScreen} />
                 </Stack.Navigator>
               </NavigationContainer>
-    </showCameraContext.Provider>
+            </showCameraContext.Provider>
           </PaperProvider>
         </Provider>
       </RealmProvider>

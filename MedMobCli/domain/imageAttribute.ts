@@ -1,8 +1,11 @@
 import ImageAttributeDetail from "./imageAttributeDetail";
 
 type ImageAttribute = {
+    code: string
     name: string
-    isPresent: boolean
+    colour: string
+    show: boolean
+    url: string
     details?: ImageAttributeDetail[]
 };
 
