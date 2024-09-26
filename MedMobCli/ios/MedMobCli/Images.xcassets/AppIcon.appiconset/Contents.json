@@ -1,55 +1,55 @@
 {
   "images" : [
     {
-      "filename" : "xrAImobileIcon40.png",
+      "filename" : "xrai-mobile-logo-40.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "xrAImobileIcon60.png",
+      "filename" : "xrai-mobile-logo-60.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "xrAImobileIcon58.png",
+      "filename" : "xrai-mobile-logo-58.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "xrAImobileIcon87.png",
+      "filename" : "xrai-mobile-logo-87.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : "xrAImobileIcon80.png",
+      "filename" : "xrai-mobile-logo-80.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "xrAImobileIcon120px 1.png",
+      "filename" : "xrai-mobile-logo-120.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename" : "xrAImobileIcon120px.png",
+      "filename" : "xrai-mobile-logo-120 1.jpg",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "xrAImobileIcon180.png",
+      "filename" : "xrai-mobile-logo-180.jpg",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
-      "filename" : "icon2.jpg",
+      "filename" : "xrai-mobile-logo-1024.jpg",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
