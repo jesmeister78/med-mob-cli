@@ -15,14 +15,7 @@ function ProcessedImageScreen({ route }: ProcessedImageScreenRouteProp) {
     console.log("ProcessedImageScreen::route.params.mode: " + mode)
 
     return (
-        <SafeAreaView>
-            <ScrollView>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    {/* <ImageWithAttributes imageId={imageId} mode={mode} /> */}
-                    <ImageViewer imageId={imageId} mode={mode}/>
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+        <ImageViewer imageId={imageId} mode={mode} />
 
     );
 }

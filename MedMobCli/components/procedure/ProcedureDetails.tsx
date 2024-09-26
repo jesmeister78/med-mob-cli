@@ -27,7 +27,6 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
     const [showIndicationsMultiselect, setShowIndicationsMultiselect] = useState(false);
     if (procedure) {
         return (
-            <SafeAreaView>
                 <Surface key={procedure.id}
                     style={styles.surface}
                 >
@@ -62,7 +61,7 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                         mode="outlined"
                         onChangeText={text => dispatch(procedureUpdated({ id: props.procedureId, changes: { patientName: text } }))}
                     />
-                    {/* <View style={styles.spacer} /> */}
+                    <View style={styles.spacer} />
                     <DatePickerInput
                         style={styles.procDateInput}
                         locale="en-GB"
@@ -72,7 +71,7 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                         inputMode="start"
                         mode="outlined"
                     />
-                    {/* <View style={styles.spacer} /> */}
+                    <View style={styles.spacer} />
                     <TextInput
                         style={styles.procTextInput}
                         label="Surgeon Name"
@@ -116,7 +115,6 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                     <AddImageToProcedure procedureId={procedure.id} />
 
                 </Surface>
-            </SafeAreaView>
 
 
         );

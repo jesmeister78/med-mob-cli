@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, Text, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { View, Image, Text, StyleSheet, FlatList, Dimensions, ListRenderItem } from 'react-native';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { RootState } from '../../store';
 import { attributeVisibilityUpdated, fetchProcessedImages, selectProcessedImageById } from '../../store/processedImages';
@@ -7,6 +7,7 @@ import { env } from '../../environment';
 import { ActivityIndicator, Surface } from 'react-native-paper';
 import { Containers } from '../../styles';
 import ImageAttributeSection from './ImageAttributeSection';
+import ImageAttribute from '../../domain/imageAttribute';
 
 // Screen dimensions
 const { height } = Dimensions.get('window');
@@ -22,7 +23,6 @@ const ImageViewer: React.FC<ImageListProp> = (props: ImageListProp) => {
     const numColumns = img?.attributes?.length ?? 0 > 5 ? 2 : 1;
     const dispatch = useAppDispatch();
     const defaultImgPath = env.XRAI_API_HOST + env.XRAI_API_DEFAULT_IMG;
-
     useEffect(() => {
         console.log('ImageWithAttributes::img.compositeImageSource = ' + img!.compositeImageSource)
         console.log('ImageWithAttributes::env.XRAI_API_DEFAULT_IMG = ' + env.XRAI_API_DEFAULT_IMG)
@@ -33,73 +33,110 @@ const ImageViewer: React.FC<ImageListProp> = (props: ImageListProp) => {
 
     // Toggle visibility of an image
     const toggleImageVisibility = (index: number) => {
-        dispatch(attributeVisibilityUpdated({path:`${img?.id}.${index}`}))
+        dispatch(attributeVisibilityUpdated({ path: `${img?.id}.${index}` }))
     };
 
     return (
-        img ? (
-            <Surface style={styles.surface}>
-                <ActivityIndicator size="large" animating={loading} />
-                <View style={styles.imageContainer}>
-                    {img.attributes?.map((attr, index) => {
-                        console.log(`attr ${index}: ${attr.url} colour: ${attr.colour}`)
-                        return (
-                            attr.show && (
-                                <Image key={index} source={{
-                                    uri: `${env.XRAI_API_HOST}/${attr.url}`,
-                                }} style={styles.image} />
-                            )
-                        );
-                    })}
-                </View>
-                {
-                    // we need to do it like this because a flatlist cannot handle the number of columns changing after it has been rendered
-                    numColumns === 1 ?
-                        (
-                            <FlatList
-                                key={numColumns}
-                                style={styles.toggleContainer}
-                                scrollEnabled={false}
-                                data={img.attributes}
-                                renderItem={({ item, index }) => (
-                                    <ImageAttributeSection imageAttribute={item} index={index} toggleFunc={toggleImageVisibility} />
-                                )}
-                                keyExtractor={(item) => item.code}
-                                numColumns={1}
-                            />
-                        ) : (
-                            <FlatList
-                                key={numColumns}
-                                style={styles.toggleContainer}
-                                scrollEnabled={false}
-                                data={img.attributes}
-                                renderItem={({ item, index }) => (
-                                    <ImageAttributeSection imageAttribute={item} index={index} toggleFunc={toggleImageVisibility} />
-                                )}
-                                keyExtractor={(item) => item.code}
-                                numColumns={2}
-                            />
-                        )
-                }
+        img ?
+            (
+                <Surface style={styles.surface}>
+                    <ActivityIndicator size="large" animating={loading} />
+                    <View style={styles.imageContainer}>
+                        {img.attributes?.map((attr, index) => {
+                            // console.log(`attr ${index}: ${attr.url} colour: ${attr.colour}`)
+                            return (
+                                attr.show && (
+                                    <Image
+                                        style={styles.image}
+                                        key={index}
+                                        source={{
+                                            uri: `${env.XRAI_API_HOST}/${attr.url}`,
+                                        }}
+                                    />
+                                )
+                            );
+                        })}
+                    </View>
+                    {
+                        // we need to do it like this because a flatlist cannot handle the number of columns changing after it has been rendered
+                        numColumns === 1 ?
+                            (
+                                <FlatList
+                                    key={numColumns}
+                                    style={styles.toggleContainer}
+                                    scrollEnabled={true}
+                                    data={img.attributes}
+                                    renderItem={({ item, index }) => (
+                                        <ImageAttributeSection
+                                            imageAttribute={item}
+                                            index={index}
+                                            toggleFunc={toggleImageVisibility}
+                                        />
+                                    )}
+                                    keyExtractor={(item) => item.code}
+                                    numColumns={1}
+                                />
+                            ) : (
+                                <FlatList
+                                    key={numColumns}
+                                    style={styles.toggleContainer}
+                                    scrollEnabled={true}
+                                    data={img.attributes}
+                                    renderItem={({ item, index }) => {
+                                        const isLastItem = index === (img?.attributes?.length ?? 1) - 1;
+                                        const isOddRow = (Math.floor(index / 2) + 1) % 2 === 0;
+                                        return isLastItem && isOddRow ? (
+                                            <>
+                                                <ImageAttributeSection
+                                                    imageAttribute={item}
+                                                    index={index}
+                                                    toggleFunc={toggleImageVisibility}
+                                                />
+                                                <View style={styles.emptyCell}></View>
+                                            </>
 
-            </Surface>
-        ) : (
-            <Surface style={styles.notFound}>
-                <Text>
-                    Image not found.
-                </Text>
-            </Surface>)
+                                        ) :
+                                            (
+                                                <ImageAttributeSection
+                                                    imageAttribute={item}
+                                                    index={index}
+                                                    toggleFunc={toggleImageVisibility}
+                                                />
+                                            );
+                                    }}
+                                    keyExtractor={(item) => item.code}
+                                    numColumns={2}
+                                />
+                            )
+                    }
+
+                </Surface>
+            ) : (
+                <Surface style={styles.notFound}>
+                    <Text>
+                        Image not found.
+                    </Text>
+                </Surface>
+            )
     );
 };
 
 const styles = StyleSheet.create({
-    surface: { ...Containers.container.outerSurface, width: '100%' },
-    divider: { ...Containers.container.divider },
-    container: {
-        flex: 1,
+    surface: {
         justifyContent: 'center',
-        alignItems: 'center',
+        flexDirection: 'column',
+        padding: 5,
+        marginBottom: 10,
+        height: '100%',
+        width: '100%',
+
     },
+    divider: { ...Containers.container.divider },
+    // container: {
+    //     flex: 1,
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    // },
     imageContainer: {
         position: 'absolute',
         top: 0,
@@ -108,16 +145,16 @@ const styles = StyleSheet.create({
         height: height / 2, // Top half of the screen  
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 20,
+        // padding: 20,
     },
     image: {
-        width: 350,
-        height: 350,
+        width: '100%',
+        height: '100%',
         position: 'absolute',
     },
     toggleContainer: {
         flex: 1,
-        marginTop: height / 2, // Push the list down to make room for the image
+        marginTop: height / 2 - 50, // Push the list down to make room for the image
     },
     toggleWrapper: {
         margin: 0,
@@ -127,7 +164,10 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
     },
-
+    emptyCell: {
+        flex: 1,
+        // borderColor: 'red'
+    },
     activeToggle: {
         backgroundColor: '#aaa',
     },

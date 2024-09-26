@@ -19,12 +19,12 @@ function ImageAttributeSection(props: ImageAttributeSectionProp) {
         const key = code as keyof typeof attributeColour;
         return attributeColour[key]
     }
-
+   
     return (
         <View key={props.index} style={styles.container}>
 
             <View style={styles.row}>
-                <View style={styles.cell}>
+                <View style={styles.iconCell}>
                     <ImageAttributeToggle
                         show={props.imageAttribute.show}
                         index={props.index}
@@ -32,7 +32,7 @@ function ImageAttributeSection(props: ImageAttributeSectionProp) {
                         colour={props.imageAttribute.colour}
                     />
                 </View>
-                <View style={styles.cell}>
+                <View style={styles.textCell}>
                     <Text variant="titleSmall">{props.imageAttribute.name}</Text>
                 </View> 
             </View>
@@ -51,14 +51,44 @@ const styles = StyleSheet.create({
         width:'100%'
     },
     surface: { ...Containers.container.outerSurface },
-    row: { ...Containers.container.row, marginTop: 5 },
+    row: { 
+        ...Containers.container.row, 
+        marginTop: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // borderWidth: 1,
+        // borderColor: 'green' 
+    },
     cell: {
         ...Containers.container.cell,
         // width: '95%',
         // justifyContent: 'center',
         // height:'100%',
+         borderWidth: 1,
+         borderColor: 'blue'
+    },
+    iconCell: {
+        alignItems: 'flex-start',
+        flexDirection: 'column',
+        flex:3,
+        width: '35%',
         // borderWidth: 1,
-        // borderColor: 'black'
+        // borderColor: 'red'
+    },
+    textCell: {
+        alignItems: 'flex-start',
+        flexDirection: 'column',
+        flex: 8,
+        //justifyContent: 'center',
+        width: '65%',
+        paddingLeft: 10,
+        // borderWidth: 1,
+        // borderColor: 'red'
+
+    },
+    emptyCell: { 
+        flex: 1, 
+        // borderColor: 'red'
     },
     divider: { ...Containers.container.divider }
 });

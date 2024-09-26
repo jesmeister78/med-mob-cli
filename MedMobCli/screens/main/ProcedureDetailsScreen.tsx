@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
-import { Surface } from "react-native-paper";
+import { Surface, Text } from "react-native-paper";
 import ProcedureDetails from "../../components/procedure/ProcedureDetails";
 import { useAppDispatch } from "../../hooks";
 import createNewProcedure from "../../store/createNewProcedure";
@@ -17,16 +17,15 @@ function ProcedureDetailsScreen({route}: ProcedureDetailsScreenRouteProp) {
     // useEffect(() => { dispatch(procedureAdded(newProcedure!)) }, []);
 
     return (
-        <SafeAreaView >
             <ScrollView>
                 <Surface
                     style={styles.surface}
                 >
+                    <Text variant="titleMedium" >Tap a raw image to send it to the xrAI engine</Text>
                     <ProcedureDetails procedureId={route.params.procedureId} />
 
                 </Surface>
             </ScrollView>
-        </SafeAreaView>
 
     )
 

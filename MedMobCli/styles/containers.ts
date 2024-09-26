@@ -10,7 +10,7 @@ export const container: Record<Containers, ViewStyle> = {
         flexDirection: 'column',
         padding: 5,
         marginBottom: 10,
-        height: '100%'
+        height: '90%'
     },
 
     spacer: {
