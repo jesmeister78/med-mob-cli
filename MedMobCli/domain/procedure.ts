@@ -1,4 +1,4 @@
-import { RawImage } from "./rawImage"
+import { XraiImage } from "./xraiImage"
 
 export interface Procedure {
     id: string // uuidv4()
@@ -25,5 +25,7 @@ export interface Procedure {
     */
     indication?: string
 
-    images?: RawImage[]
+    defaultImageSource?: string
+
+    images?: XraiImage[]
 }

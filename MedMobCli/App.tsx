@@ -16,7 +16,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 */
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { RealmProvider } from './data/realmProvider';
 import { RootStackParamList } from './screens/navigation/rootStackParams';
 import AuthScreen from './screens/auth/Auth';
 import MainScreen from './screens/main';
@@ -33,7 +32,6 @@ const App = () => {
 
   return (
     <StrictMode>
-      <RealmProvider>
         <Provider store={store}>
           <PaperProvider>
             <showCameraContext.Provider value={{ showCamera, setShowCamera }}>
@@ -48,7 +46,6 @@ const App = () => {
             </showCameraContext.Provider>
           </PaperProvider>
         </Provider>
-      </RealmProvider>
     </StrictMode>
 
   );

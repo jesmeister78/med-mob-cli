@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
     Camera,
     useCameraDevice,
@@ -10,9 +10,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { Surface } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Buttons, Containers } from '../../styles';
-import { ProcessedImage } from '../../domain/processedImage';
+import { XraiImage } from '../../domain/xraiImage';
 import { useAppDispatch } from '../../hooks';
-import { processedImageAdded } from '../../store/processedImages';
+import { addXraiImage, xraiImageAdded } from '../../store/xraiImages';
 import showCameraContext from '../../context/showCameraContext';
 import { env } from '../../environment';
 
@@ -51,7 +51,8 @@ function CaptureImage(props: CaptureImageProp) {
             console.log('CaptureImage::photo taken');
 
             // add the image to the store
-            createAndDispatchNewImage(photo.path);
+            const sourcePath = Platform.OS === 'ios' ? photo.path.replace('file:///private', '') : photo.path;
+            createAndDispatchNewImage(sourcePath);
             // close the component
             setShowCamera(false);
 
@@ -63,18 +64,17 @@ function CaptureImage(props: CaptureImageProp) {
     const createAndDispatchNewImage = (src: string) => {
         const imageId = uuidv4();
         const defaultImgPath = env.XRAI_API_HOST + env.XRAI_API_DEFAULT_IMG;
+        const now = new Date().toISOString();
         // create and dispatch the new image
         const img = {
             id: imageId,
-            procedureId: undefined,
-            imageTimestamp: new Date().getUTCSeconds(),
+            imageTimestamp: now,
             rawImageSource: src,
             compositeImageSource: defaultImgPath, //'http://172.20.10.2:5001/pizza_wait.gif',
             labelsImageSource: defaultImgPath,
-            processedDate: new Date().toISOString(),
-            processorVersion: 'string', // version of the ai model used to generate the processed image
-        } as ProcessedImage;
-        dispatch(processedImageAdded(img));
+            procedureId: undefined,
+        } as XraiImage;
+        dispatch(addXraiImage(img));
 
         // set the image id in the parent screen so the ImageCapture component can use it
         props.setImage(imageId);
@@ -94,7 +94,7 @@ function CaptureImage(props: CaptureImageProp) {
                         isActive={cameraReady}
                         onInitialized={() => setCameraReady(true)}
                         photo={true}
-                        orientation="portrait"
+                        //orientation="portrait"
                         format={format}
                     />
                     {cameraReady ? (

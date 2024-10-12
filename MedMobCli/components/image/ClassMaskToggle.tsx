@@ -3,14 +3,14 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Containers } from "../../styles";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-type ImageAttributeToggleProp = {
+type ClassMaskToggleProp = {
     show: boolean,
     index: number,
     toggleFunc: (index: number) => void,
     colour: string
 }
 
-function ImageAttributeToggle(props: ImageAttributeToggleProp) {
+function ClassMaskToggle(props: ClassMaskToggleProp) {
 
     const [visible, setVisible] = useState(props.show);
 
@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
         borderRadius: 25,
     },
 });
-export default ImageAttributeToggle;
+export default ClassMaskToggle;

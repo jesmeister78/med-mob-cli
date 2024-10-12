@@ -1,8 +1,6 @@
 import { IconButton } from "react-native-paper";
 import { useAppDispatch } from "../../hooks";
-import { ProcessedImage } from "../../domain/processedImage";
-import { processedImageUpdated } from "../../store/processedImages";
-import ImageAttribute from "../../domain/imageAttribute";
+import { xraiImageUpdated } from "../../store/xraiImages";
 import { dummyAttributes } from "../../store/dummyInitState";
 import { useNavigation } from "@react-navigation/native";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
@@ -16,7 +14,7 @@ function SendImageToRobot(props: SendImageToRobotProp) {
 
     const dispatch = useAppDispatch();
     const sendImageToRobot = () => {
-        dispatch(processedImageUpdated({ id: props.imageId, changes: { attributes: dummyAttributes } }));
+        dispatch(xraiImageUpdated({ id: props.imageId, changes: { masks: dummyAttributes } }));
         navigation.navigate("ProcessedImage", { imageId: props.imageId, mode: 'orig' })
     };
 

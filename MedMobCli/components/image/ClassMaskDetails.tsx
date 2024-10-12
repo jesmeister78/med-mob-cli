@@ -1,13 +1,13 @@
 import { StyleSheet, View } from "react-native";
-import ImageAttributeDetail from "../../domain/imageAttributeDetail";
+import ClassMaskDetail from "../../domain/classMaskDetail";
 import { Text } from "react-native-paper";
 import { Containers } from "../../styles";
 
-type ImageAttributeDetailsProp = {
-    details?: ImageAttributeDetail[]
+type ClassMaskDetailsProp = {
+    details?: ClassMaskDetail[]
 }
 
-function ImageAttributeDetails(props: ImageAttributeDetailsProp) {
+function ClassMaskDetails(props: ClassMaskDetailsProp) {
 
     return (
 
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
     row: { ...Containers.container.row },
     cell: { ...Containers.container.cell },
 });
-export default ImageAttributeDetails;
+export default ClassMaskDetails;

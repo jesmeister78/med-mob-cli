@@ -1,20 +1,20 @@
 import { StyleSheet, View } from "react-native";
-import ImageAttribute from "../../domain/imageAttribute";
+import ClassMask from "../../domain/classMask";
 import { Divider, Icon, Text } from "react-native-paper";
-import ImageAttributeToggle from "./ImageAttributeToggle";
-import ImageAttributeDetails from "./ImageAttributeDetails";
+import ClassMaskToggle from "./ClassMaskToggle";
+import ClassMaskDetails from "./ClassMaskDetails";
 import { Containers } from "../../styles";
 import { attributeColour } from "../../domain/constants/attributeColourMap";
 
-type ImageAttributeSectionProp = {
-    imageAttribute: ImageAttribute,
+type ClassMaskSectionProp = {
+    classMask: ClassMask,
     index: number,
     toggleFunc: (index: number) => void
 };
 
-function ImageAttributeSection(props: ImageAttributeSectionProp) {
-    console.log("props.imageAttribute.code: " + props.imageAttribute.code)
-    console.log("props.imageAttribute.show: " + props.imageAttribute.show)
+function ClassMaskSection(props: ClassMaskSectionProp) {
+    console.log("props.imageAttribute.code: " + props.classMask.code)
+    console.log("props.imageAttribute.show: " + props.classMask.show)
     const getColour = (code: string): string => {
         const key = code as keyof typeof attributeColour;
         return attributeColour[key]
@@ -25,15 +25,15 @@ function ImageAttributeSection(props: ImageAttributeSectionProp) {
 
             <View style={styles.row}>
                 <View style={styles.iconCell}>
-                    <ImageAttributeToggle
-                        show={props.imageAttribute.show}
+                    <ClassMaskToggle
+                        show={props.classMask.show}
                         index={props.index}
                         toggleFunc={props.toggleFunc}
-                        colour={props.imageAttribute.colour}
+                        colour={props.classMask.colour}
                     />
                 </View>
                 <View style={styles.textCell}>
-                    <Text variant="titleSmall">{props.imageAttribute.name}</Text>
+                    <Text variant="titleSmall">{props.classMask.name}</Text>
                 </View> 
             </View>
             <Divider style={styles.divider} />
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
     },
     divider: { ...Containers.container.divider }
 });
-export default ImageAttributeSection;
+export default ClassMaskSection;

@@ -1,12 +1,15 @@
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Containers, Images } from "../../styles";
-import { useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
-import { selectProcessedImagesByProcedureId } from "../../store/processedImages";
+import { fetchImagesForProcedure, selectXraiImagesByProcedureId } from "../../store/xraiImages";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
 import { imageMode } from "../../domain/constants/imageMode";
 import { env } from "../../environment";
+import { selectProcedureById } from "../../store/procedures";
+import { getImagePathPrefix } from "../../domain/imageUtilityService";
+import { useEffect } from "react";
 
 
 type ProcedureImagesProp = {
@@ -14,21 +17,23 @@ type ProcedureImagesProp = {
 }
 
 function ProcedureImages(props: ProcedureImagesProp) {
-    const processedImages = useAppSelector((state: RootState) => selectProcessedImagesByProcedureId(state, props.procedureId));
+    const dispatch = useAppDispatch();
+    const procedure = useAppSelector((state: RootState) => selectProcedureById(state, props.procedureId));
+    const processedImages = useAppSelector((state: RootState) => selectXraiImagesByProcedureId(state, props.procedureId));
     const navigation = useNavigation<ProcedureListScreenNavProp>();
     const navToProcessedImageDetails = (imageId: string, imgMode: string) => {
         navigation.navigate("ProcessedImage", { imageId: imageId, mode: imgMode })
     };
     const defaultImgPath = env.XRAI_API_HOST + env.XRAI_API_DEFAULT_IMG;
 
-    console.log('ProcedureImages::processedImages.length: ' + processedImages.length)
-    if (processedImages.length > 0) {
-        console.log('ProcedureImages::processedImages[0].rawImageSource: ' + processedImages[0]?.rawImageSource)
-        console.log('ProcedureImages::processedImages[0].compositeImageSource: ' + processedImages[0]?.compositeImageSource)
-    }
-
+    processedImages.map((i, idx) => console.log(`image ${idx}: ${i.rawImageSource}`))
+   
+    useEffect(() => {
+        // if we have not already processed this image we do it on screen load
+        dispatch(fetchImagesForProcedure(props.procedureId));
+    }, []);
     // TODO: need to show more than just the first image
-    return processedImages && processedImages.length > 0 ? (
+    return procedure && processedImages && processedImages.length > 0 ? (
         <View style={styles.imgContainer}>
             {
                 processedImages.map((img, index) => {
@@ -38,7 +43,7 @@ function ProcedureImages(props: ProcedureImagesProp) {
                         >
                             <Image key={index}
                                 style={styles.imgThumbnail}
-                                source={{ uri: `file:///${img.rawImageSource}` }}
+                                source={{ uri: `${getImagePathPrefix(img.rawImageSource)}${img.rawImageSource}` }}
                                 resizeMode={'cover'}
                             /></TouchableOpacity>
                     ) : (null)

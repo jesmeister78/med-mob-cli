@@ -5,9 +5,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useAppDispatch } from "../../hooks";
 import ImageSelectFromFile from "../image/SelectImageFromFile";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
-import { processedImageUpdated } from "../../store/processedImages";
 import AttachImageButton from "../image/AttachImageButton";
 import showCameraContext from "../../context/showCameraContext";
+import { xraiImageUpdated } from "../../store/xraiImages";
+import { imageService } from "../../services/imageService";
 
 
 type AddImageProps = {
@@ -29,7 +30,7 @@ function AddImageToProcedure(props: AddImageProps) {
         //     imageTimestamp: Date.now(),
         //     rawImageSource: props.addImageId
         // } as ProcessedImage;
-        dispatch(processedImageUpdated({ id: props.procedureId, changes: { procedureId: props.procedureId } }))
+        dispatch(xraiImageUpdated({ id: props.procedureId, changes: { procedureId: props.procedureId } }))
         navigation.navigate("ProcedureDetails", { procedureId: props.procedureId })
     };
 

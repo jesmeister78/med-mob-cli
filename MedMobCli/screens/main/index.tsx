@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
@@ -13,6 +13,7 @@ import ProcedureListScreen from './ProcedureListScreen';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import showCameraContext from '../../context/showCameraContext';
+import ErrorComponent from '../../components/Error';
 
 const BottomTab = createBottomTabNavigator<MainBottomTabParamList>();
 const tabBarOptions: BottomTabNavigationOptions = {
@@ -22,55 +23,59 @@ const tabBarOptions: BottomTabNavigationOptions = {
 };
 
 function MainScreen() {
-  const {setShowCamera} = useContext(showCameraContext);
+  const { setShowCamera } = useContext(showCameraContext);
   return (
-    <BottomTab.Navigator screenOptions={tabBarOptions}>
-      <BottomTab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarIcon: ({color, size}) => (
-            <MaterialIcons name="home" color={color} size={size} />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="Capture"
-        component={CaptureScreen}
-        initialParams={{showCamera: true, procedureId: undefined}}
-        listeners={({navigation}) => ({
-          tabPress: e => {
-            e.preventDefault();
-            setShowCamera(true);
-            navigation.navigate('Capture', {
-              showCamera: true,
-              procedureId: undefined,
-            });
-          },
-        })}
-        options={{
-          tabBarIcon: ({color, size}) => (
-            <MaterialIcons name="camera" color={color} size={size} />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="ProcedureList"
-        component={ProcedureListScreen}
-        initialParams={{}}
-        listeners={({navigation}) => ({
-          tabPress: e => {
-            e.preventDefault();
-            navigation.navigate('ProcedureList', {});
-          },
-        })}
-        options={{
-          tabBarIcon: ({color, size}) => (
-            <MaterialIcons name="list" color={color} size={size} />
-          ),
-        }}
-      />
-    </BottomTab.Navigator>
+    <>
+      <ErrorComponent/>
+      <BottomTab.Navigator screenOptions={tabBarOptions}>
+        <BottomTab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="home" color={color} size={size} />
+            ),
+          }}
+        />
+        <BottomTab.Screen
+          name="Capture"
+          component={CaptureScreen}
+          initialParams={{ showCamera: true, procedureId: undefined }}
+          listeners={({ navigation }) => ({
+            tabPress: e => {
+              e.preventDefault();
+              setShowCamera(true);
+              navigation.navigate('Capture', {
+                showCamera: true,
+                procedureId: undefined,
+              });
+            },
+          })}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="camera" color={color} size={size} />
+            ),
+          }}
+        />
+        <BottomTab.Screen
+          name="ProcedureList"
+          component={ProcedureListScreen}
+          initialParams={{}}
+          listeners={({ navigation }) => ({
+            tabPress: e => {
+              e.preventDefault();
+              navigation.navigate('ProcedureList', {});
+            },
+          })}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialIcons name="list" color={color} size={size} />
+            ),
+          }}
+        />
+      </BottomTab.Navigator>
+    </>
+
   );
 }
 

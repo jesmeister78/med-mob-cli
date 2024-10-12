@@ -1,3 +1,4 @@
+import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { useEffect } from "react";
 
@@ -12,7 +13,7 @@ type ProcedureListProp = {
 }
 
 function ProcedureList(props: ProcedureListProp) {
-
+  console.log("Proc list")
   const dispatch = useAppDispatch();
   const { loading } = useAppSelector((state: RootState) => state.procedures);
   const procedures = useAppSelector(selectAllProcedures);

@@ -8,7 +8,7 @@ import createNewProcedure from "../../store/createNewProcedure";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
 import { procedureAdded, selectMaxCaseNumber } from "../../store/procedures";
-import { processedImageRemoved, processedImageUpdated, selectProcessedImageById } from "../../store/processedImages";
+import { xraiImageRemoved, xraiImageUpdated, selectXraiImageById } from "../../store/xraiImages";
 import { useContext } from "react";
 import showCameraContext from "../../context/showCameraContext";
 
@@ -23,7 +23,7 @@ function ImageCaptured(props: imageCapturedProp) {
     const navigation = useNavigation<ProcedureListScreenNavProp>();
     const dispatch = useAppDispatch();
     const maxCaseNum = useAppSelector((state: RootState) => selectMaxCaseNumber(state));
-    const image = useAppSelector((state: RootState) => selectProcessedImageById(state, props.imageId));
+    const image = useAppSelector((state: RootState) => selectXraiImageById(state, props.imageId));
     console.log("ImageCaptured::image?.id: " + image?.id)
     console.log("ImageCaptured::props.imageId: " + props.imageId)
 
@@ -33,7 +33,7 @@ function ImageCaptured(props: imageCapturedProp) {
         dispatch(procedureAdded(newProcedure));
 
         // associate the image to the procedure
-        dispatch(processedImageUpdated({ id: props.imageId!, changes: { procedureId: newProcedure.id} }));
+        dispatch(xraiImageUpdated({ id: props.imageId!, changes: { procedureId: newProcedure.id} }));
 
         // navigate to the procedure details screen
         navigation.navigate("ProcedureDetails", { procedureId: newProcedure.id });
@@ -41,7 +41,7 @@ function ImageCaptured(props: imageCapturedProp) {
 
     const removeImageFromStoreAndTryAgain = () => {
         if (props.imageId) {
-            dispatch(processedImageRemoved(props.imageId));
+            dispatch(xraiImageRemoved(props.imageId));
             setShowCamera(true);
         }
     }

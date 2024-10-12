@@ -1,27 +1,27 @@
-import ImageAttribute from "../domain/imageAttribute";
+import ClassMask from "../domain/classMask";
 import { Procedure } from "../domain/procedure";
-import { ProcessedImage } from "../domain/processedImage";
+import { XraiImage } from "../domain/xraiImage";
 
-export const dummyProcessedImages: ProcessedImage[] = [
+export const dummyProcessedImages: XraiImage[] = [
     {
         id: '1', // uuidv4()
         procedureId: '1',
-        imageTimestamp: 12345,
+        imageTimestamp: new Date().toISOString(),
         rawImageSource: 'rawImage1',
         processedDate: '2023-12-01',
         processorVersion: '0.0.1', // version of the ai model used to generate the processed image
 
-        attributes: [
-            { name: 'chd', code: 'CHD', isPresent: true },
-            { name: 'cbd', code: 'CBD', isPresent: true, details: [{ label: 'Diameter (mm):', value: "5" }] },
-            { name: 'rahd', code: 'RAHD', isPresent: true },
-            { name: 'lhd', code: 'LHD', isPresent: true },
-            { name: 'cysticDuct', code: 'CYSTIC_DUCT', isPresent: true },
-            { name: 'duodenum', code: 'DUODENUM', isPresent: true },
+        masks: [
+            { name: 'chd', code: 'CHD', show: true },
+            { name: 'cbd', code: 'CBD', show: true, details: [{ label: 'Diameter (mm):', value: "5" }] },
+            { name: 'rahd', code: 'RAHD', show: true },
+            { name: 'lhd', code: 'LHD', show: true },
+            { name: 'cysticDuct', code: 'CYSTIC_DUCT', show: true },
+            { name: 'duodenum', code: 'DUODENUM', show: true },
             {
                 name: 'fillingDefects',
                 code: 'FILLING_DEFECTS',
-                isPresent: true,
+                show: true,
                 details: [
                     {
                         label: 'Number present:',
@@ -32,7 +32,7 @@ export const dummyProcessedImages: ProcessedImage[] = [
                     }
                 ]
             }
-        ] as ImageAttribute[],
+        ] as ClassMask[],
 
         compositeImageSource: 'string',
         labelsImageSource: 'string'
@@ -41,19 +41,19 @@ export const dummyProcessedImages: ProcessedImage[] = [
     {
         id: '1', // uuidv4()
         procedureId: '1',
-        imageTimestamp: 12345,
+        imageTimestamp: new Date().toISOString(),
         rawImageSource: 'rawImage2',
         processedDate: '2023-11-15',
         processorVersion: '0.0.1', // version of the ai model used to generate the processed image
 
-        attributes: [
-            { name: 'chd', isPresent: true },
-            { name: 'cbd', isPresent: false, details: [{ label: 'Diameter (mm):', value: "5" }] },
-            { name: 'rahd', isPresent: false },
-            { name: 'lhd', isPresent: true },
-            { name: 'cysticDuct', isPresent: false },
-            { name: 'duodenum', isPresent: true },
-            { name: 'fillingDefects', isPresent: true, details: [{ label: 'Number present:', value: "5" }, { label: 'Size (mm):', value: "3" }] }] as ImageAttribute[],
+        masks: [
+            { name: 'chd', show: true },
+            { name: 'cbd', show: false, details: [{ label: 'Diameter (mm):', value: "5" }] },
+            { name: 'rahd', show: false },
+            { name: 'lhd', show: true },
+            { name: 'cysticDuct', show: false },
+            { name: 'duodenum', show: true },
+            { name: 'fillingDefects', show: true, details: [{ label: 'Number present:', value: "5" }, { label: 'Size (mm):', value: "3" }] }] as ClassMask[],
 
         compositeImageSource: 'string',
         labelsImageSource: 'string'
@@ -101,17 +101,17 @@ export const dummyProcedures: Procedure[] = [
     }
 ];
 
-export const dummyAttributes: ImageAttribute[] = [
-    { name: 'chd', code: 'CHD', isPresent: true },
-    { name: 'cbd', code: 'CBD', isPresent: true, details: [{ label: 'Diameter (mm):', value: "5" }] },
-    { name: 'rahd', code: 'RAHD', isPresent: true },
-    { name: 'lhd', code: 'LHD', isPresent: true },
-    { name: 'cysticDuct', code: 'CYSTIC_DUCT', isPresent: true },
-    { name: 'duodenum', code: 'DUODENUM', isPresent: true },
+export const dummyAttributes: ClassMask[] = [
+    { name: 'chd', code: 'CHD', show: true },
+    { name: 'cbd', code: 'CBD', show: true, details: [{ label: 'Diameter (mm):', value: "5" }] },
+    { name: 'rahd', code: 'RAHD', show: true },
+    { name: 'lhd', code: 'LHD', show: true },
+    { name: 'cysticDuct', code: 'CYSTIC_DUCT', show: true },
+    { name: 'duodenum', code: 'DUODENUM', show: true },
     {
         name: 'fillingDefects',
         code: 'FILLING_DEFECTS',
-        isPresent: true,
+        show: true,
         details: [
             {
                 label: 'Number present:',
@@ -122,4 +122,4 @@ export const dummyAttributes: ImageAttribute[] = [
             }
         ]
     }
-] as ImageAttribute[]
+] as ClassMask[]

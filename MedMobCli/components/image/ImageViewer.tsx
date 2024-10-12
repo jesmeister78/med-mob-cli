@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { View, Image, Text, StyleSheet, FlatList, Dimensions, ListRenderItem } from 'react-native';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { RootState } from '../../store';
-import { attributeVisibilityUpdated, fetchProcessedImages, selectProcessedImageById } from '../../store/processedImages';
+import { maskVisibilityUpdated, fetchProcessedImage, selectXraiImageById, processImage } from '../../store/xraiImages';
 import { env } from '../../environment';
 import { ActivityIndicator, Surface } from 'react-native-paper';
 import { Containers } from '../../styles';
-import ImageAttributeSection from './ImageAttributeSection';
-import ImageAttribute from '../../domain/imageAttribute';
+import ClassMaskSection from './ClassMaskSection';
+import ClassMask from '../../domain/classMask';
 
 // Screen dimensions
 const { height } = Dimensions.get('window');
@@ -17,23 +17,21 @@ type ImageListProp = {
     mode: string
 }
 const ImageViewer: React.FC<ImageListProp> = (props: ImageListProp) => {
-    const img = useAppSelector((state: RootState) => selectProcessedImageById(state, props.imageId));
+    const img = useAppSelector((state: RootState) => selectXraiImageById(state, props.imageId));
     const { loading } = useAppSelector((state: RootState) => state.processedImages);
     // the number of columns in the attribute list will be 2 if more than 5 class masks returned, otherwise 1
-    const numColumns = img?.attributes?.length ?? 0 > 5 ? 2 : 1;
+    const numColumns = img?.masks?.length ?? 0 > 5 ? 2 : 1;
     const dispatch = useAppDispatch();
     const defaultImgPath = env.XRAI_API_HOST + env.XRAI_API_DEFAULT_IMG;
     useEffect(() => {
-        console.log('ImageWithAttributes::img.compositeImageSource = ' + img!.compositeImageSource)
-        console.log('ImageWithAttributes::env.XRAI_API_DEFAULT_IMG = ' + env.XRAI_API_DEFAULT_IMG)
         // if we have not already processed this image we do it on screen load
         if (img && (!img.compositeImageSource || img.compositeImageSource === defaultImgPath))
-            dispatch(fetchProcessedImages(img));
+            dispatch(processImage(img.id));
     }, []);
 
     // Toggle visibility of an image
     const toggleImageVisibility = (index: number) => {
-        dispatch(attributeVisibilityUpdated({ path: `${img?.id}.${index}` }))
+        dispatch(maskVisibilityUpdated({ path: `${img?.id}.${index}` }))
     };
 
     return (
@@ -42,8 +40,8 @@ const ImageViewer: React.FC<ImageListProp> = (props: ImageListProp) => {
                 <Surface style={styles.surface}>
                     <ActivityIndicator size="large" animating={loading} />
                     <View style={styles.imageContainer}>
-                        {img.attributes?.map((attr, index) => {
-                            // console.log(`attr ${index}: ${attr.url} colour: ${attr.colour}`)
+                        {img.masks?.map((attr, index) => {
+                            console.log(`attr ${index}: ${attr.url} colour: ${attr.colour}`)
                             return (
                                 attr.show && (
                                     <Image
@@ -65,10 +63,10 @@ const ImageViewer: React.FC<ImageListProp> = (props: ImageListProp) => {
                                     key={numColumns}
                                     style={styles.toggleContainer}
                                     scrollEnabled={true}
-                                    data={img.attributes}
+                                    data={img.masks}
                                     renderItem={({ item, index }) => (
-                                        <ImageAttributeSection
-                                            imageAttribute={item}
+                                        <ClassMaskSection
+                                            classMask={item}
                                             index={index}
                                             toggleFunc={toggleImageVisibility}
                                         />
@@ -81,14 +79,14 @@ const ImageViewer: React.FC<ImageListProp> = (props: ImageListProp) => {
                                     key={numColumns}
                                     style={styles.toggleContainer}
                                     scrollEnabled={true}
-                                    data={img.attributes}
+                                    data={img.masks}
                                     renderItem={({ item, index }) => {
-                                        const isLastItem = index === (img?.attributes?.length ?? 1) - 1;
+                                        const isLastItem = index === (img?.masks?.length ?? 1) - 1;
                                         const isOddRow = (Math.floor(index / 2) + 1) % 2 === 0;
                                         return isLastItem && isOddRow ? (
                                             <>
-                                                <ImageAttributeSection
-                                                    imageAttribute={item}
+                                                <ClassMaskSection
+                                                    classMask={item}
                                                     index={index}
                                                     toggleFunc={toggleImageVisibility}
                                                 />
@@ -97,8 +95,8 @@ const ImageViewer: React.FC<ImageListProp> = (props: ImageListProp) => {
 
                                         ) :
                                             (
-                                                <ImageAttributeSection
-                                                    imageAttribute={item}
+                                                <ClassMaskSection
+                                                    classMask={item}
                                                     index={index}
                                                     toggleFunc={toggleImageVisibility}
                                                 />

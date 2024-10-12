@@ -6,6 +6,7 @@ import { Surface } from "react-native-paper";
 import { CaptureScreenRouteProp } from "../navigation/screenNavProps";
 import { Containers } from "../../styles";
 import showCameraContext from "../../context/showCameraContext";
+import ErrorComponent from "../../components/Error";
 
 
 function CaptureScreen({ route }: CaptureScreenRouteProp) {
@@ -18,6 +19,7 @@ function CaptureScreen({ route }: CaptureScreenRouteProp) {
       <Surface
         style={styles.surface}
       >
+        <ErrorComponent/>
         {
           showCamera ?
             (
