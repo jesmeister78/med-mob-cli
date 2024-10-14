@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Buttons, Containers } from '../../styles';
 import { XraiImage } from '../../domain/xraiImage';
 import { useAppDispatch } from '../../hooks';
-import { addXraiImage, xraiImageAdded } from '../../store/xraiImages';
+import { addImage, xraiImageAdded } from '../../store/xraiImages';
 import showCameraContext from '../../context/showCameraContext';
 import { env } from '../../environment';
 
@@ -74,7 +74,7 @@ function CaptureImage(props: CaptureImageProp) {
             labelsImageSource: defaultImgPath,
             procedureId: undefined,
         } as XraiImage;
-        dispatch(addXraiImage(img));
+        dispatch(addImage(img));
 
         // set the image id in the parent screen so the ImageCapture component can use it
         props.setImage(imageId);

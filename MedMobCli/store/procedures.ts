@@ -16,7 +16,7 @@ export const fetchProcedures = createAsyncThunk('procedures/fetchProcedures', as
     // const apiUrl = env.XRAI_API_HOST + env.XRAI_API_PROCEDURES;
     try {
         const procedures = await procedureService.getProceduresAsync();
-        
+
         return procedures;
     } catch (error) {
         if (error instanceof Error) {
@@ -31,22 +31,43 @@ export const fetchProcedures = createAsyncThunk('procedures/fetchProcedures', as
     }
 });
 
-export const updateProcedure = createAsyncThunk('procedures/updateProcedure', async (payload: {procId: string, update: Update<Procedure>}, { dispatch }) => {
-    try {
-       const proc = procedureService.updateProcedureAsync(payload.procId, payload.update)
-       return proc;
-    } catch (error) {
-        if (error instanceof Error) {
-            dispatch(setError(error.message));
+    export const updateProcedure = createAsyncThunk('procedures/updateProcedure', async (payload: Update<Procedure>, { dispatch }) => {
+        try {
+            const proc = procedureService.updateProcedureAsync(payload)
+            return proc;
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(setError(error.message));
 
-        } else {
-            // Handle other types of errors if needed 
-            console.error('An unknown error occurred:', error);
+            } else {
+                // Handle other types of errors if needed 
+                console.error('An unknown error occurred:', error);
+            }
+            // throw the error so the rejected extra reducer is called
+            throw error;
         }
-        // throw the error so the rejected extra reducer is called
-        throw error;
+    });
+
+export const addProcedure = createAsyncThunk(
+    'procedures/addProcedure',
+    async (procedure: Procedure, { dispatch }) => {
+        try {
+            const proc = await procedureService.addProcedureAsync(procedure)
+            
+            return proc;
+        } catch (error) {
+            if (error instanceof Error) {
+                dispatch(setError(error.message));
+
+            } else {
+                // Handle other types of errors if needed 
+                console.error('An unknown error occurred:', error);
+            }
+            // throw the error so the rejected extra reducer is called
+            throw error;
+        }
     }
-});
+);
 
 export const proceduresAdapter = createEntityAdapter<Procedure>();
 
@@ -79,14 +100,26 @@ const proceduresSlice = createSlice({
         // keeping database and local states detatched for now
         builder.addCase(updateProcedure.pending, (state) => {
             state.loading = true;
-        }); 
+        });
         builder.addCase(updateProcedure.fulfilled, (state, action) => {
             state.loading = false;
-          // Update the procedure in the state
-          const updatedProc = action.payload;
-          state.entities[updatedProc.id] = updatedProc;
-        })
+            // Update the procedure in the state
+            const updatedProc = action.payload;
+            state.entities[updatedProc.id] = updatedProc;
+        });
         builder.addCase(updateProcedure.rejected, (state, action: PayloadAction<any>) => {
+            state.loading = false;
+            state.error = action.payload;
+        });
+        // keeping database and local states detatched for now
+        builder.addCase(addProcedure.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(addProcedure.fulfilled, (state, action) => {
+            state.loading = false;
+            proceduresAdapter.addOne(state, action.payload);
+        });
+        builder.addCase(addProcedure.rejected, (state, action: PayloadAction<any>) => {
             state.loading = false;
             state.error = action.payload;
         });

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text, Card, Surface, IconButton } from "react-native-paper";
 
@@ -9,8 +8,6 @@ import { selectProcedureById } from "../../store/procedures";
 import { ProcedureProp } from "../props/procedureProps";
 import AddImageToProcedure from "./AddImageToProcedure";
 import ProcedureCardCover from "./ProcedureCardCover";
-import SendImageToRobot from "../image/SendImageToRobot";
-import { selectXraiImagesByProcedureId } from "../../store/xraiImages";
 import { useNavigation } from "@react-navigation/native";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
 
@@ -18,7 +15,6 @@ function ProcedureSummary(props: ProcedureProp) {
 
     const navigation = useNavigation<ProcedureListScreenNavProp>();
     const procedure = useAppSelector((state: RootState) => selectProcedureById(state, props.procedureId));
-    const images = useAppSelector((state: RootState) => selectXraiImagesByProcedureId(state, props.procedureId));
 
     if (procedure) {
 
@@ -61,11 +57,7 @@ function ProcedureSummary(props: ProcedureProp) {
                 </Card.Content>
 
                 <Card.Actions>
-                    {
-                        images && images.length > 0 ? (
-                            <SendImageToRobot imageId={images[0].id} />
-                        ) : (null)
-                    }
+                    
                     <AddImageToProcedure procedureId={procedure.id} addImageId={props.addImageId} />
                     <IconButton
                         icon={"pencil"}

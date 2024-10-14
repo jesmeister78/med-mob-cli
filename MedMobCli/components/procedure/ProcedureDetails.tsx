@@ -47,7 +47,7 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                     mode="outlined"
                     onChangeText={text => {
                         dispatch(procedureUpdated({ id: props.procedureId, changes: { caseNumber: +text } }));
-                        procedureService.updateProcedureAsync(props.procedureId, { id: props.procedureId, changes: { caseNumber: +text } })
+                        procedureService.updateProcedureAsync({ id: props.procedureId, changes: { caseNumber: +text } })
                     }}
                 />
                 <View style={styles.spacer} />
@@ -56,11 +56,11 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                     label="UR Identifier"
                     value={procedure.urIdentifier}
                     mode="outlined"
-                    onChangeText={text => {
-                        // dispatch(updateProcedure({procId: props.procedureId, update: { id: props.procedureId, changes: { urIdentifier: text } }}));
-                        dispatch(procedureUpdated({ id: props.procedureId, changes: { urIdentifier: text } }));
-                        procedureService.updateProcedureAsync(props.procedureId, { id: props.procedureId, changes: { urIdentifier: text } })
-                    }}
+                    // onChangeText={text => {
+                    //     // dispatch(updateProcedure({procId: props.procedureId, update: { id: props.procedureId, changes: { urIdentifier: text } }}));
+                    //     dispatch(procedureUpdated({ id: props.procedureId, changes: { urIdentifier: text } }));
+                    //     procedureService.updateProcedureAsync({ id: props.procedureId, changes: { urIdentifier: text } })
+                    // }}
                 />
                 <View style={styles.spacer} />
                 <TextInput
@@ -72,7 +72,7 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
 
                         text => {
                             dispatch(procedureUpdated({ id: props.procedureId, changes: { patientName: text } }));
-                            procedureService.updateProcedureAsync(props.procedureId, { id: props.procedureId, changes: { patientName: text } })
+                            procedureService.updateProcedureAsync({ id: props.procedureId, changes: { patientName: text } })
                         }}
                 />
                 <View style={styles.spacer} />
@@ -83,7 +83,7 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                     value={new Date(procedure.date)}
                     onChange={d => {
                         dispatch(procedureUpdated({ id: props.procedureId, changes: { date: d?.toISOString() } }))
-                        procedureService.updateProcedureAsync(props.procedureId, { id: props.procedureId, changes: { date: d?.toISOString() } })
+                        procedureService.updateProcedureAsync({ id: props.procedureId, changes: { date: d?.toISOString() } })
                     }}
                     inputMode="start"
                     mode="outlined"
@@ -97,7 +97,7 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                     onChangeText={
                         text => {
                             dispatch(procedureUpdated({ id: props.procedureId, changes: { surgeon: text } }));
-                            procedureService.updateProcedureAsync(props.procedureId, { id: props.procedureId, changes: { surgeon: text } })
+                            procedureService.updateProcedureAsync({ id: props.procedureId, changes: { surgeon: text } })
                         }} />
                 <View style={styles.spacer} />
                 <DropDown
@@ -109,7 +109,7 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                     value={procedure.surgeryType}
                     setValue={val => {
                         dispatch(procedureUpdated({ id: props.procedureId, changes: { surgeryType: val } }))
-                        procedureService.updateProcedureAsync(props.procedureId, { id: props.procedureId, changes: { surgeryType: val } })
+                        procedureService.updateProcedureAsync({ id: props.procedureId, changes: { surgeryType: val } })
                     }}
                     list={surgeryTypes}
                 />
@@ -122,7 +122,7 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                     onChangeText={
                         text => {
                             dispatch(procedureUpdated({ id: props.procedureId, changes: { hospital: text } }))
-                            procedureService.updateProcedureAsync(props.procedureId, { id: props.procedureId, changes: { hospital: text } })
+                            procedureService.updateProcedureAsync({ id: props.procedureId, changes: { hospital: text } })
                         }}
                 />
                 <View style={styles.spacer} />

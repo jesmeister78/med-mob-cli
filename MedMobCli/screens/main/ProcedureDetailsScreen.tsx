@@ -14,7 +14,7 @@ function ProcedureDetailsScreen({route}: ProcedureDetailsScreenRouteProp) {
                 <Surface
                     style={styles.surface}
                 >
-                    <Text variant="titleMedium" >Tap a raw image to send it to the xrAI engine</Text>
+                    <Text variant="titleMedium" >Tap on an image to send it to the xrAI engine</Text>
 
                     <ProcedureDetails procedureId={route.params.procedureId} />
 

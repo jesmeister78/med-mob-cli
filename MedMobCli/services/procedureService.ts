@@ -21,13 +21,13 @@ export const procedureService = {
     return response.data;
   },
 
-  createProcedureAsync: async (procedure: Procedure) => {
+  addProcedureAsync: async (procedure: Omit<Procedure, "caseNumber">) => {
     const response = await api.post<Procedure>(env.XRAI_API_PROCEDURES, procedure);
     return response.data;
   },
 
-  updateProcedureAsync: async (id: string, changes: Update<Procedure>) => {
-    const response = await api.patch<Procedure>(`${env.XRAI_API_PROCEDURES}/${id}`, changes);
+  updateProcedureAsync: async (payload: Update<Procedure>) => {
+    const response = await api.patch<Procedure>(`${env.XRAI_API_PROCEDURES}/${payload.id}`, payload);
     return response.data;
   },
 

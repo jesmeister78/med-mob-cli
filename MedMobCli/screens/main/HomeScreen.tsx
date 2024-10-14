@@ -11,7 +11,7 @@ import { MainBottomTabParamList } from '../navigation/bottomTabParams';
 import { Containers } from '../../styles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { RootState } from '../../store';
-import { procedureAdded, selectMaxCaseNumber } from '../../store/procedures';
+import { addProcedure, procedureAdded, selectMaxCaseNumber } from '../../store/procedures';
 import createNewProcedure from '../../store/createNewProcedure';
 
 type HomeScreenNavProp = CompositeNavigationProp<
@@ -21,13 +21,12 @@ type HomeScreenNavProp = CompositeNavigationProp<
 
 function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavProp>();
-  const maxCaseNum = useAppSelector((state: RootState) => selectMaxCaseNumber(state));
   const dispatch = useAppDispatch();
 
   const createNewProcedureAndAddToStore = () => {
     // create and dispatch the new procedure
-    const newProcedure = createNewProcedure(maxCaseNum + 1);
-    dispatch(procedureAdded(newProcedure));
+    const newProcedure = createNewProcedure();
+    dispatch(addProcedure(newProcedure));
 
     // navigate to the procedure details screen
     navigation.navigate("ProcedureDetails", { procedureId: newProcedure.id });

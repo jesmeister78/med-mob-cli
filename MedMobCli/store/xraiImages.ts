@@ -4,6 +4,7 @@ import {
   createSelector,
   createSlice,
   PayloadAction,
+  Update,
 } from '@reduxjs/toolkit';
 import { RootState } from '.';
 import { XraiImage } from '../domain/xraiImage';
@@ -14,13 +15,12 @@ import axios, { AxiosError } from 'axios';
 import { procedureUpdated, updateProcedure } from './procedures';
 import { procedureService } from '../services/procedureService';
 
-export const addXraiImage = createAsyncThunk(
-  'xraiImages/uploadNewImage',
+export const addImage = createAsyncThunk(
+  'xraiImages/addImage',
   async (img: XraiImage, { dispatch }) => {
     try {
-      const imageUrl = await imageService.uploadImageAsync(img)
-      console.log('Uploaded image URL:', imageUrl);
-      return img;
+      const image = await imageService.addImageAsync(img)
+      return image;
     } catch (error) {
 
       if (error instanceof Error) {
@@ -44,7 +44,7 @@ export const processImage = createAsyncThunk(
       const processedImage = await imageService.processImageAsync(id);
       if (processedImage.procedureId)
         // if no errors then we will dispatch an action to update the procedure's default image source to the server-side saved raw img src
-        dispatch(updateProcedure({ procId: processedImage.procedureId, update: { id: processedImage.procedureId, changes: { defaultImageSource: processedImage.rawImageSource } } }))
+        dispatch(updateProcedure({ id: processedImage.procedureId, changes: { defaultImageSource: processedImage.rawImageSource } }))
       return processedImage;
 
     } catch (error) {
@@ -61,7 +61,24 @@ export const processImage = createAsyncThunk(
     }
   }
 );
+export const updateImage = createAsyncThunk(
+  'xraiImages/updateImage',
+  async (payload: Update<XraiImage>, { dispatch }) => {
+    try {
+      const proc = await imageService.updateImageAsync(payload)
+      return payload;
+    } catch (error) {
+      if (error instanceof Error) {
+        dispatch(setError(error.message));
 
+      } else {
+        // Handle other types of errors if needed 
+        console.error('An unknown error occurred:', error);
+      }
+      // throw the error so the rejected extra reducer is called
+      throw error;
+    }
+  });
 export const fetchImagesForProcedure = createAsyncThunk(
   'xraiImages/fetchImagesForProcedure',
   async (procedureId: string, { dispatch }) => {
@@ -157,9 +174,9 @@ const xraiImagesSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchImagesForProcedure.fulfilled, (state, action) => {
-      
+
       xraiImagesAdapter.addMany(state, action.payload);
-      
+
       state.loading = false;
     });
     builder.addCase(fetchImagesForProcedure.rejected, state => {
@@ -169,69 +186,48 @@ const xraiImagesSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(processImage.fulfilled, (state, action) => {
-      if (action.payload) {
-        console.log('inside processImages.fulfilled reducer ');
+      const img = action.payload;
 
-        const apiImagePath = env.XRAI_API_HOST;
-        const img = action.payload;
-        let procImg = {
-          id: img.id,
-          procedureId: img.procedureId,
-          imageTimestamp: img.imageTimestamp,
-          rawImageSource: apiImagePath + img.rawImageSource,
-          compositeImageSource: apiImagePath + img.compositeImageSource,
-          labelsImageSource: apiImagePath + img.labelsImageSource,
-          predictionImageSource: apiImagePath + img.predictionImageSource,
+      xraiImagesAdapter.updateOne(state, {
+        id: img.id,
+        changes: {
+          rawImageSource: img.rawImageSource,
+          compositeImageSource: img.compositeImageSource,
+          labelsImageSource: img.labelsImageSource,
+          predictionImageSource: img.predictionImageSource,
           masks: img.masks,
-        } as XraiImage;
+        },
+      });
 
-        for (var propt in procImg) {
-          console.log(propt + ': ' + procImg[propt as keyof XraiImage]);
-        }
-        xraiImagesAdapter.updateOne(state, {
-          id: procImg.id,
-          changes: {
-            compositeImageSource: procImg.compositeImageSource,
-            labelsImageSource: procImg.labelsImageSource,
-            predictionImageSource: procImg.predictionImageSource,
-            masks: procImg.masks,
-          },
-        });
+      state.loading = false;
+    });
+    builder.addCase(processImage.rejected, state => {
+      state.loading = false;
+    });
+    builder.addCase(updateImage.pending, state => {
+      state.loading = true;
+    });
+    builder.addCase(updateImage.fulfilled, (state, action) => {
+      if (action.payload) {
+
+        xraiImagesAdapter.updateOne(state, action.payload);
         //store.dispatch(bookUpdated({ id: 'a', changes: { title: 'First (altered)' } }))
       } else {
         console.log('action.payload is undefined');
       }
       state.loading = false;
     });
-    builder.addCase(processImage.rejected, state => {
+    builder.addCase(updateImage.rejected, state => {
       state.loading = false;
     });
-    builder.addCase(addXraiImage.pending, state => {
+    builder.addCase(addImage.pending, state => {
       state.loading = true;
     });
-    builder.addCase(addXraiImage.fulfilled, (state, action) => {
-      if (action.payload) {
-        console.log('inside addXraiImage.fulfilled reducer ');
-
-        // const apiImagePath = env.XRAI_API_HOST;
-        // const img = action.payload;
-        // let procImg = {
-        //   id: img.id,
-        //   procedureId: img.procedureId,
-        //   imageTimestamp: img.imageTimestamp,
-        //   rawImageSource: img.rawImageSource,
-        // } as XraiImage;
-
-        // for (var propt in procImg) {
-        //   console.log(propt + ': ' + procImg[propt as keyof XraiImage]);
-        // }
-        xraiImagesAdapter.addOne(state, action.payload);
-      } else {
-        console.log('action.payload is undefined');
-      }
+    builder.addCase(addImage.fulfilled, (state, action) => {
+      xraiImagesAdapter.addOne(state, action.payload);
       state.loading = false;
     });
-    builder.addCase(addXraiImage.rejected, state => {
+    builder.addCase(addImage.rejected, state => {
       state.loading = false;
     });
   },

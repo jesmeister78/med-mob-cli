@@ -1,16 +1,20 @@
+import { useContext, useEffect } from "react";
 import { Card, IconButton, Tooltip } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
-import AttachImageButton from "./AttachImageButton";
+import { v4 as uuidv4 } from 'uuid';
 import { StyleSheet } from "react-native";
+
 import { Images } from "../../styles";
-import createNewProcedure from "../../store/createNewProcedure";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
-import { procedureAdded, selectMaxCaseNumber } from "../../store/procedures";
-import { xraiImageRemoved, xraiImageUpdated, selectXraiImageById } from "../../store/xraiImages";
-import { useContext } from "react";
+import { addProcedure, fetchProcedures, updateProcedure } from "../../store/procedures";
+import { xraiImageRemoved, selectXraiImageById, updateImage } from "../../store/xraiImages";
 import showCameraContext from "../../context/showCameraContext";
+import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
+import AttachImageButton from "./AttachImageButton";
+import { Procedure } from "../../domain/procedure";
+import ProcedureCardCover from "../procedure/ProcedureCardCover";
+import { getImagePathPrefix } from "../../domain/imageUtilityService";
 
 type imageCapturedProp = {
     imageId: string,
@@ -22,18 +26,52 @@ function ImageCaptured(props: imageCapturedProp) {
 
     const navigation = useNavigation<ProcedureListScreenNavProp>();
     const dispatch = useAppDispatch();
-    const maxCaseNum = useAppSelector((state: RootState) => selectMaxCaseNumber(state));
     const image = useAppSelector((state: RootState) => selectXraiImageById(state, props.imageId));
-    console.log("ImageCaptured::image?.id: " + image?.id)
     console.log("ImageCaptured::props.imageId: " + props.imageId)
+    console.log(`image raw source: ${image?.rawImageSource}`)
+    useEffect(() => {
+        dispatch(fetchProcedures());
+    }, []);
 
-    const createNewProcedureAndAssociateToImage = () => {
+    const createNewProcedureAndAssociateToImage = async () => {
+
         // create and dispatch the new procedure
-        const newProcedure = createNewProcedure(maxCaseNum + 1);
-        dispatch(procedureAdded(newProcedure));
+        const newProcedure = {
+            id: uuidv4(),
+            patientName: '',
+            urIdentifier: '',
+            date: new Date().toISOString(),
+            hospital: '',
+            surgeon: '',
 
-        // associate the image to the procedure
-        dispatch(xraiImageUpdated({ id: props.imageId!, changes: { procedureId: newProcedure.id} }));
+            surgeryType: '',
+
+            indication: ''
+        } as Procedure;
+
+        try {
+            // Explicitly type the dispatch result
+            const resultAction = await dispatch(addProcedure(newProcedure));
+
+            if (addProcedure.fulfilled.match(resultAction)) {
+                const newProcedure = resultAction.payload;
+
+                // Now that we have the new procedure, update the image
+                await dispatch(updateImage({ id: props.imageId, changes: { procedureId: newProcedure.id } }));
+
+                // and set the default image source on the procedure
+                dispatch(updateProcedure({id: newProcedure.id, changes:{defaultImageSource: image?.rawImageSource}}))
+
+                // Both actions have completed successfully
+                console.log('Procedure created and image updated');
+            } else {
+                // Handle rejection
+                console.error('Procedure creation failed:', resultAction.error);
+            }
+        } catch (err) {
+            // Handle any errors
+            console.error('An error occurred:', err);
+        }
 
         // navigate to the procedure details screen
         navigation.navigate("ProcedureDetails", { procedureId: newProcedure.id });
@@ -46,11 +84,11 @@ function ImageCaptured(props: imageCapturedProp) {
         }
     }
 
-    return (
+    return image && (
         <Card>
             <Card.Title title="Image Captured"></Card.Title>
             <Card.Cover
-                source={{ uri: `file://${image?.rawImageSource}` }}
+                source={{ uri: `${getImagePathPrefix(image?.rawImageSource)}${image?.rawImageSource}` }}
                 style={styles.capturedImage}
             />
             <Card.Actions>

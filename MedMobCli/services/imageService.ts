@@ -5,7 +5,7 @@ import { XraiImage } from '../domain/xraiImage';
 import { Update } from '@reduxjs/toolkit';
 
 export const imageService = {
-    uploadImageAsync: async (img: XraiImage) => {
+    addImageAsync: async (img: XraiImage) => {
         // Create form data
         const formData = new FormData();
         formData.append('image', {
@@ -15,13 +15,12 @@ export const imageService = {
         });
         formData.append("id", img.id);
         formData.append("imageTimestamp", img.imageTimestamp);
-        console.log(`inside upload image:`)
-        const response = await api.post<{ imageUrl: string }>(env.XRAI_API_IMAGES, formData, {
+        const response = await api.post<XraiImage>(env.XRAI_API_IMAGES, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
-        return response.data.imageUrl;
+        return response.data;
     },
     getImageAsync: async (imageId: string) => {
         const response = await api.get<XraiImage>(`${env.XRAI_API_PROCESSED_IMAGES}/${imageId}`, {
