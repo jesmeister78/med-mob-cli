@@ -14,11 +14,12 @@ import ProcedureListScreen from './ProcedureListScreen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import showCameraContext from '../../context/showCameraContext';
 import ErrorComponent from '../../components/Error';
+import { MD3Colors } from 'react-native-paper';
 
 const BottomTab = createBottomTabNavigator<MainBottomTabParamList>();
 const tabBarOptions: BottomTabNavigationOptions = {
   tabBarShowLabel: false,
-  tabBarActiveTintColor: '#9381ff',
+  tabBarActiveTintColor: MD3Colors.tertiary70,
   headerShown: false,
 };
 

@@ -8,7 +8,7 @@ import {
 } from '@reduxjs/toolkit';
 import { RootState } from '.';
 import { Procedure } from '../domain/procedure';
-import { setError } from './errors';
+import { setError } from './errorSlice';
 import { procedureService } from '../services/procedureService';
 
 
@@ -31,22 +31,22 @@ export const fetchProcedures = createAsyncThunk('procedures/fetchProcedures', as
     }
 });
 
-    export const updateProcedure = createAsyncThunk('procedures/updateProcedure', async (payload: Update<Procedure>, { dispatch }) => {
-        try {
-            const proc = procedureService.updateProcedureAsync(payload)
-            return proc;
-        } catch (error) {
-            if (error instanceof Error) {
-                dispatch(setError(error.message));
+export const updateProcedure = createAsyncThunk('procedures/updateProcedure', async (payload: Update<Procedure>, { dispatch }) => {
+    try {
+        const proc = procedureService.updateProcedureAsync(payload)
+        return proc;
+    } catch (error) {
+        if (error instanceof Error) {
+            dispatch(setError(error.message));
 
-            } else {
-                // Handle other types of errors if needed 
-                console.error('An unknown error occurred:', error);
-            }
-            // throw the error so the rejected extra reducer is called
-            throw error;
+        } else {
+            // Handle other types of errors if needed 
+            console.error('An unknown error occurred:', error);
         }
-    });
+        // throw the error so the rejected extra reducer is called
+        throw error;
+    }
+});
 
 export const addProcedure = createAsyncThunk(
     'procedures/addProcedure',

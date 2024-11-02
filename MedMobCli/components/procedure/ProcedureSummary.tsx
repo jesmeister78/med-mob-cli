@@ -4,7 +4,7 @@ import { Text, Card, Surface, IconButton } from "react-native-paper";
 import { Cards, Containers } from "../../styles";
 import { useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
-import { selectProcedureById } from "../../store/procedures";
+import { selectProcedureById } from "../../store/procedureSlice";
 import { ProcedureProp } from "../props/procedureProps";
 import AddImageToProcedure from "./AddImageToProcedure";
 import ProcedureCardCover from "./ProcedureCardCover";

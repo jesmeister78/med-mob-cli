@@ -7,7 +7,7 @@ import ImageSelectFromFile from "../image/SelectImageFromFile";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
 import AttachImageButton from "../image/AttachImageButton";
 import showCameraContext from "../../context/showCameraContext";
-import { xraiImageUpdated } from "../../store/xraiImages";
+import { xraiImageUpdated } from "../../store/xraiImageSlice";
 import { imageService } from "../../services/imageService";
 
 

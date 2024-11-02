@@ -1,19 +1,17 @@
 import 'react-native-get-random-values';
 import { configureStore } from '@reduxjs/toolkit';
 // import messageReducer from './message';
-import usersReducer from './users';
-import surgeriesReducer from './procedures';
-import processedImagesReducer from './xraiImages';
-import loginsReducer from './logins'
-import errorsReducer from './errors'
+import surgeriesReducer from './procedureSlice';
+import xraiImagesReducer from './xraiImageSlice';
+import errorsReducer from './errorSlice'
+import userReducer from './userSlice'
 
 export const store = configureStore({
   reducer: {
     // message: messageReducer,
     procedures: surgeriesReducer,
-    processedImages: processedImagesReducer,
-    users: usersReducer,
-    logins: loginsReducer,
+    xraiImages: xraiImagesReducer,
+    user: userReducer,
     errors: errorsReducer,
   }
 });

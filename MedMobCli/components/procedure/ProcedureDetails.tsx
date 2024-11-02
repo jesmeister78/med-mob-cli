@@ -5,7 +5,7 @@ import { DatePickerInput } from "react-native-paper-dates";
 import DropDown from "react-native-paper-dropdown";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
-import { procedureUpdated, selectProcedureById, updateProcedure } from "../../store/procedures";
+import { procedureUpdated, selectProcedureById, updateProcedure } from "../../store/procedureSlice";
 import AddImageToProcedure from "./AddImageToProcedure";
 import { indications } from "../../domain/constants/indications";
 import { surgeryTypes } from "../../domain/constants/surgeryTypes";
@@ -56,11 +56,10 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                     label="UR Identifier"
                     value={procedure.urIdentifier}
                     mode="outlined"
-                    // onChangeText={text => {
-                    //     // dispatch(updateProcedure({procId: props.procedureId, update: { id: props.procedureId, changes: { urIdentifier: text } }}));
-                    //     dispatch(procedureUpdated({ id: props.procedureId, changes: { urIdentifier: text } }));
-                    //     procedureService.updateProcedureAsync({ id: props.procedureId, changes: { urIdentifier: text } })
-                    // }}
+                    onChangeText={text => {
+                        dispatch(procedureUpdated({ id: props.procedureId, changes: { urIdentifier: text } }));
+                        procedureService.updateProcedureAsync({ id: props.procedureId, changes: { urIdentifier: text } })
+                    }}
                 />
                 <View style={styles.spacer} />
                 <TextInput
@@ -157,8 +156,8 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
 const styles = StyleSheet.create({
     surface: { ...Containers.container.outerSurface },
     spacer: { ...Containers.container.spacer },
-    procTextInput: { ...Inputs.procedure.text },
-    procDateInput: { ...Inputs.procedure.datePicker },
+    procTextInput: { ...Inputs.form.text },
+    procDateInput: { ...Inputs.form.datePicker },
     imgThumbnail: { ...Images.images.thumbnail },
     divider: { ...Containers.container.divider },
 

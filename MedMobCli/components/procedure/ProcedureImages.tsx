@@ -3,11 +3,11 @@ import { useNavigation } from "@react-navigation/native";
 import { Containers, Images } from "../../styles";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
-import { fetchImagesForProcedure, selectXraiImagesByProcedureId } from "../../store/xraiImages";
+import { fetchImagesForProcedure, selectXraiImagesByProcedureId } from "../../store/xraiImageSlice";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
 import { imageMode } from "../../domain/constants/imageMode";
 import { env } from "../../environment";
-import { selectProcedureById } from "../../store/procedures";
+import { selectProcedureById } from "../../store/procedureSlice";
 import { getImagePathPrefix } from "../../domain/imageUtilityService";
 import { useEffect } from "react";
 

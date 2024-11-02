@@ -1,5 +1,5 @@
 {
-  "name": "xrAImobile",
+  "name": "xrAI mobile",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@babel/plugin-transform-private-methods": "^7.25.4",
-    "@react-native-camera-roll/camera-roll": "^7.8.1",
+    "@react-native-async-storage/async-storage": "^2.0.0",
+    "@react-native-camera-roll/camera-roll": "^7.8.3",
     "@react-native-community/cli-doctor": "^11.3.8",
     "@react-native/babel-preset": "^0.75.0",
     "@react-navigation/bottom-tabs": "^6.5.11",
@@ -30,6 +31,9 @@
     "react-native-config": "^1.5.1",
     "react-native-document-picker": "^9.0.1",
     "react-native-get-random-values": "^1.10.0",
+    "react-native-image-crop-picker": "^0.41.4",
+    "react-native-image-manipulator": "^1.0.6",
+    "react-native-image-resizer": "^1.4.5",
     "react-native-paper": "^5.11.2",
     "react-native-paper-dates": "^0.20.4",
     "react-native-paper-dropdown": "^1.0.7",

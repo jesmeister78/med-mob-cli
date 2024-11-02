@@ -11,8 +11,9 @@ import { MainBottomTabParamList } from '../navigation/bottomTabParams';
 import { Containers } from '../../styles';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { RootState } from '../../store';
-import { addProcedure, procedureAdded, selectMaxCaseNumber } from '../../store/procedures';
+import { addProcedure, procedureAdded, selectMaxCaseNumber } from '../../store/procedureSlice';
 import createNewProcedure from '../../store/createNewProcedure';
+import MainMenuComponent from '../../components/MainMenu';
 
 type HomeScreenNavProp = CompositeNavigationProp<
   StackNavigationProp<RootStackParamList, 'Main'>,
@@ -20,32 +21,19 @@ type HomeScreenNavProp = CompositeNavigationProp<
 >;
 
 function HomeScreen() {
-  const navigation = useNavigation<HomeScreenNavProp>();
-  const dispatch = useAppDispatch();
-
-  const createNewProcedureAndAddToStore = () => {
-    // create and dispatch the new procedure
-    const newProcedure = createNewProcedure();
-    dispatch(addProcedure(newProcedure));
-
-    // navigate to the procedure details screen
-    navigation.navigate("ProcedureDetails", { procedureId: newProcedure.id });
-};
+  
   return (
     <Surface 
       style={styles.surface}
     >
-      <Button  onPress={() => navigation.navigate('Auth')} >Login</Button>
-      <Button  onPress={() => navigation.navigate('Capture', {showCamera:true})} >Capture Image</Button>
-      <Button  onPress={() => createNewProcedureAndAddToStore()} >Add New Case</Button>
-      <Button  onPress={() => navigation.navigate('ProcedureList', {})} >View Case List</Button>
-      {/* <Button  onPress={() => navigation.navigate('ProcessedImage', {procedureId: '1'})} >Processed Image - Test</Button> */}
+      <MainMenuComponent />
+      
     </Surface>
   );
 }
 
 const styles = StyleSheet.create({
-  surface: { ...Containers.container.outerSurface },
+  surface: { ...Containers.container.outerSurface, marginBottom:0 },
 });
 
 export default HomeScreen;

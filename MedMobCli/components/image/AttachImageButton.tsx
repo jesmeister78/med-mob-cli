@@ -4,11 +4,11 @@ import { IconButton, Tooltip } from "react-native-paper";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { Dispatch, SetStateAction } from "react";
-import { selectXraiImageById, xraiImageUpdated } from "../../store/xraiImages";
+import { selectXraiImageById, xraiImageUpdated } from "../../store/xraiImageSlice";
 import { imageService } from "../../services/imageService";
-import { procedureUpdated } from "../../store/procedures";
+import { procedureUpdated } from "../../store/procedureSlice";
 import { RootState } from "../../store";
-import { setError } from "../../store/errors";
+import { setError } from "../../store/errorSlice";
 
 
 type AttachImageProp = {

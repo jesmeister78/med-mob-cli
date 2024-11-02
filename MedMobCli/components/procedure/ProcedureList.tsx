@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 import { RootState } from "../../store";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { fetchProcedures, selectAllProcedures } from "../../store/procedures";
+import { fetchProcedures, selectAllProcedures } from "../../store/procedureSlice";
 import ProcedureSummary from "./ProcedureSummary";
 import { Button, Surface } from "react-native-paper";
 

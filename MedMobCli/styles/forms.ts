@@ -3,7 +3,7 @@ import { ViewStyle } from "react-native"
 
 type Inputs = "text" | "ddl" | "datePicker"
 
-export const procedure: Record<Inputs, ViewStyle> ={
+export const form: Record<Inputs, ViewStyle> ={
     text: {},
     ddl: {},
     datePicker: {}

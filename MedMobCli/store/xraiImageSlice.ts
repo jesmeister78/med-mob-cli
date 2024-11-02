@@ -10,9 +10,9 @@ import { RootState } from '.';
 import { XraiImage } from '../domain/xraiImage';
 import { env } from '../environment';
 import { imageService } from '../services/imageService';
-import { setError } from './errors';
+import { setError } from './errorSlice';
 import axios, { AxiosError } from 'axios';
-import { procedureUpdated, updateProcedure } from './procedures';
+import { procedureUpdated, updateProcedure } from './procedureSlice';
 import { procedureService } from '../services/procedureService';
 
 export const addImage = createAsyncThunk(
@@ -240,7 +240,7 @@ export const {
   selectAll: selectAllXraiImages,
   selectTotal: selectTotalXraiImages,
 } = xraiImagesAdapter.getSelectors(
-  (state: RootState) => state.processedImages,
+  (state: RootState) => state.xraiImages,
 );
 
 export const selectXraiImagesByProcedureId = createSelector(

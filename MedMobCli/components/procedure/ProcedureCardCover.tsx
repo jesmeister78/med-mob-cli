@@ -1,7 +1,7 @@
 import { Card } from "react-native-paper"
 import { useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
-import { selectProcedureById } from "../../store/procedures";
+import { selectProcedureById } from "../../store/procedureSlice";
 import { Platform } from "react-native";
 import { env } from "../../environment";
 import { getImagePathPrefix } from "../../domain/imageUtilityService";

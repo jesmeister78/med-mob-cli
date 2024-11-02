@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearError, selectError } from '../store/errors';
+import { clearError, selectError } from '../store/errorSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 
 const ErrorComponent: React.FC = () => {
