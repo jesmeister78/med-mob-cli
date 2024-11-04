@@ -10,12 +10,13 @@ import { RootState } from '.';
 import { Procedure } from '../domain/procedure';
 import { setError } from './errorSlice';
 import { procedureService } from '../services/procedureService';
+import { userService } from '../services/userService';
 
 
-export const fetchProcedures = createAsyncThunk('procedures/fetchProcedures', async (_, { dispatch }) => {
+export const fetchProcedures = createAsyncThunk('procedures/fetchProcedures', async (userId: string, { dispatch }) => {
     // const apiUrl = env.XRAI_API_HOST + env.XRAI_API_PROCEDURES;
     try {
-        const procedures = await procedureService.getProceduresAsync();
+        const procedures = await userService.getProceduresForUserAsync(userId);
 
         return procedures;
     } catch (error) {
@@ -34,7 +35,7 @@ export const fetchProcedures = createAsyncThunk('procedures/fetchProcedures', as
 export const updateProcedure = createAsyncThunk('procedures/updateProcedure', async (payload: Update<Procedure>, { dispatch }) => {
     try {
         const proc = procedureService.updateProcedureAsync(payload)
-        return proc;
+        return payload;
     } catch (error) {
         if (error instanceof Error) {
             dispatch(setError(error.message));
@@ -53,7 +54,7 @@ export const addProcedure = createAsyncThunk(
     async (procedure: Procedure, { dispatch }) => {
         try {
             const proc = await procedureService.addProcedureAsync(procedure)
-            
+
             return proc;
         } catch (error) {
             if (error instanceof Error) {
@@ -90,7 +91,7 @@ const proceduresSlice = createSlice({
             state.loading = true;
         });
         builder.addCase(fetchProcedures.fulfilled, (state, action) => {
-            proceduresAdapter.setAll(state, action.payload);
+            action.payload && proceduresAdapter.setAll(state, action.payload);
             state.loading = false;
         });
         builder.addCase(fetchProcedures.rejected, (state, action: PayloadAction<any>) => {
@@ -103,9 +104,10 @@ const proceduresSlice = createSlice({
         });
         builder.addCase(updateProcedure.fulfilled, (state, action) => {
             state.loading = false;
-            // Update the procedure in the state
-            const updatedProc = action.payload;
-            state.entities[updatedProc.id] = updatedProc;
+            proceduresAdapter.updateOne(state, action.payload!)
+            // // Update the procedure in the state
+            // const updatedProc = action.payload;
+            // action.payload?.id && state.entities[action.payload.id] = action.payload;
         });
         builder.addCase(updateProcedure.rejected, (state, action: PayloadAction<any>) => {
             state.loading = false;
@@ -117,7 +119,7 @@ const proceduresSlice = createSlice({
         });
         builder.addCase(addProcedure.fulfilled, (state, action) => {
             state.loading = false;
-            proceduresAdapter.addOne(state, action.payload);
+            action.payload && proceduresAdapter.addOne(state, action.payload);
         });
         builder.addCase(addProcedure.rejected, (state, action: PayloadAction<any>) => {
             state.loading = false;
@@ -138,6 +140,11 @@ export const selectMaxCaseNumber = createSelector(
     [selectAllProcedures],
     (procedures) => Math.max.apply(null,
         procedures.map(procedure => procedure.caseNumber))
+);
+
+export const selectProceduresByUserId = createSelector(
+    [selectAllProcedures, (_, userId) => userId],
+    (procedures, id) => procedures.filter(proc => proc.userId === id),
 );
 
 export const { procedureUpdated, procedureAdded } = proceduresSlice.actions;

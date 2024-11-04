@@ -4,14 +4,16 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { List, MD3Colors } from "react-native-paper";
 import { MainBottomTabParamList } from "../screens/navigation/bottomTabParams";
 import { RootStackParamList } from "../screens/navigation/rootStackParams";
-import createNewProcedure from "../store/createNewProcedure";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { addProcedure } from "../store/procedureSlice";
 import { StyleSheet, View } from 'react-native';
 import ErrorComponent from "./Error";
 import React from 'react';
-import RegisterComponent from "./auth/Register";
 import { AuthMode } from "../domain/constants/authMode";
+import { selectCurrentUser } from "../store/userSlice";
+import { v4 as uuidv4 } from 'uuid';
+import { Procedure } from '../domain/procedure';
+import CenteredIcon from "./CenteredIcon";
 
 type MainMenuNavProp = CompositeNavigationProp<
     StackNavigationProp<RootStackParamList, 'Main'>,
@@ -21,21 +23,28 @@ type MainMenuNavProp = CompositeNavigationProp<
 const MainMenuComponent: React.FC = () => {
     const navigation = useNavigation<MainMenuNavProp>();
     const dispatch = useAppDispatch();
-    const user = useAppSelector(state => state.user.activeUsername)
+    const user = useAppSelector(selectCurrentUser);
+
     const createNewProcedureAndAddToStore = () => {
-        const newProcedure = createNewProcedure();
+        const newProcedure = {
+            id: uuidv4(),
+            userId: user?.id,
+            patientName: '',
+            urIdentifier: '',
+            date: new Date().toISOString(),
+            hospital: '',
+            surgeon: '',
+      
+            surgeryType: '',
+      
+            indication: ''
+            
+          } as Procedure;
         dispatch(addProcedure(newProcedure));
         navigation.navigate("ProcedureDetails", { procedureId: newProcedure.id });
     };
 
-    const CenteredIcon = ({ icon }: { icon: string }) => (
-        <View style={styles.iconContainer}>
-            <List.Icon
-                color={MD3Colors.tertiary70}
-                icon={icon}
-            />
-        </View>
-    );
+    
 
     const LoginLogout = () => (
         user ? (
@@ -59,7 +68,7 @@ const MainMenuComponent: React.FC = () => {
         <>
             <ErrorComponent />
             <List.Section style={styles.section}>
-                {user && <List.Subheader style={styles.subheaderText} >Welcome, {user}</List.Subheader>}
+                {user && <List.Subheader style={styles.subheaderText} >Welcome, {user.username}</List.Subheader>}
                 {user &&
                     <>
                         <List.Item

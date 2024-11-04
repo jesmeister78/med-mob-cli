@@ -1,61 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectCurrentUser, userUpdated } from '../../store/userSlice';
 
 interface UsernameValidatorProps {
-    onUsernameChange: (text:string, isValid: boolean) => void;
+    onUsernameChange: (text: string, isValid: boolean) => void;
 }
 
 const UsernameValidator: React.FC<UsernameValidatorProps> = ({ onUsernameChange }) => {
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentUser);
-
     const [error, setError] = useState<string>('');
 
-    const validateUsername = (text: string): boolean => {
-
-        // Additional common validation rules
+    const validateUsername = (text: string): string => {
         const minLength: number = 2;
-        const maxLength: number = 254; // Maximum allowed username length
+        const maxLength: number = 254;
         const invalidChars: RegExp = /[()<>[\]\\,;:\s]/;
 
-        // Clear previous error
-        setError('');
-
-        // Validation checks
         if (!text) {
-            setError('Username is required');
-            return false;
+            return 'Username is required';
         }
 
         if (text.length < minLength) {
-            setError(`Username must be at least ${minLength} characters`);
-            return false;
+            return `Username must be at least ${minLength} characters`;
         }
 
         if (text.length > maxLength) {
-            setError(`Username must be less than ${maxLength} characters`);
-            return false;
+            return `Username must be less than ${maxLength} characters`;
         }
 
         if (invalidChars.test(text)) {
-            setError('Username contains invalid characters');
-            return false;
+            return 'Username contains invalid characters';
         }
 
-        return true;
+        return '';
     };
 
-    const handleUsernameChange = (text: string): void => {
-        user && dispatch(userUpdated({ id: user.id, changes: { username: text } }));
-        const isValid: boolean = validateUsername(text);
-        console.log('Username validation:', { text, isValid });
-
-        if (onUsernameChange) {
-            onUsernameChange(text, isValid);
+    // Validate username when component mounts or when user changes
+    useEffect(() => {
+        if (user?.username) {
+            const error = validateUsername(user.username);
+            setError(error);
+            onUsernameChange(user.username, !error);
         }
+    }, [user?.username]);
+
+    const handleUsernameChange = (text: string): void => {
+        if (user) {
+            dispatch(userUpdated({ id: user.id, changes: { username: text } }));
+        }
+        const error = validateUsername(text);
+        setError(error);
+        onUsernameChange(text, !error);
     };
 
     return (

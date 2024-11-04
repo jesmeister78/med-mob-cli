@@ -55,17 +55,19 @@ const LoginComponent: React.FC = () => {
     const handleUsernameChange = (text: string, isValid: boolean) => {
         setUsername(text);
         updateValidUser(isValid, setIsValidUsername);
+        console.log("in login handleUsernameChange - isValid: " + isValid)
     };
     const handlePasswordChange = (text: string, isValid: boolean) => {
         setPassword(text);
         updateValidUser(isValid, setIsValidPassword);
+        console.log("in login handlePasswordChange - isValid: " + isValid)
     };
     return (
         <>
             <ErrorComponent />
 
-            <UsernameValidator onUsernameChange={(text, isValid) => handleUsernameChange(text, isValid)} />
-            <PasswordValidator mode={AuthMode.LOGIN} onPasswordChange={(text, isValid) => handlePasswordChange(text, isValid)} />
+            <UsernameValidator onUsernameChange={handleUsernameChange} />
+            <PasswordValidator mode={AuthMode.LOGIN} onPasswordChange={handlePasswordChange} />
 
             <Button
                 style={styles.button}

@@ -7,7 +7,7 @@ import { StyleSheet } from "react-native";
 import { Images } from "../../styles";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
-import { addProcedure, fetchProcedures, updateProcedure } from "../../store/procedureSlice";
+import { addProcedure, fetchProcedures, selectProceduresByUserId, updateProcedure } from "../../store/procedureSlice";
 import { xraiImageRemoved, selectXraiImageById, updateImage } from "../../store/xraiImageSlice";
 import showCameraContext from "../../context/showCameraContext";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
@@ -15,6 +15,9 @@ import AttachImageButton from "./AttachImageButton";
 import { Procedure } from "../../domain/procedure";
 import ProcedureCardCover from "../procedure/ProcedureCardCover";
 import { getImagePathPrefix } from "../../domain/imageUtilityService";
+import { selectCurrentUser } from "../../store/userSlice";
+import { setError } from "../../store/errorSlice";
+import React from "react";
 
 type imageCapturedProp = {
     imageId: string,
@@ -22,22 +25,27 @@ type imageCapturedProp = {
 };
 
 function ImageCaptured(props: imageCapturedProp) {
+    const image = useAppSelector((state: RootState) => selectXraiImageById(state, props.imageId));
+    const proceduresAvailable = useAppSelector(state => selectProceduresByUserId(state, user?.id));
+    const user = useAppSelector(selectCurrentUser);
     const { setShowCamera } = useContext(showCameraContext);
 
     const navigation = useNavigation<ProcedureListScreenNavProp>();
     const dispatch = useAppDispatch();
-    const image = useAppSelector((state: RootState) => selectXraiImageById(state, props.imageId));
     console.log("ImageCaptured::props.imageId: " + props.imageId)
     console.log(`image raw source: ${image?.rawImageSource}`)
     useEffect(() => {
-        dispatch(fetchProcedures());
+        user && dispatch(fetchProcedures(user?.id));
     }, []);
 
     const createNewProcedureAndAssociateToImage = async () => {
-
+        if (!user) {
+            dispatch(setError("Cannot create Procedure - User does not exist"))
+        }
         // create and dispatch the new procedure
-        const newProcedure = {
+        let newProcedure = {
             id: uuidv4(),
+            userId: user?.id,
             patientName: '',
             urIdentifier: '',
             date: new Date().toISOString(),
@@ -50,24 +58,20 @@ function ImageCaptured(props: imageCapturedProp) {
         } as Procedure;
 
         try {
-            // Explicitly type the dispatch result
             const resultAction = await dispatch(addProcedure(newProcedure));
 
-            if (addProcedure.fulfilled.match(resultAction)) {
-                const newProcedure = resultAction.payload;
+            if (addProcedure.fulfilled.match(resultAction) && resultAction.payload)
+                newProcedure = resultAction.payload;
 
-                // Now that we have the new procedure, update the image
-                await dispatch(updateImage({ id: props.imageId, changes: { procedureId: newProcedure.id } }));
+            // Now that we have the new procedure, update the image
+            await dispatch(updateImage({ id: props.imageId, changes: { procedureId: newProcedure.id } }));
 
-                // and set the default image source on the procedure
-                dispatch(updateProcedure({id: newProcedure.id, changes:{defaultImageSource: image?.rawImageSource}}))
+            // and set the default image source on the procedure
+            dispatch(updateProcedure({ id: newProcedure.id, changes: { defaultImageSource: image?.rawImageSource } }))
 
-                // Both actions have completed successfully
-                console.log('Procedure created and image updated');
-            } else {
-                // Handle rejection
-                console.error('Procedure creation failed:', resultAction.error);
-            }
+            // Both actions have completed successfully
+            console.log('Procedure created and image updated');
+
         } catch (err) {
             // Handle any errors
             console.error('An error occurred:', err);
@@ -104,21 +108,31 @@ function ImageCaptured(props: imageCapturedProp) {
                         (
                             // we have both the image and the procedure, so we can just link them
                             <AttachImageButton imageId={props.imageId} procedureId={props.procedureId} />
-                        ) : (
+                        ) : proceduresAvailable && proceduresAvailable.length > 0 ? (
+                            <>
                             // we need to go and choose a procedure to link the image to
-                            <IconButton
-                                icon={"format-list-bulleted-square"}
-                                onPress={() => navigation.navigate('ProcedureList', { imageId: props.imageId })}
-                            />
+                                <IconButton
+                                    icon={"format-list-bulleted-square"}
+                                    onPress={() => navigation.navigate('ProcedureList', { imageId: props.imageId })}
+                                />
+                                <Tooltip title="Create new case">
+                                    <IconButton
+                                        icon="plus"
+                                        mode="contained"
+                                        onPress={() => createNewProcedureAndAssociateToImage()}
+                                    />
+                                </Tooltip>
+                            </>
+                        ) : (
+                            <Tooltip title="Create new case">
+                                <IconButton
+                                    icon="plus"
+                                    mode="contained"
+                                    onPress={() => createNewProcedureAndAssociateToImage()}
+                                />
+                            </Tooltip>
                         )
                 }
-                <Tooltip title="Create new case">
-                    <IconButton
-                        icon="plus"
-                        mode="contained"
-                        onPress={() => createNewProcedureAndAssociateToImage()}
-                    />
-                </Tooltip>
             </Card.Actions>
         </Card>
     );

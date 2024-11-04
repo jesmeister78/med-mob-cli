@@ -4,27 +4,23 @@ import ProcedureDetails from "../../components/procedure/ProcedureDetails";
 import { Containers } from "../../styles";
 import { ProcedureDetailsScreenRouteProp } from "../navigation/screenNavProps";
 import ErrorComponent from "../../components/Error";
+import React from "react";
 
 
 
-function ProcedureDetailsScreen({route}: ProcedureDetailsScreenRouteProp) {
+function ProcedureDetailsScreen({ route }: ProcedureDetailsScreenRouteProp) {
 
     return (
-            <ScrollView>
-                <Surface
-                    style={styles.surface}
-                >
-                    <Text variant="titleMedium" >Tap on an image to send it to the xrAI engine</Text>
+        <>
 
-                    <ProcedureDetails procedureId={route.params.procedureId} />
+            <ProcedureDetails procedureId={route.params.procedureId} />
 
-                </Surface>
-            </ScrollView>
+        </>
     )
 }
 
 const styles = StyleSheet.create({
     surface: { ...Containers.container.outerSurface },
-  });
-  
+});
+
 export default ProcedureDetailsScreen;

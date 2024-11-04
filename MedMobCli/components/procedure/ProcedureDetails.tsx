@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import { Divider, Surface, TextInput } from "react-native-paper";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Divider, Surface, Text, TextInput } from "react-native-paper";
 import React, { useState } from "react";
 import { DatePickerInput } from "react-native-paper-dates";
 import DropDown from "react-native-paper-dropdown";
@@ -32,114 +32,108 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                 style={styles.surface}
             >
                 <ErrorComponent />
-                <View style={styles.spacer} />
-                <View style={styles.imgThumbnail}>
+                <Text variant="titleMedium" >Tap on an image to send it to the xrAI engine</Text>
+                <Divider style={styles.divider} />
+                <ScrollView
+                    style={styles.imgThumbnail}
+                    horizontal={true}
+                >
                     <ProcedureImages procedureId={procedure.id} />
-                </View>
-                <View style={styles.spacer} />
+                </ScrollView>
                 <Divider style={styles.divider} />
-
-                <View style={styles.spacer} />
-                <TextInput
-                    style={styles.procTextInput}
-                    label="Case Number"
-                    value={procedure.caseNumber.toString()}
-                    mode="outlined"
-                    onChangeText={text => {
-                        dispatch(procedureUpdated({ id: props.procedureId, changes: { caseNumber: +text } }));
-                        procedureService.updateProcedureAsync({ id: props.procedureId, changes: { caseNumber: +text } })
-                    }}
-                />
-                <View style={styles.spacer} />
-                <TextInput
-                    style={styles.procTextInput}
-                    label="UR Identifier"
-                    value={procedure.urIdentifier}
-                    mode="outlined"
-                    onChangeText={text => {
-                        dispatch(procedureUpdated({ id: props.procedureId, changes: { urIdentifier: text } }));
-                        procedureService.updateProcedureAsync({ id: props.procedureId, changes: { urIdentifier: text } })
-                    }}
-                />
-                <View style={styles.spacer} />
-                <TextInput
-                    style={styles.procTextInput}
-                    label="Patient Name"
-                    value={procedure.patientName}
-                    mode="outlined"
-                    onChangeText={
-
-                        text => {
-                            dispatch(procedureUpdated({ id: props.procedureId, changes: { patientName: text } }));
-                            procedureService.updateProcedureAsync({ id: props.procedureId, changes: { patientName: text } })
+                <ScrollView>
+                    <TextInput
+                        style={styles.procTextInput}
+                        label="Case Number"
+                        value={procedure.caseNumber.toString()}
+                        mode="outlined"
+                        onChangeText={text => {
+                            dispatch(procedureUpdated({ id: props.procedureId, changes: { caseNumber: +text } }));
+                            procedureService.updateProcedureAsync({ id: props.procedureId, changes: { caseNumber: +text } })
                         }}
-                />
-                <View style={styles.spacer} />
-                <DatePickerInput
-                    style={styles.procDateInput}
-                    locale="en-GB"
-                    label="Procedure Date"
-                    value={new Date(procedure.date)}
-                    onChange={d => {
-                        dispatch(procedureUpdated({ id: props.procedureId, changes: { date: d?.toISOString() } }))
-                        procedureService.updateProcedureAsync({ id: props.procedureId, changes: { date: d?.toISOString() } })
-                    }}
-                    inputMode="start"
-                    mode="outlined"
-                />
-                <View style={styles.spacer} />
-                <TextInput
-                    style={styles.procTextInput}
-                    label="Surgeon Name"
-                    value={procedure.surgeon}
-                    mode="outlined"
-                    onChangeText={
-                        text => {
-                            dispatch(procedureUpdated({ id: props.procedureId, changes: { surgeon: text } }));
-                            procedureService.updateProcedureAsync({ id: props.procedureId, changes: { surgeon: text } })
-                        }} />
-                <View style={styles.spacer} />
-                <DropDown
-                    label={"Surgery Type"}
-                    mode={"outlined"}
-                    visible={showSurgeryTypesDropDown}
-                    showDropDown={() => setShowSurgeryTypesDropDown(true)}
-                    onDismiss={() => setShowSurgeryTypesDropDown(false)}
-                    value={procedure.surgeryType}
-                    setValue={val => {
-                        dispatch(procedureUpdated({ id: props.procedureId, changes: { surgeryType: val } }))
-                        procedureService.updateProcedureAsync({ id: props.procedureId, changes: { surgeryType: val } })
-                    }}
-                    list={surgeryTypes}
-                />
-                <View style={styles.spacer} />
-                <TextInput
-                    style={styles.procTextInput}
-                    label="Hospital"
-                    value={procedure.hospital}
-                    mode="outlined"
-                    onChangeText={
-                        text => {
-                            dispatch(procedureUpdated({ id: props.procedureId, changes: { hospital: text } }))
-                            procedureService.updateProcedureAsync({ id: props.procedureId, changes: { hospital: text } })
+                    />
+                    <TextInput
+                        style={styles.procTextInput}
+                        label="UR Identifier"
+                        value={procedure.urIdentifier}
+                        mode="outlined"
+                        onChangeText={text => {
+                            dispatch(procedureUpdated({ id: props.procedureId, changes: { urIdentifier: text } }));
+                            procedureService.updateProcedureAsync({ id: props.procedureId, changes: { urIdentifier: text } })
                         }}
-                />
-                <View style={styles.spacer} />
+                    />
+                    <TextInput
+                        style={styles.procTextInput}
+                        label="Patient Name"
+                        value={procedure.patientName}
+                        mode="outlined"
+                        onChangeText={
 
-                <DropDown
-                    label={"Indications"}
-                    mode={"outlined"}
-                    visible={showIndicationsMultiselect}
-                    showDropDown={() => setShowIndicationsMultiselect(true)}
-                    onDismiss={() => setShowIndicationsMultiselect(false)}
-                    value={procedure.indication}
-                    setValue={val => dispatch(procedureUpdated({ id: props.procedureId, changes: { indication: val } }))}
-                    list={indications}
-                    multiSelect
-                />
-                <View style={styles.spacer} />
+                            text => {
+                                dispatch(procedureUpdated({ id: props.procedureId, changes: { patientName: text } }));
+                                procedureService.updateProcedureAsync({ id: props.procedureId, changes: { patientName: text } })
+                            }}
+                    />
+                    <DatePickerInput
+                        style={styles.procDateInput}
+                        locale="en-GB"
+                        label="Procedure Date"
+                        value={new Date(procedure.date)}
+                        onChange={d => {
+                            dispatch(procedureUpdated({ id: props.procedureId, changes: { date: d?.toISOString() } }))
+                            procedureService.updateProcedureAsync({ id: props.procedureId, changes: { date: d?.toISOString() } })
+                        }}
+                        inputMode="start"
+                        mode="outlined"
+                    />
+                    <TextInput
+                        style={styles.procTextInput}
+                        label="Surgeon Name"
+                        value={procedure.surgeon}
+                        mode="outlined"
+                        onChangeText={
+                            text => {
+                                dispatch(procedureUpdated({ id: props.procedureId, changes: { surgeon: text } }));
+                                procedureService.updateProcedureAsync({ id: props.procedureId, changes: { surgeon: text } })
+                            }} />
+                    <DropDown
+                        label={"Surgery Type"}
+                        mode={"outlined"}
+                        visible={showSurgeryTypesDropDown}
+                        showDropDown={() => setShowSurgeryTypesDropDown(true)}
+                        onDismiss={() => setShowSurgeryTypesDropDown(false)}
+                        value={procedure.surgeryType}
+                        setValue={val => {
+                            dispatch(procedureUpdated({ id: props.procedureId, changes: { surgeryType: val } }))
+                            procedureService.updateProcedureAsync({ id: props.procedureId, changes: { surgeryType: val } })
+                        }}
+                        list={surgeryTypes}
+                    />
+                    <TextInput
+                        style={styles.procTextInput}
+                        label="Hospital"
+                        value={procedure.hospital}
+                        mode="outlined"
+                        onChangeText={
+                            text => {
+                                dispatch(procedureUpdated({ id: props.procedureId, changes: { hospital: text } }))
+                                procedureService.updateProcedureAsync({ id: props.procedureId, changes: { hospital: text } })
+                            }}
+                    />
+                    <DropDown
+                        label={"Indications"}
+                        mode={"outlined"}
+                        visible={showIndicationsMultiselect}
+                        showDropDown={() => setShowIndicationsMultiselect(true)}
+                        onDismiss={() => setShowIndicationsMultiselect(false)}
+                        value={procedure.indication}
+                        setValue={val => dispatch(procedureUpdated({ id: props.procedureId, changes: { indication: val } }))}
+                        list={indications}
+                        multiSelect
+                    />
+                </ScrollView>
+
                 <Divider style={styles.divider} />
-                <View style={styles.spacer} />
                 <AddImageToProcedure procedureId={procedure.id} />
 
             </Surface>
@@ -158,7 +152,10 @@ const styles = StyleSheet.create({
     spacer: { ...Containers.container.spacer },
     procTextInput: { ...Inputs.form.text },
     procDateInput: { ...Inputs.form.datePicker },
-    imgThumbnail: { ...Images.images.thumbnail },
+    imgThumbnail: {
+        ...Images.images.thumbnail,
+        marginTop: 5
+    },
     divider: { ...Containers.container.divider },
 
 });

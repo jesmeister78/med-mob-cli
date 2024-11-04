@@ -15,6 +15,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import showCameraContext from '../../context/showCameraContext';
 import ErrorComponent from '../../components/Error';
 import { MD3Colors } from 'react-native-paper';
+import { useAppSelector } from '../../hooks';
+import { selectCurrentUser } from '../../store/userSlice';
 
 const BottomTab = createBottomTabNavigator<MainBottomTabParamList>();
 const tabBarOptions: BottomTabNavigationOptions = {
@@ -25,6 +27,8 @@ const tabBarOptions: BottomTabNavigationOptions = {
 
 function MainScreen() {
   const { setShowCamera } = useContext(showCameraContext);
+  const user = useAppSelector(selectCurrentUser);  // Move hook to component level
+
   return (
     <>
       <ErrorComponent/>
@@ -44,6 +48,10 @@ function MainScreen() {
           initialParams={{ showCamera: true, procedureId: undefined }}
           listeners={({ navigation }) => ({
             tabPress: e => {
+              if (!user) {  // Use user state here
+                e.preventDefault();
+                return;
+              }
               e.preventDefault();
               setShowCamera(true);
               navigation.navigate('Capture', {
@@ -56,6 +64,7 @@ function MainScreen() {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="camera" color={color} size={size} />
             ),
+            tabBarButton: !user ? () => null : undefined,  // Use user state here
           }}
         />
         <BottomTab.Screen
@@ -72,11 +81,11 @@ function MainScreen() {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="list" color={color} size={size} />
             ),
+            tabBarButton: !user ? () => null : undefined,  // Use user state here
           }}
         />
       </BottomTab.Navigator>
     </>
-
   );
 }
 

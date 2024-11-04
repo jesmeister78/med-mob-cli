@@ -15,6 +15,7 @@ const createNewProcedure = () => {
         surgeryType: '',
   
         indication: ''
+        
       } as Procedure;
 };
 

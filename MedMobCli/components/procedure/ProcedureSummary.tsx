@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { Text, Card, Surface, IconButton } from "react-native-paper";
+import { Text, Card, Surface, IconButton, MD3Colors } from "react-native-paper";
 
 import { Cards, Containers } from "../../styles";
 import { useAppSelector } from "../../hooks";
@@ -57,11 +57,12 @@ function ProcedureSummary(props: ProcedureProp) {
                 </Card.Content>
 
                 <Card.Actions>
-                    
+
                     <AddImageToProcedure procedureId={procedure.id} addImageId={props.addImageId} />
                     <IconButton
                         icon={"pencil"}
                         mode="contained"
+                        iconColor={MD3Colors.tertiary70}
                         onPress={() => navigation.navigate("ProcedureDetails", { procedureId: procedure.id })} />
                 </Card.Actions>
 

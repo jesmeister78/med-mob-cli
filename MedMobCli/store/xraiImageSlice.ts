@@ -175,7 +175,7 @@ const xraiImagesSlice = createSlice({
     });
     builder.addCase(fetchImagesForProcedure.fulfilled, (state, action) => {
 
-      xraiImagesAdapter.addMany(state, action.payload);
+      action.payload && xraiImagesAdapter.addMany(state, action.payload);
 
       state.loading = false;
     });
@@ -224,6 +224,7 @@ const xraiImagesSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(addImage.fulfilled, (state, action) => {
+      action.payload && 
       xraiImagesAdapter.addOne(state, action.payload);
       state.loading = false;
     });

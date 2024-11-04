@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Card, IconButton } from "react-native-paper";
+import { Card, IconButton, MD3Colors } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
 import { useAppDispatch } from "../../hooks";
@@ -40,29 +40,31 @@ function AddImageToProcedure(props: AddImageProps) {
     };
 
     return (
-        !props.addImageId ? 
-        ( 
-            // no image source yet, need to get it from camera or file
-            <Card.Actions>
-                <IconButton
-                    icon={"folder"}
-                    mode="contained"
-                    onPress={() => setSelectImageFromFile(true)} />
+        !props.addImageId ?
+            (
+                // no image source yet, need to get it from camera or file
+                <Card.Actions>
+                    <IconButton
+                        icon={"folder"}
+                        mode="contained"
+                        iconColor={MD3Colors.tertiary70}
+                        onPress={() => setSelectImageFromFile(true)} />
 
-                <ImageSelectFromFile show={selectImageFromFile} setShow={setSelectImageFromFile} setImage={associateProcedureToImage} />
+                    <ImageSelectFromFile show={selectImageFromFile} setShow={setSelectImageFromFile} setImage={associateProcedureToImage} />
 
-                <IconButton
-                    icon={"camera"}
-                    mode="contained"
-                    onPress={() => captureNewImage()} />
+                    <IconButton
+                        icon={"camera"}
+                        mode="contained"
+                        iconColor={MD3Colors.tertiary70}
+                        onPress={() => captureNewImage()} />
 
-            </Card.Actions>
-        ) : ( 
-            // we have already captured the image, let's add it to a procedure
-            <Card.Actions>
-                <AttachImageButton procedureId={props.procedureId} imageId={props.addImageId} />
-            </Card.Actions>
-        )
+                </Card.Actions>
+            ) : (
+                // we have already captured the image, let's add it to a procedure
+                <Card.Actions>
+                    <AttachImageButton procedureId={props.procedureId} imageId={props.addImageId} />
+                </Card.Actions>
+            )
     )
 }
 

@@ -2,6 +2,7 @@ import { XraiImage } from "./xraiImage"
 
 export interface Procedure {
     id: string // uuidv4()
+    userId: string
     caseNumber: number
     patientName: string
     urIdentifier: string
@@ -26,6 +27,5 @@ export interface Procedure {
     indication?: string
 
     defaultImageSource?: string
-
     images?: XraiImage[]
 }

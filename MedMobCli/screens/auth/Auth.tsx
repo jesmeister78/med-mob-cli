@@ -2,19 +2,18 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Surface } from 'react-native-paper';
-import { userService } from '../../services/userService';
 import RegisterComponent from '../../components/auth/Register';
 import LoginComponent from '../../components/auth/Login';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AuthMode } from '../../domain/constants/authMode';
 import { RootStackParamList } from '../navigation/rootStackParams';
 import { Containers } from '../../styles';
-import { clearTokenAsync } from '../../store/userSlice';
+import { logoutUser, selectCurrentUser } from '../../store/userSlice';
 
 type AuthScreenProps = NativeStackScreenProps<RootStackParamList, 'Auth'>;
 
 const AuthScreen: React.FC<AuthScreenProps> = ({ route, navigation }) => {
-  const user = useAppSelector(state => state.user.activeUsername);
+  const user = useAppSelector(selectCurrentUser);
   const [mode, setMode] = useState(route.params?.mode || AuthMode.LOGIN);
   const dispatch = useAppDispatch();
 
@@ -31,7 +30,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ route, navigation }) => {
     const handleLogout = async () => {
       try {
         if (user && mode === AuthMode.LOGOUT) {
-          await dispatch(clearTokenAsync());
+          await dispatch(logoutUser());
           console.log('Logout successful');
           // Use navigation.setParams instead of setMode
           navigation.setParams({ mode: AuthMode.LOGIN });

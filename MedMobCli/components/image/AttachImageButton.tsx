@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { IconButton, Tooltip } from "react-native-paper";
+import { IconButton, MD3Colors, Tooltip } from "react-native-paper";
 
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
 import { useAppDispatch, useAppSelector } from "../../hooks";
@@ -27,13 +27,13 @@ function AttachImageButton(props: AttachImageProp) {
 
     const AssociateImageToProcedure = () => {
         // update the store
-        if(image){
+        if (image) {
             dispatch(xraiImageUpdated({ id: props.imageId, changes: { procedureId: props.procedureId } }));
             dispatch(procedureUpdated({ id: props.procedureId, changes: { defaultImageSource: image?.rawImageSource } }));
             // update the proc id and the default img src in the database
             imageService.updateImageAsync({ id: props.imageId, changes: { procedureId: props.procedureId } })
             navigation.navigate('ProcedureDetails', { procedureId: props.procedureId })
-        }else{
+        } else {
             dispatch(setError(`Can not find image ${props.imageId}`));
         }
     };
@@ -43,6 +43,7 @@ function AttachImageButton(props: AttachImageProp) {
             <IconButton
                 icon="paperclip"
                 mode="contained"
+                iconColor={MD3Colors.tertiary70}
                 onPress={() => AssociateImageToProcedure()}
             />
         </Tooltip>

@@ -22,12 +22,10 @@ const RegisterComponent = () => {
     const navigation = useNavigation<AuthScreenNavProp>();
     const dispatch = useAppDispatch();
     const error = useAppSelector((state: RootState) => state.errors.message);
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [password, setPassword] = useState('');
     const [isValidUsername, setIsValidUsername] = useState(false);
     const [isValidEmail, setIsValidEmail] = useState(false);
     const [isValidPassword, setIsValidPassword] = useState(false);
-    const [isValidConfirm, setIsValidConfirm] = useState(false);
     const [isValidUser, setIsValidUser] = useState(false);
 
     // Add useEffect to add an initial user to the redux state if there isn't one there
@@ -51,7 +49,6 @@ const RegisterComponent = () => {
             email: isValidEmail,
             username: isValidUsername,
             password: isValidPassword,
-            confirm: isValidConfirm,
             overall: isValid
         });
         setIsValidUser(isValid);
@@ -81,13 +78,13 @@ const RegisterComponent = () => {
         }
     }
 
-    const updateValidUser = (isValid: boolean, isValidFunc: (val: boolean) => void) => {
-        isValidFunc(isValid);
-    };
+    // const updateValidUser = (isValid: boolean, isValidFunc: (val: boolean) => void) => {
+    //     isValidFunc(isValid);
+    // };
 
     const handlePasswordChange = (text:string, isValid:boolean) => {
         setPassword(text);
-        updateValidUser(isValid, setIsValidPassword);
+        setIsValidPassword(isValid);
     };
 
     return (
@@ -95,8 +92,8 @@ const RegisterComponent = () => {
             <ErrorComponent />
             <View style={styles.spacer} />
 
-            <UsernameValidator onUsernameChange={(text, isValid) => updateValidUser(isValid, setIsValidUsername)} />
-            <EmailValidator onEmailChange={isValid => updateValidUser(isValid, setIsValidEmail)} />
+            <UsernameValidator onUsernameChange={(text, isValid) => setIsValidUsername(isValid)} />
+            <EmailValidator onEmailChange={isValid => setIsValidEmail(isValid)} />
             <PasswordValidator mode={AuthMode.REGISTER} onPasswordChange={(text, isValid) => handlePasswordChange(text, isValid)} />
 
             <Button
@@ -117,7 +114,6 @@ const styles = StyleSheet.create({
     spacer: { ...Containers.container.spacer },
     textInput: {
         ...Inputs.form.text,
-        marginVertical: 8,
     },
     button: {
         marginVertical: 8,

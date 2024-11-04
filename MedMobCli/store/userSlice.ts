@@ -4,66 +4,23 @@ import { User } from '../domain/user';
 import { userService } from '../services/userService';
 import { setError } from './errorSlice';
 import { RootState } from '.';
+import { authService } from '../services/authService';
 // Define the state interface
 interface UserState extends EntityState<User> {
     loading: boolean;
-    activeUsername: string | undefined;  // Allow both string and undefined
-}// const initialState: UserState = { user: null, loading: false, activeUsername: null };
+}
 
 
-// Create thunks
-export const setTokenAsync = createAsyncThunk(
-    'user/setToken',
-    async (token: string, { dispatch }) => {
-
-        try {
-            await userService.storeTokenAsync(token);
-            return token;
-        } catch (error) {
-            if (error instanceof Error) {
-                dispatch(setError(error.message));
-
-            } else {
-                // Handle other types of errors if needed 
-                console.error('An unknown error occurred:', error);
-            }
-            // throw the error so the rejected extra reducer is called
-            throw error;
-        }
-    }
-);
-
-export const clearTokenAsync = createAsyncThunk(
-    'user/clearToken',
-    async (_, { dispatch }) => {
-
-        try {
-            await userService.removeTokenAsync();
-            return null;
-        } catch (error) {
-            if (error instanceof Error) {
-                dispatch(setError(error.message));
-
-            } else {
-                // Handle other types of errors if needed 
-                console.error('An unknown error occurred:', error);
-            }
-            // throw the error so the rejected extra reducer is called
-            throw error;
-        }
-    }
-);
 // Define the async thunk for submitting the login request 
 export const loginUser = createAsyncThunk(
     'user/loginUser',
     async (credentials: { username: string; password: string }, { dispatch }) => {
         try {
-            const response = await userService.loginUserAsync(credentials.username, credentials.password);
+            const response = await authService.loginUserAsync(credentials.username, credentials.password);
             if (!response?.token) {
                 throw new Error("Token is undefined");
             }
             // Handle successful login response 
-            await userService.storeTokenAsync(response.token.token)
             // we don't do anything else from redux perspective yet as we will just redirect the user to login after their user has been added
             // we will need this functionality because users will need to be activated in prod
             return response;
@@ -79,12 +36,34 @@ export const loginUser = createAsyncThunk(
             throw error;
         }
     });
+    
+    export const logoutUser = createAsyncThunk(
+        'user/logoutUser',
+        async (_, { dispatch }) => {
+            try {
+                const response = await authService.logoutUserAsync();
+                if (!response) {
+                    throw new Error("Error logging out user");
+                }
+                return response;
+            } catch (error: any) {
+                if (error instanceof Error) {
+                    dispatch(setError(error.message));
+    
+                } else {
+                    // Handle other types of errors if needed 
+                    console.error('An unknown error occurred:', error);
+                }
+                // throw the error so the rejected extra reducer is called
+                throw error;
+            }
+        });
 
 export const registerUser = createAsyncThunk(
-    'user/addUser',
+    'user/register',
     async (user: User, { dispatch }) => {
         try {
-            const response = await userService.addUserAsync(user);
+            const response = await authService.addUserAsync(user);
             
             return response;
         } catch (error: any) {
@@ -108,7 +87,6 @@ const userSlice = createSlice(
         initialState: userAdapter.getInitialState(
             {
                 loading: false,
-                activeUsername: ''
             }
         ),
         reducers: {
@@ -122,7 +100,6 @@ const userSlice = createSlice(
                 })
                 .addCase(loginUser.fulfilled, (state, action) => {
                     state.loading = false;
-                    state.activeUsername = action.payload.user.username;
                     userAdapter.addOne(state, action.payload.user);
 
                 })
@@ -130,25 +107,16 @@ const userSlice = createSlice(
                     state.loading = false;
                 }
                 )// Handle setToken
-                .addCase(setTokenAsync.pending, (state) => {
-                    state.loading = true;
-                })
-                .addCase(setTokenAsync.fulfilled, (state, action) => {
-                    state.loading = false;
-                })
-                .addCase(setTokenAsync.rejected, (state, action) => {
-                    state.loading = false;
-                })
+               
                 // Handle clearToken
-                .addCase(clearTokenAsync.pending, (state) => {
+                .addCase(logoutUser.pending, (state) => {
                     state.loading = true;
                 })
-                .addCase(clearTokenAsync.fulfilled, (state) => {
+                .addCase(logoutUser.fulfilled, (state) => {
                     state.loading = false;
-                    state.activeUsername = '';
                     userAdapter.removeAll(state);
                 })
-                .addCase(clearTokenAsync.rejected, (state, action) => {
+                .addCase(logoutUser.rejected, (state, action) => {
                     state.loading = false;
                 });
         },

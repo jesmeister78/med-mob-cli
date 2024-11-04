@@ -1,4 +1,4 @@
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
     Camera,
     useCameraDevice,
@@ -56,32 +56,60 @@ function CaptureImage(props: CaptureImageProp) {
                     enableShutterSound: false,
                 });
                 
-                console.log('Original photo:', photo);
+                // console.log('Original photo:', photo);
     
-                // Get the center square
-                const squareSize = Math.min(photo.width, photo.height);
-                const startX = (photo.width - squareSize) / 2;
-                const startY = (photo.height - squareSize) / 2;
+                // Since the original photo is landscape-right (rotated 90 degrees),
+                // we need to swap width/height for our calculations
+                const originalWidth = photo.height;  // 3024 in your case
+                const originalHeight = photo.width;  // 3696 in your case
+                
+                // Calculate center crop coordinates
+                const size = Math.min(originalWidth, originalHeight);
+                const x = Math.floor((originalWidth - size) / 2);
+                const y = Math.floor((originalHeight - size) / 2);
     
-                const resizedPhoto = await ImageResizer.createResizedImage(
+                // First do a center crop to get perfect square
+                const croppedPhoto = await ImageResizer.createResizedImage(
                     Platform.OS === 'ios' ? `file://${photo.path}` : photo.path,
-                    300,  // Force 300x300 since that's what Python expects
+                    size,
+                    size,
+                    'JPEG',
+                    100,
+                    0,
+                    undefined,
+                    true,
+                    {
+                        mode: 'cover',
+                    }
+                );
+    
+                // Then resize the square photo to 300x300
+                const finalPhoto = await ImageResizer.createResizedImage(
+                    croppedPhoto.path,
+                    300,
                     300,
                     'JPEG',
                     100,
                     0,
                     undefined,
-                    false,
-                    { 
-                        mode: 'cover'  // This will maintain aspect ratio while cropping
+                    true,
+                    {
+                        mode: 'cover'
                     }
                 );
-                
-                console.log('Resized photo details:', resizedPhoto);
+    
+                // console.log('Final photo details:', finalPhoto);
+    
+                // Verify dimensions
+                Image.getSize(finalPhoto.path, (width, height) => {
+                    console.log('Final image dimensions:', width, height);
+                }, (error) => {
+                    console.error('Error getting image size:', error);
+                });
     
                 const sourcePath = Platform.OS === 'ios' 
-                    ? resizedPhoto.path 
-                    : resizedPhoto.path;
+                    ? finalPhoto.path 
+                    : finalPhoto.path;
                 
                 createAndDispatchNewImage(sourcePath);
                 setShowCamera(false);

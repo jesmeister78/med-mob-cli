@@ -1,6 +1,13 @@
-import axios, { AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
+
+declare module 'axios' {
+    export interface InternalAxiosRequestConfig {
+        _retry?: boolean;
+    }
+}
+import axios, { AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 import { env } from '../environment';
 import { userService } from './userService';
+import { authService } from './authService';
 
 export class ApiError extends Error {
     constructor(
@@ -14,6 +21,25 @@ export class ApiError extends Error {
 }
 
 export const xraiApi = (() => {
+    // State for refresh token handling
+    let isRefreshing = false;
+    let failedQueue: Array<{
+        resolve: (token: string) => void;
+        reject: (error: any) => void;
+    }> = [];
+
+    // Process queued requests
+    const processQueue = (error: any = null, token: string | null = null) => {
+        failedQueue.forEach(promise => {
+            if (error) {
+                promise.reject(error);
+            } else {
+                promise.resolve(token!);
+            }
+        });
+        failedQueue = [];
+    };
+
     // Private axios instance
     const api: AxiosInstance = axios.create({
         baseURL: env.XRAI_API_HOST,
@@ -23,9 +49,27 @@ export const xraiApi = (() => {
         },
     });
 
+    // Refresh tokens
+    const refreshTokens = async (refreshToken: string) => {
+        try {
+            const response = await axios.post<{access_token: string, refresh_token: string}>(
+                `${env.XRAI_API_HOST}${env.XRAI_API_ACCOUNT}/refresh`,
+                {},
+                {
+                    headers: {
+                        'Authorization': `Bearer ${refreshToken}`
+                    }
+                }
+            );
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    };
+
     // Private handlers
-    const authInterceptor = async (config: any) => {
-        const token = await userService.getTokenAsync();
+    const authInterceptor = async (config: InternalAxiosRequestConfig) => {
+        const token = await authService.getAccessTokenAsync();
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
@@ -33,32 +77,73 @@ export const xraiApi = (() => {
     };
 
     const handleAuthError = async (error: AxiosError) => {
-        if (error.response?.status === 401) {
-            await userService.removeTokenAsync();
+        const originalRequest = error.config;
+        if (!originalRequest) {
+            throw error;
         }
+
+        // Prevent infinite loops on refresh endpoint
+        if (originalRequest.url?.includes('/auth/refresh')) {
+            await authService.logoutUserAsync();
+            throw error;
+        }
+
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            if (isRefreshing) {
+                // Wait for the other refresh request to complete
+                try {
+                    const token = await new Promise<string>((resolve, reject) => {
+                        failedQueue.push({ resolve, reject });
+                    });
+                    originalRequest.headers['Authorization'] = `Bearer ${token}`;
+                    return axios(originalRequest);
+                } catch (err) {
+                    throw err;
+                }
+            }
+
+            originalRequest._retry = true;
+            isRefreshing = true;
+
+            try {
+                const refreshToken = await authService.getRefreshTokenAsync();
+                if (!refreshToken) {
+                    throw new Error('No refresh token available');
+                }
+
+                const tokens = await refreshTokens(refreshToken);
+                await authService.setTokensAsync(tokens.access_token, tokens.refresh_token);
+
+                originalRequest.headers['Authorization'] = `Bearer ${tokens.access_token}`;
+                processQueue(null, tokens.access_token);
+                
+                return axios(originalRequest);
+            } catch (refreshError) {
+                processQueue(refreshError, null);
+                await authService.logoutUserAsync();
+                throw refreshError;
+            } finally {
+                isRefreshing = false;
+            }
+        }
+
         throw error;
     };
-    /*
-    {
-                'error': 'Bad Request',
-                'message': str(error),
-                'status_code': 400
-            }
-    */
-    const handleApiError = (error: any) => {
-        console.log("error received: "+JSON.stringify(error));
 
-            if (error.response?.error) {
-                throw new ApiError(
-                    error.response.error,
-                    error.response.statusCode,
-                    error.response.data
-                );
-            }
+    const handleApiError = (error: any) => {
+        console.log("error received: " + JSON.stringify(error));
+
+        if (error.response?.error) {
             throw new ApiError(
-                error.message || 'An unexpected error occurred',
-                error.response?.status
+                error.response.error,
+                error.response.statusCode,
+                error.response.data
             );
+        }
+        throw new ApiError(
+            error.message || 'An unexpected error occurred',
+            error.response?.status
+        );
     };
 
     // Add interceptors
@@ -67,9 +152,9 @@ export const xraiApi = (() => {
         response => response,
         async error => {
             try {
-                await handleAuthError(error);
+                return await handleAuthError(error);
             } catch (authError) {
-                handleApiError(authError);
+                return handleApiError(authError);
             }
         }
     );

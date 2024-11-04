@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { TextInput, HelperText } from 'react-native-paper';
+import { TextInput } from 'react-native-paper';
 import { useAppDispatch } from '../../hooks';
 import { AuthMode } from '../../domain/constants/authMode';
 import { Containers, Images, Inputs } from '../../styles';
@@ -20,16 +20,11 @@ const PasswordValidator: React.FC<PasswordValidatorProps> = ({ onPasswordChange,
     const [isValidConfirm, setIsValidConfirm] = useState(false);
 
     const validatePassword = (text: string): boolean => {
-
-        // Additional common validation rules
         const minLength: number = 2;
-        const maxLength: number = 254; // Maximum allowed password length
-        const invalidChars: RegExp = /[()<>[\]\\,;:\s]/;
+        const maxLength: number = 254;
 
-        // Clear previous error
         setError('');
 
-        // Validation checks
         if (!text) {
             setError('Password is required');
             return false;
@@ -45,31 +40,34 @@ const PasswordValidator: React.FC<PasswordValidatorProps> = ({ onPasswordChange,
             return false;
         }
 
-        if (invalidChars.test(text)) {
-            setError('Password contains invalid characters');
-            return false;
-        }
-
         return true;
     };
 
+    // Use useEffect to handle validation state changes
+    useEffect(() => {
+        const isValid = mode === AuthMode.REGISTER ? 
+            isValidPassword && isValidConfirm : 
+            isValidPassword;
+            
+        onPasswordChange(password, isValid);
+    }, [isValidPassword, isValidConfirm, password, mode]);
+
     const handlePasswordChange = (text: string) => {
         const isValid = validatePassword(text);
-        console.log('Password validation:', { text, isValid });
-        setPassword(text)
-        setIsValidPassword(isValid)
+        setPassword(text);
+        setIsValidPassword(isValid);
+        
         // Update confirm password validation when password changes
-        const isConfirmValid = confirmPassword === text && isValid;
-        setIsValidConfirm(isConfirmValid);
-        onPasswordChange(text, isValid);
+        if (mode === AuthMode.REGISTER) {
+            const isConfirmValid = confirmPassword === text && isValid;
+            setIsValidConfirm(isConfirmValid);
+        }
     };
 
     const handleConfirmPasswordChange = (text: string) => {
         const isValid = text === password && validatePassword(text);
-        console.log('Confirm password validation:', { text, isValid });
-        setConfirmPassword(text)
-        setIsValidConfirm(isValid)
-        onPasswordChange(text, isValid);
+        setConfirmPassword(text);
+        setIsValidConfirm(isValid);
     };
 
     return (
@@ -92,8 +90,7 @@ const PasswordValidator: React.FC<PasswordValidatorProps> = ({ onPasswordChange,
             />
             <View style={styles.spacer} />
 
-            {
-                mode === AuthMode.REGISTER &&
+            {mode === AuthMode.REGISTER && (
                 <TextInput
                     label="Confirm Password"
                     value={confirmPassword}
@@ -110,13 +107,11 @@ const PasswordValidator: React.FC<PasswordValidatorProps> = ({ onPasswordChange,
                     autoCapitalize="none"
                     autoCorrect={false}
                 />
-            }
+            )}
             <View style={styles.spacer} />
         </>
-
     );
 };
-
 
 const styles = StyleSheet.create({
     surface: { ...Containers.container.outerSurface, marginTop: 0 },
