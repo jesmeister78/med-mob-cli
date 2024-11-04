@@ -7,7 +7,7 @@ import ImageSelectFromFile from "../image/SelectImageFromFile";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
 import AttachImageButton from "../image/AttachImageButton";
 import showCameraContext from "../../context/showCameraContext";
-import { xraiImageUpdated } from "../../store/xraiImageSlice";
+import { imageUpdated } from "../../store/imageSlice";
 import { imageService } from "../../services/imageService";
 
 
@@ -30,7 +30,7 @@ function AddImageToProcedure(props: AddImageProps) {
         //     imageTimestamp: Date.now(),
         //     rawImageSource: props.addImageId
         // } as ProcessedImage;
-        dispatch(xraiImageUpdated({ id: props.procedureId, changes: { procedureId: props.procedureId } }))
+        dispatch(imageUpdated({ id: props.procedureId, changes: { procedureId: props.procedureId } }))
         navigation.navigate("ProcedureDetails", { procedureId: props.procedureId })
     };
 

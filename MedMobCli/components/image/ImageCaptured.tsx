@@ -8,7 +8,7 @@ import { Images } from "../../styles";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
 import { addProcedure, fetchProcedures, selectProceduresByUserId, updateProcedure } from "../../store/procedureSlice";
-import { xraiImageRemoved, selectXraiImageById, updateImage } from "../../store/xraiImageSlice";
+import { imageRemoved, selectImageById, updateImage } from "../../store/imageSlice";
 import showCameraContext from "../../context/showCameraContext";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
 import AttachImageButton from "./AttachImageButton";
@@ -25,7 +25,7 @@ type imageCapturedProp = {
 };
 
 function ImageCaptured(props: imageCapturedProp) {
-    const image = useAppSelector((state: RootState) => selectXraiImageById(state, props.imageId));
+    const image = useAppSelector((state: RootState) => selectImageById(state, props.imageId));
     const proceduresAvailable = useAppSelector(state => selectProceduresByUserId(state, user?.id));
     const user = useAppSelector(selectCurrentUser);
     const { setShowCamera } = useContext(showCameraContext);
@@ -63,27 +63,29 @@ function ImageCaptured(props: imageCapturedProp) {
             if (addProcedure.fulfilled.match(resultAction) && resultAction.payload)
                 newProcedure = resultAction.payload;
 
+            console.log('About to update image');
             // Now that we have the new procedure, update the image
             await dispatch(updateImage({ id: props.imageId, changes: { procedureId: newProcedure.id } }));
+            console.log('image updated');
 
             // and set the default image source on the procedure
-            dispatch(updateProcedure({ id: newProcedure.id, changes: { defaultImageSource: image?.rawImageSource } }))
+            await dispatch(updateProcedure({ id: newProcedure.id, changes: { defaultImageSource: image?.rawImageSource } }))
 
             // Both actions have completed successfully
             console.log('Procedure created and image updated');
 
+            // navigate to the procedure details screen
+            navigation.navigate("ProcedureDetails", { procedureId: newProcedure.id });
         } catch (err) {
             // Handle any errors
             console.error('An error occurred:', err);
         }
 
-        // navigate to the procedure details screen
-        navigation.navigate("ProcedureDetails", { procedureId: newProcedure.id });
     };
 
     const removeImageFromStoreAndTryAgain = () => {
         if (props.imageId) {
-            dispatch(xraiImageRemoved(props.imageId));
+            dispatch(imageRemoved(props.imageId));
             setShowCamera(true);
         }
     }

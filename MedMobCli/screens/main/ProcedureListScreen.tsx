@@ -16,14 +16,12 @@ const ProcedureListScreen = ({ route, navigation }: ProcedureScreenRouteProp) =>
   console.log("ProcedureScreen::route.params?.imageSource: " + imageSource)
 
   return (
-      <ScrollView>
-        <Surface
-          style={styles.surface}
-        >
-                <ProcedureList imageId={imageSource} />
-        
-        </Surface>
-      </ScrollView>
+    <Surface
+      style={styles.surface}
+    >
+      <ProcedureList imageId={imageSource} />
+
+    </Surface>
 
   )
 }

@@ -16,7 +16,7 @@ export const container: Record<Containers, ViewStyle> = {
     spacer: {
         marginBottom: 10,
     },
-    divider: {marginTop: 5},
+    divider: {marginTop: 5, marginBottom: 5,},
 
     camButton: {
         backgroundColor: 'rgba(0,0,0,0.2)',

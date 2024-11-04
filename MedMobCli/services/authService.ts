@@ -39,20 +39,20 @@ export const authService = (() => {
     return {
         // auth
         addUserAsync: async (user: User) => {
-            return xraiApi.post<User>(env.XRAI_API_ACCOUNT, user);
+            return xraiApi.post<boolean>(`/${env.XRAI_API_ACCOUNT}/`, user);
         },
 
         updateUserAsync: async (payload: Update<User>) => {
-            const response = await xraiApi.patch<User>(`${env.XRAI_API_ACCOUNT}/${payload.id}`, payload);
+            const response = await xraiApi.patch<User>(`/${env.XRAI_API_ACCOUNT}/${payload.id}/`, payload);
             return response;
         },
 
         deleteUserAsync: async (id: string) => {
-            await xraiApi.delete(`${env.XRAI_API_ACCOUNT}/${id}`);
+            await xraiApi.delete(`/${env.XRAI_API_ACCOUNT}/${id}`);
         },
 
         loginUserAsync: async (username: string, password: string) => {
-            const response = await xraiApi.post<{ user: User, token: TokenResponse }>(`${env.XRAI_API_ACCOUNT}/token`, { username: username, password: password });
+            const response = await xraiApi.post<{ user: User, token: TokenResponse }>(`/${env.XRAI_API_ACCOUNT}/token/`, { username: username, password: password });
             if (response?.token) {
                 await storeTokenAsync('accessToken', response.token.access_token);
                 await storeTokenAsync('refreshToken', response.token.refresh_token);
@@ -62,7 +62,7 @@ export const authService = (() => {
 
         logoutUserAsync: async () => {
             try {
-                const response = await xraiApi.delete(`${env.XRAI_API_ACCOUNT}/token`);
+                const response = await xraiApi.delete(`/${env.XRAI_API_ACCOUNT}/token/`);
                 await removeTokenAsync('accessToken');
                 await removeTokenAsync('refreshToken');
                 return true;

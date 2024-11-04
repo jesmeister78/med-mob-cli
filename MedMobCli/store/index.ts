@@ -2,7 +2,7 @@ import 'react-native-get-random-values';
 import { configureStore } from '@reduxjs/toolkit';
 // import messageReducer from './message';
 import surgeriesReducer from './procedureSlice';
-import xraiImagesReducer from './xraiImageSlice';
+import imagesReducer from './imageSlice';
 import errorsReducer from './errorSlice'
 import userReducer from './userSlice'
 
@@ -10,7 +10,7 @@ export const store = configureStore({
   reducer: {
     // message: messageReducer,
     procedures: surgeriesReducer,
-    xraiImages: xraiImagesReducer,
+    images: imagesReducer,
     user: userReducer,
     errors: errorsReducer,
   }

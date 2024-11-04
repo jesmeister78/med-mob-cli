@@ -83,7 +83,7 @@ export const xraiApi = (() => {
         }
 
         // Prevent infinite loops on refresh endpoint
-        if (originalRequest.url?.includes('/auth/refresh')) {
+        if (originalRequest.url?.includes('/account/refresh/')) {
             await authService.logoutUserAsync();
             throw error;
         }

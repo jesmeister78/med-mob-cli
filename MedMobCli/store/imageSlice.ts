@@ -7,17 +7,17 @@ import {
   Update,
 } from '@reduxjs/toolkit';
 import { RootState } from '.';
-import { XraiImage } from '../domain/xraiImage';
 import { env } from '../environment';
 import { imageService } from '../services/imageService';
 import { setError } from './errorSlice';
 import axios, { AxiosError } from 'axios';
 import { procedureUpdated, updateProcedure } from './procedureSlice';
 import { procedureService } from '../services/procedureService';
+import { Image } from '../domain/image';
 
 export const addImage = createAsyncThunk(
-  'xraiImages/addImage',
-  async (img: XraiImage, { dispatch }) => {
+  'images/addImage',
+  async (img: Image, { dispatch }) => {
     try {
       const image = await imageService.addImageAsync(img)
       return image;
@@ -37,7 +37,7 @@ export const addImage = createAsyncThunk(
 );
 
 export const processImage = createAsyncThunk(
-  'xraiImages/processImage',
+  'images/processImage',
   async (id: string, { dispatch }) => {
     try {
       // send the image to the engine 
@@ -62,8 +62,8 @@ export const processImage = createAsyncThunk(
   }
 );
 export const updateImage = createAsyncThunk(
-  'xraiImages/updateImage',
-  async (payload: Update<XraiImage>, { dispatch }) => {
+  'images/updateImage',
+  async (payload: Update<Image>, { dispatch }) => {
     try {
       const proc = await imageService.updateImageAsync(payload)
       return payload;
@@ -80,7 +80,7 @@ export const updateImage = createAsyncThunk(
     }
   });
 export const fetchImagesForProcedure = createAsyncThunk(
-  'xraiImages/fetchImagesForProcedure',
+  'images/fetchImagesForProcedure',
   async (procedureId: string, { dispatch }) => {
     try {
 
@@ -102,8 +102,8 @@ export const fetchImagesForProcedure = createAsyncThunk(
 );
 
 export const fetchProcessedImage = createAsyncThunk(
-  'xraiImages/fetchProcessedImages',
-  async (img: XraiImage) => {
+  'images/fetchProcessedImages',
+  async (img: Image) => {
     const apiUrl = env.XRAI_API_HOST + env.XRAI_API_UPLOAD;
     console.log(apiUrl)
     try {
@@ -135,37 +135,37 @@ export const fetchProcessedImage = createAsyncThunk(
       return procImg;
     } catch (error) {
 
-      return {} as XraiImage;
+      return {} as Image;
     }
   },
 );
 
-export const xraiImagesAdapter = createEntityAdapter<XraiImage>();
+export const imagesAdapter = createEntityAdapter<Image>();
 
-const xraiImagesSlice = createSlice({
-  name: 'xraiImages',
-  initialState: xraiImagesAdapter.addMany(
-    xraiImagesAdapter.getInitialState({
+const imagesSlice = createSlice({
+  name: 'images',
+  initialState: imagesAdapter.addMany(
+    imagesAdapter.getInitialState({
       loading: false,
     }),
     [],
   ),
   reducers: {
     //patientName: (state, action: PayloadAction<{id:string, name:string}>) => state,
-    xraiImageUpdated: xraiImagesAdapter.updateOne,
-    xraiImageAdded: xraiImagesAdapter.addOne,
-    xraiImageRemoved: xraiImagesAdapter.removeOne,
+    imageUpdated: imagesAdapter.updateOne,
+    imageAdded: imagesAdapter.addOne,
+    imageRemoved: imagesAdapter.removeOne,
     maskVisibilityUpdated: (state, action: PayloadAction<{ path: string; }>) => {
       const path = action.payload.path;
       const keys = path.split('.');
-      const [entityId, attrIndex] = keys;
+      const [entityId, maskIndex] = keys;
       const entity = state.entities[entityId];
       if (!entity || !entity.masks) {
         throw new Error(`Invalid entity ID: ${entityId}`);
       }
-      const index = parseInt(attrIndex)
-      const attribute = entity?.masks[index];
-      if (!attribute) { throw new Error(`Invalid mask at index: ${index}`); } attribute.show = !attribute.show;
+      const index = parseInt(maskIndex)
+      const mask = entity?.masks[index];
+      if (!mask) { throw new Error(`Invalid mask at index: ${index}`); } mask.show = !mask.show;
     },
   },
   extraReducers: builder => {
@@ -175,7 +175,7 @@ const xraiImagesSlice = createSlice({
     });
     builder.addCase(fetchImagesForProcedure.fulfilled, (state, action) => {
 
-      action.payload && xraiImagesAdapter.addMany(state, action.payload);
+      action.payload && imagesAdapter.addMany(state, action.payload);
 
       state.loading = false;
     });
@@ -188,7 +188,7 @@ const xraiImagesSlice = createSlice({
     builder.addCase(processImage.fulfilled, (state, action) => {
       const img = action.payload;
 
-      xraiImagesAdapter.updateOne(state, {
+      imagesAdapter.updateOne(state, {
         id: img.id,
         changes: {
           rawImageSource: img.rawImageSource,
@@ -210,7 +210,7 @@ const xraiImagesSlice = createSlice({
     builder.addCase(updateImage.fulfilled, (state, action) => {
       if (action.payload) {
 
-        xraiImagesAdapter.updateOne(state, action.payload);
+        imagesAdapter.updateOne(state, action.payload);
         //store.dispatch(bookUpdated({ id: 'a', changes: { title: 'First (altered)' } }))
       } else {
         console.log('action.payload is undefined');
@@ -225,7 +225,7 @@ const xraiImagesSlice = createSlice({
     });
     builder.addCase(addImage.fulfilled, (state, action) => {
       action.payload && 
-      xraiImagesAdapter.addOne(state, action.payload);
+      imagesAdapter.addOne(state, action.payload);
       state.loading = false;
     });
     builder.addCase(addImage.rejected, state => {
@@ -235,25 +235,25 @@ const xraiImagesSlice = createSlice({
 });
 
 export const {
-  selectById: selectXraiImageById,
-  selectIds: selectXraiImageIds,
-  selectEntities: selectXraiImageEntities,
-  selectAll: selectAllXraiImages,
-  selectTotal: selectTotalXraiImages,
-} = xraiImagesAdapter.getSelectors(
-  (state: RootState) => state.xraiImages,
+  selectById: selectImageById,
+  selectIds: selectImageIds,
+  selectEntities: selectImageEntities,
+  selectAll: selectAllImages,
+  selectTotal: selectTotalImages,
+} = imagesAdapter.getSelectors(
+  (state: RootState) => state.images,
 );
 
-export const selectXraiImagesByProcedureId = createSelector(
-  [selectAllXraiImages, (_, procedureId) => procedureId],
+export const selectImagesByProcedureId = createSelector(
+  [selectAllImages, (_, procedureId) => procedureId],
   (images, id) => images.filter(img => img.procedureId === id),
 );
 
 
 export const {
-  xraiImageUpdated,
-  xraiImageAdded,
-  xraiImageRemoved,
+  imageUpdated,
+  imageAdded,
+  imageRemoved,
   maskVisibilityUpdated: maskVisibilityUpdated,
-} = xraiImagesSlice.actions;
-export default xraiImagesSlice.reducer;
+} = imagesSlice.actions;
+export default imagesSlice.reducer;

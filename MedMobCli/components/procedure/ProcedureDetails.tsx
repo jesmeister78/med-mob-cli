@@ -35,7 +35,6 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
                 <Text variant="titleMedium" >Tap on an image to send it to the xrAI engine</Text>
                 <Divider style={styles.divider} />
                 <ScrollView
-                    style={styles.imgThumbnail}
                     horizontal={true}
                 >
                     <ProcedureImages procedureId={procedure.id} />

@@ -1,8 +1,8 @@
 import ClassMask from "../domain/classMask";
 import { Procedure } from "../domain/procedure";
-import { XraiImage } from "../domain/xraiImage";
+import { Image } from "../domain/image";
 
-export const dummyProcessedImages: XraiImage[] = [
+export const dummyProcessedImages: Image[] = [
     {
         id: '1', // uuidv4()
         procedureId: '1',

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Image, Text, StyleSheet, FlatList, Dimensions, ListRenderItem } from 'react-native';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { RootState } from '../../store';
-import { maskVisibilityUpdated, fetchProcessedImage, selectXraiImageById, processImage } from '../../store/xraiImageSlice';
+import { maskVisibilityUpdated, fetchProcessedImage, selectImageById, processImage } from '../../store/imageSlice';
 import { env } from '../../environment';
 import { ActivityIndicator, Surface } from 'react-native-paper';
 import { Containers } from '../../styles';
@@ -17,8 +17,8 @@ type ImageListProp = {
     mode: string
 }
 const ImageViewer: React.FC<ImageListProp> = (props: ImageListProp) => {
-    const img = useAppSelector((state: RootState) => selectXraiImageById(state, props.imageId));
-    const { loading } = useAppSelector((state: RootState) => state.xraiImages);
+    const img = useAppSelector((state: RootState) => selectImageById(state, props.imageId));
+    const { loading } = useAppSelector((state: RootState) => state.images);
     // the number of columns in the attribute list will be 2 if more than 5 class masks returned, otherwise 1
     const numColumns = img?.masks?.length ?? 0 > 5 ? 2 : 1;
     const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
 import ClassMask from "./classMask"
 
-export interface XraiImage {
+export interface Image {
     
     id: string // uuidv4()
     imageTimestamp: string

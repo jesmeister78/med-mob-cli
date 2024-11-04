@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
 import { useEffect } from "react";
 
 import { RootState } from "../../store";
@@ -37,12 +37,12 @@ function ProcedureList(props: ProcedureListProp) {
   }
 
   return ( procedures && procedures.length > 0 ? (
-    <>
+    <ScrollView style={styles.outerScroll}>
       {procedures.map((procedure) =>
 
         <ProcedureSummary key={procedure.id} procedureId={procedure.id} addImageId={props.imageId} />
       )}
-    </>) : (
+    </ScrollView>) : (
             <List.Item
             title="No Procedures yet..."
             titleStyle={styles.centerText}
@@ -56,7 +56,8 @@ function ProcedureList(props: ProcedureListProp) {
 
 const styles = StyleSheet.create(
   {
-    loader: {
+  outerScroll: { width: '100%', height: '100%' },
+  loader: {
       marginTop: 'auto',
       marginBottom: 'auto'
     },

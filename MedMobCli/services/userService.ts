@@ -6,7 +6,7 @@ import { Procedure } from '../domain/procedure';
 export const userService = {
 
     getProceduresForUserAsync: async (id: string) => {
-        const response = await xraiApi.get<Procedure[]>(`${env.XRAI_API_USERS}/${id}/procedures`);
+        const response = await xraiApi.get<Procedure[]>(`/${env.XRAI_API_USERS}/${id}/procedures/`);
         return response;
     },
 
