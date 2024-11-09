@@ -14,9 +14,7 @@ import { Image as XraiImage } from '../../domain/image';
 import { useAppDispatch } from '../../hooks';
 import { addImage } from '../../store/imageSlice';
 import showCameraContext from '../../context/showCameraContext';
-import { env } from '../../environment';
 import ImageResizer from 'react-native-image-resizer';
-import CameraRoll from '@react-native-camera-roll/camera-roll';
 
 type CaptureImageProp = {
     setImage: (imgSource: string) => void;
@@ -124,15 +122,14 @@ function CaptureImage(props: CaptureImageProp) {
     // create a new image to attach and add it to the store. we will remove it if the user hits retry
     const createAndDispatchNewImage = (src: string) => {
         const imageId = uuidv4();
-        const defaultImgPath = env.XRAI_API_HOST + env.XRAI_API_DEFAULT_IMG;
         const now = new Date().toISOString();
         // create and dispatch the new image
         const img = {
             id: imageId,
             imageTimestamp: now,
             rawImageSource: src,
-            compositeImageSource: defaultImgPath,
-            labelsImageSource: defaultImgPath,
+            compositeImageSource: '',
+            labelsImageSource: '',
             procedureId: undefined,
         } as XraiImage;
         dispatch(addImage(img));

@@ -5,9 +5,11 @@ declare module 'axios' {
     }
 }
 import axios, { AxiosInstance, AxiosError, AxiosResponse, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
-import { env } from '../environment';
-import { userService } from './userService';
 import { authService } from './authService';
+import Config from 'react-native-config';
+
+// In your API service or where you use the Config
+console.warn('API Host being used:', Config.XRAI_API_HOST);
 
 export class ApiError extends Error {
     constructor(
@@ -42,7 +44,7 @@ export const xraiApi = (() => {
 
     // Private axios instance
     const api: AxiosInstance = axios.create({
-        baseURL: env.XRAI_API_HOST,
+        baseURL: Config.XRAI_API_HOST,
         timeout: 10000,
         headers: {
             'Content-Type': 'application/json',
@@ -53,7 +55,7 @@ export const xraiApi = (() => {
     const refreshTokens = async (refreshToken: string) => {
         try {
             const response = await axios.post<{access_token: string, refresh_token: string}>(
-                `${env.XRAI_API_HOST}${env.XRAI_API_ACCOUNT}/refresh`,
+                `${Config.XRAI_API_HOST}/account/refresh/`,
                 {},
                 {
                     headers: {

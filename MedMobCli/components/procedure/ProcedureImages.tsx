@@ -6,7 +6,6 @@ import { RootState } from "../../store";
 import { fetchImagesForProcedure, selectImagesByProcedureId } from "../../store/imageSlice";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
 import { imageMode } from "../../domain/constants/imageMode";
-import { env } from "../../environment";
 import { selectProcedureById } from "../../store/procedureSlice";
 import { getImagePathPrefix } from "../../domain/imageUtilityService";
 import { useEffect } from "react";
@@ -24,7 +23,6 @@ function ProcedureImages(props: ProcedureImagesProp) {
     const navToProcessedImageDetails = (imageId: string, imgMode: string) => {
         navigation.navigate("ProcessedImage", { imageId: imageId, mode: imgMode })
     };
-    // const defaultImgPath = env.XRAI_API_HOST + env.XRAI_API_DEFAULT_IMG;
 
     thumbnails.map((i, idx) => console.log(`image ${idx}: ${i.rawImageSource}`))
    

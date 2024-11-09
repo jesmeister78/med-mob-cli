@@ -67,3 +67,8 @@ yarn-error.log
 
 # Ignore Gradle build output directory
 build
+
+# ignore react-native-config env files except example
+.env
+.env.*
+!.env.example

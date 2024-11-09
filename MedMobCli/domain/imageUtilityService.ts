@@ -1,5 +1,4 @@
-import { env } from "../environment";
-import { Procedure } from "./procedure";
+import Config from "react-native-config";
 
 export const getImageFilename = (path:string) => {
     const pathArr = path.split("/");
@@ -9,4 +8,4 @@ export const getImageFilename = (path:string) => {
 export const getImageType = (path:string) => path.split(".").pop();
 
 export const getImagePathPrefix = (path: string) => 
-    path.startsWith("/images") ? env.XRAI_API_HOST : "file://";
+    path.startsWith("/images") ? Config.XRAI_API_HOST : "file://";

@@ -7,7 +7,6 @@ import {
   Update,
 } from '@reduxjs/toolkit';
 import { RootState } from '.';
-import { env } from '../environment';
 import { imageService } from '../services/imageService';
 import { setError } from './errorSlice';
 import axios, { AxiosError } from 'axios';
@@ -97,45 +96,6 @@ export const fetchImagesForProcedure = createAsyncThunk(
       // throw the error so the rejected extra reducer is called
       throw error;
 
-    }
-  },
-);
-
-export const fetchProcessedImage = createAsyncThunk(
-  'images/fetchProcessedImages',
-  async (img: Image) => {
-    const apiUrl = env.XRAI_API_HOST + env.XRAI_API_UPLOAD;
-    console.log(apiUrl)
-    try {
-      // const response = await RNFetchBlob.fetch(
-      //   'POST',
-      //   apiUrl,
-      //   {
-      //     Server: env.XRAI_API_SERVER || '',
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      //   [
-      //     // part file from storage
-      //     {
-      //       name: img.id,
-      //       filename: getImageFilename(img.rawImageSource),
-      //       type: getImageType(img.rawImageSource),
-      //       data: RNFetchBlob.wrap(img.rawImageSource),
-      //     },
-      //     // elements without property `filename` will be sent as plain text
-      //     { name: 'name', data: img.id },
-      //     { name: 'caseNum', data: img.procedureId },
-      //   ],
-      // );
-      // let procImg = (await response.json()) as ProcessedImage;
-
-      // set the dummy image attributes while we are not yet getting labels from ML
-      //procImg.attributes = dummyAttributes;
-      const procImg = imageService.getImageAsync(img.id);
-      return procImg;
-    } catch (error) {
-
-      return {} as Image;
     }
   },
 );

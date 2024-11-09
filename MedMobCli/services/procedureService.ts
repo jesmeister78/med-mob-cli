@@ -1,37 +1,41 @@
-import { env } from '../environment';
 import { Procedure } from '../domain/procedure';
 import { Update } from '@reduxjs/toolkit';
 import { Image } from '../domain/image';
 import api from './api';
 
-export const procedureService = {
-  getProceduresAsync: async () => {
-    console.log("getProcedures")
-    const response = await api.get<Procedure[]>(`/${env.XRAI_API_PROCEDURES}/`);
-    return response;
-  },
+export const procedureService = (() => {
 
-  getProcedureAsync: async (id: string) => {
-    const response = await api.get<Procedure>(`/${env.XRAI_API_PROCEDURES}/${id}/`);
-    return response;
-  },
+  const proceduresPath = "procedures";
 
-  getImagesForProcedureAsync: async (id: string) => {
-    const response = await api.get<Image[]>(`/${env.XRAI_API_PROCEDURES}/${id}/images/`);
-    return response;
-  },
+  return {
+    getProceduresAsync: async () => {
+      console.log("getProcedures")
+      const response = await api.get<Procedure[]>(`/${proceduresPath}/`);
+      return response;
+    },
 
-  addProcedureAsync: async (procedure: Omit<Procedure, "caseNumber">) => {
-    const response = await api.post<Procedure>(`/${env.XRAI_API_PROCEDURES}/`, procedure);
-    return response;
-  },
+    getProcedureAsync: async (id: string) => {
+      const response = await api.get<Procedure>(`/${proceduresPath}/${id}/`);
+      return response;
+    },
 
-  updateProcedureAsync: async (payload: Update<Procedure>) => {
-    const response = await api.patch<Procedure>(`/${env.XRAI_API_PROCEDURES}/${payload.id}/`, payload);
-    return response;
-  },
+    getImagesForProcedureAsync: async (id: string) => {
+      const response = await api.get<Image[]>(`/${proceduresPath}/${id}/images/`);
+      return response;
+    },
 
-  deleteProcedureAsync: async (id: string) => {
-    await api.delete(`/${env.XRAI_API_PROCEDURES}/${id}/`);
-  },
-};
+    addProcedureAsync: async (procedure: Omit<Procedure, "caseNumber">) => {
+      const response = await api.post<Procedure>(`/${proceduresPath}/`, procedure);
+      return response;
+    },
+
+    updateProcedureAsync: async (payload: Update<Procedure>) => {
+      const response = await api.patch<Procedure>(`/${proceduresPath}/${payload.id}/`, payload);
+      return response;
+    },
+
+    deleteProcedureAsync: async (id: string) => {
+      await api.delete(`/${proceduresPath}/${id}/`);
+    },
+  };
+})();

@@ -9,7 +9,12 @@ import React, { StrictMode, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import Config from 'react-native-config';
 
+console.warn('Direct access to ENV:', Config.ENV);
+console.warn('Direct access to API:', Config.XRAI_API_HOST);
+
+// Regular app code...
 
 /*
   local imports
@@ -37,7 +42,7 @@ const App = () => {
             <showCameraContext.Provider value={{ showCamera, setShowCamera }}>
               <NavigationContainer>
                 <Stack.Navigator >
-                  <Stack.Screen name="Main" component={MainScreen} options={{ title: "x-rAI mobile" }} />
+                  <Stack.Screen name="Main" component={MainScreen} options={{ title: "xrAI mobile" }} />
                   <Stack.Screen name="Auth" component={AuthScreen} />
                   <Stack.Screen name="ProcessedImage" component={ProcessedImageScreen} />
                   <Stack.Screen name="ProcedureDetails" component={ProcedureDetailsScreen} />

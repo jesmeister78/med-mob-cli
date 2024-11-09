@@ -1,4 +1,3 @@
-import { env } from '../environment';
 import { User } from '../domain/user';
 import { Update } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,31 +6,37 @@ import xraiApi from './api';
 // Optional: import * as Keychain from 'react-native-keychain';
 
 export const authService = (() => {
+
+    // Private fields
+    const accountPath = "account";
+    const accessTokenKey = "accessToken"
+    const refreshTokenKey = "refreshToken"
+
     // Private functions
-    const getTokenAsync = async (tokenName: string) => {
+    const getTokenAsync = async (tokenKey: string) => {
         try {
-            const token = await AsyncStorage.getItem(tokenName);
+            const token = await AsyncStorage.getItem(tokenKey);
             return token;
         } catch (error) {
-            console.error(`Error getting ${tokenName} token:`, error);
+            console.error(`Error getting ${tokenKey} token:`, error);
             return null;
         }
     };
 
-    const storeTokenAsync = async (tokenName: string, token: string) => {
+    const storeTokenAsync = async (tokenKey: string, token: string) => {
         try {
-            await AsyncStorage.setItem(tokenName, token);
+            await AsyncStorage.setItem(tokenKey, token);
         } catch (error) {
-            console.error(`Error storing ${tokenName} token:`, error);
+            console.error(`Error storing ${tokenKey} token:`, error);
             throw error; // Throw error to handle it in calling function
         }
     };
 
-    const removeTokenAsync = async (tokenName: string) => {
+    const removeTokenAsync = async (tokenKey: string) => {
         try {
-            await AsyncStorage.removeItem(tokenName);
+            await AsyncStorage.removeItem(tokenKey);
         } catch (error) {
-            console.error(`Error removing ${tokenName} token:`, error);
+            console.error(`Error removing ${tokenKey} token:`, error);
             throw error;
         }
     };
@@ -39,71 +44,71 @@ export const authService = (() => {
     return {
         // auth
         addUserAsync: async (user: User) => {
-            return xraiApi.post<boolean>(`/${env.XRAI_API_ACCOUNT}/`, user);
+            return xraiApi.post<boolean>(`/${accountPath}/`, user);
         },
 
         updateUserAsync: async (payload: Update<User>) => {
-            const response = await xraiApi.patch<User>(`/${env.XRAI_API_ACCOUNT}/${payload.id}/`, payload);
+            const response = await xraiApi.patch<User>(`/${accountPath}/${payload.id}/`, payload);
             return response;
         },
 
         deleteUserAsync: async (id: string) => {
-            await xraiApi.delete(`/${env.XRAI_API_ACCOUNT}/${id}`);
+            await xraiApi.delete(`/${accountPath}/${id}`);
         },
 
         loginUserAsync: async (username: string, password: string) => {
-            const response = await xraiApi.post<{ user: User, token: TokenResponse }>(`/${env.XRAI_API_ACCOUNT}/token/`, { username: username, password: password });
+            const response = await xraiApi.post<{ user: User, token: TokenResponse }>(`/${accountPath}/token/`, { username: username, password: password });
             if (response?.token) {
-                await storeTokenAsync('accessToken', response.token.access_token);
-                await storeTokenAsync('refreshToken', response.token.refresh_token);
+                await storeTokenAsync(accessTokenKey, response.token.access_token);
+                await storeTokenAsync(refreshTokenKey, response.token.refresh_token);
             }
             return response;
         },
 
         logoutUserAsync: async () => {
             try {
-                const response = await xraiApi.delete(`/${env.XRAI_API_ACCOUNT}/token/`);
-                await removeTokenAsync('accessToken');
-                await removeTokenAsync('refreshToken');
+                const response = await xraiApi.delete(`/${accountPath}/token/`);
+                await removeTokenAsync(accessTokenKey);
+                await removeTokenAsync(refreshTokenKey);
                 return true;
             } catch (error) {
                 console.error('Error revoking token:', error);
                 // Still remove tokens locally even if API call fails
-                await removeTokenAsync('accessToken');
-                await removeTokenAsync('refreshToken');
+                await removeTokenAsync(accessTokenKey);
+                await removeTokenAsync(refreshTokenKey);
                 throw error;
             }
         },
 
         // Token storage
         getAccessTokenAsync: async () => {
-            return getTokenAsync("accessToken");
+            return getTokenAsync(accessTokenKey);
         },
 
         getRefreshTokenAsync: async () => {
-            return getTokenAsync("refreshToken");
+            return getTokenAsync(refreshTokenKey);
         },
 
         removeAccessTokenAsync: async () => {
-            return removeTokenAsync("accessToken");
+            return removeTokenAsync(accessTokenKey);
         },
 
         removeRefreshTokenAsync: async () => {
-            return removeTokenAsync("refreshToken");
+            return removeTokenAsync(refreshTokenKey);
         },
 
         storeAccessTokenAsync: async (token: string) => {
-            return storeTokenAsync("accessToken", token);
+            return storeTokenAsync(accessTokenKey, token);
         },
 
         storeRefreshTokenAsync: async (token: string) => {
-            return storeTokenAsync("refreshToken", token);
+            return storeTokenAsync(refreshTokenKey, token);
         },
 
         setTokensAsync: async (accessToken: string, refreshToken: string) => {
             await Promise.all([
-                storeTokenAsync("accessToken", accessToken),
-                storeTokenAsync("refreshToken", refreshToken)
+                storeTokenAsync(accessTokenKey, accessToken),
+                storeTokenAsync(refreshTokenKey, refreshToken)
             ]);
         }
     };

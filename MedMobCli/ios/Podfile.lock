@@ -1551,8 +1551,6 @@ PODS:
     - React-logger (= 0.75.3)
     - React-perflogger (= 0.75.3)
     - React-utils (= 0.75.3)
-  - rn-fetch-blob (0.12.0):
-    - React-Core
   - RNCAsyncStorage (2.0.0):
     - React-Core
   - RNImageCropPicker (0.41.4):
@@ -1690,7 +1688,6 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -1842,8 +1839,6 @@ EXTERNAL SOURCES:
     :path: build/generated/ios
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
-  rn-fetch-blob:
-    :path: "../node_modules/rn-fetch-blob"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNImageCropPicker:
@@ -1928,7 +1923,6 @@ SPEC CHECKSUMS:
   React-utils: f2afa6acd905ca2ce7bb8ffb4a22f7f8a12534e8
   ReactCodegen: ff95a93d5ab5d9b2551571886271478eaa168565
   ReactCommon: 289214026502e6a93484f4a46bcc0efa4f3f2864
-  rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNCAsyncStorage: d35c79ffba52c1013013e16b1fc295aec2feabb6
   RNImageCropPicker: 3d888d481c65776063556b72c19893a8b8344b1b
   RNPermissions: 4da8c626e4ac9d71c1a199d500d52dd54da62e38
@@ -1939,6 +1933,6 @@ SPEC CHECKSUMS:
   VisionCamera: cb84d0d8485b3e67c91b62931d3aa88f49747c92
   Yoga: 1354c027ab07c7736f99a3bef16172d6f1b12b47
 
-PODFILE CHECKSUM: 9773d9e40c9b7b55a3f9fcd5992888ff464685f4
+PODFILE CHECKSUM: 4f5f66f3a0371dede1c70b1d491cb26c896da0a0
 
 COCOAPODS: 1.15.2

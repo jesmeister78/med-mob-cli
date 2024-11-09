@@ -14,7 +14,6 @@ import { userService } from '../services/userService';
 
 
 export const fetchProcedures = createAsyncThunk('procedures/fetchProcedures', async (userId: string, { dispatch }) => {
-    // const apiUrl = env.XRAI_API_HOST + env.XRAI_API_PROCEDURES;
     try {
         const procedures = await userService.getProceduresForUserAsync(userId);
 

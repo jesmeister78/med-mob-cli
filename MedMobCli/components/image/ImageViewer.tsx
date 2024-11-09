@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { View, Image, Text, StyleSheet, FlatList, Dimensions, ListRenderItem } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Image, Text, StyleSheet, FlatList, Dimensions } from 'react-native';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { RootState } from '../../store';
-import { maskVisibilityUpdated, fetchProcessedImage, selectImageById, processImage } from '../../store/imageSlice';
-import { env } from '../../environment';
+import { maskVisibilityUpdated, selectImageById, processImage } from '../../store/imageSlice';
 import { ActivityIndicator, Surface } from 'react-native-paper';
 import { Containers } from '../../styles';
 import ClassMaskSection from './ClassMaskSection';
-import ClassMask from '../../domain/classMask';
+import Config from 'react-native-config';
 
 // Screen dimensions
 const { height } = Dimensions.get('window');
@@ -22,10 +21,9 @@ const ImageViewer: React.FC<ImageListProp> = (props: ImageListProp) => {
     // the number of columns in the attribute list will be 2 if more than 5 class masks returned, otherwise 1
     const numColumns = img?.masks?.length ?? 0 > 5 ? 2 : 1;
     const dispatch = useAppDispatch();
-    const defaultImgPath = env.XRAI_API_HOST + env.XRAI_API_DEFAULT_IMG;
     useEffect(() => {
         // if we have not already processed this image we do it on screen load
-        if (img && (!img.compositeImageSource || img.compositeImageSource === defaultImgPath))
+        if (img && (!img.compositeImageSource))
             dispatch(processImage(img.id));
     }, []);
 
@@ -40,15 +38,15 @@ const ImageViewer: React.FC<ImageListProp> = (props: ImageListProp) => {
                 <Surface style={styles.surface}>
                     <ActivityIndicator size="large" animating={loading} />
                     <View style={styles.imageContainer}>
-                        {img.masks?.map((attr, index) => {
-                            console.log(`attr ${index}: ${attr.url} colour: ${attr.colour}`)
+                        {img.masks?.map((mask, index) => {
+                            console.log(`attr ${index}: ${mask.url} colour: ${mask.colour}`)
                             return (
-                                attr.show && (
+                                mask.show && (
                                     <Image
                                         style={styles.image}
                                         key={index}
                                         source={{
-                                            uri: `${env.XRAI_API_HOST}/${attr.url}`,
+                                            uri: `${Config.XRAI_API_HOST}/${mask.url}`,
                                         }}
                                     />
                                 )
