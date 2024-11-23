@@ -42,7 +42,7 @@ const App = () => {
             <showCameraContext.Provider value={{ showCamera, setShowCamera }}>
               <NavigationContainer>
                 <Stack.Navigator >
-                  <Stack.Screen name="Main" component={MainScreen} options={{ title: "xrAI mobile" }} />
+                  <Stack.Screen name="Main" component={MainScreen} options={{ title: `xrAI mobile ${Config.ENV}` }} />
                   <Stack.Screen name="Auth" component={AuthScreen} />
                   <Stack.Screen name="ProcessedImage" component={ProcessedImageScreen} />
                   <Stack.Screen name="ProcedureDetails" component={ProcedureDetailsScreen} />
