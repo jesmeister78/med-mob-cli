@@ -11,8 +11,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Config from 'react-native-config';
 
-console.warn('Direct access to ENV:', Config.ENV);
-console.warn('Direct access to API:', Config.XRAI_API_HOST);
+// console.warn('Direct access to ENV:', Config.ENV);
+// console.warn('Direct access to API:', Config.XRAI_API_HOST);
 
 // Regular app code...
 

@@ -9,7 +9,7 @@ import { authService } from './authService';
 import Config from 'react-native-config';
 
 // In your API service or where you use the Config
-console.warn('API Host being used:', Config.XRAI_API_HOST);
+// console.warn('API Host being used:', Config.XRAI_API_HOST);
 
 export class ApiError extends Error {
     constructor(
@@ -45,7 +45,7 @@ export const xraiApi = (() => {
     // Private axios instance
     const api: AxiosInstance = axios.create({
         baseURL: Config.XRAI_API_HOST,
-        timeout: 10000,
+        timeout: 3000000,
         headers: {
             'Content-Type': 'application/json',
         },
@@ -83,6 +83,10 @@ export const xraiApi = (() => {
         if (!originalRequest) {
             throw error;
         }
+
+        // if we get a 401 on the login we just rturn the error
+        if (originalRequest.url?.includes('/account/token/'))
+            return axios(originalRequest);
 
         // Prevent infinite loops on refresh endpoint
         if (originalRequest.url?.includes('/account/refresh/')) {
