@@ -38,6 +38,10 @@ target 'MedMobCli' do
   # React Native Config pod
   pod 'react-native-config', :path => '../node_modules/react-native-config'
 
+  # PDF generation
+  pod 'react-native-html-to-pdf', :path => '../node_modules/react-native-html-to-pdf'
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+  
   use_react_native!(
     :path => config[:reactNativePath],
     :hermes_enabled => flags[:hermes_enabled],

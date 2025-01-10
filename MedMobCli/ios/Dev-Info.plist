@@ -2,8 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>REACT_NATIVE_APP_ENV</key>
-    <string>$(REACT_NATIVE_APP_ENV)</string>
+	<key>REACT_NATIVE_APP_ENV</key>
+	<string>$(REACT_NATIVE_APP_ENV)</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -58,6 +58,13 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>192.168.1.123</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSExceptionAllowArbitraryLoads</key>
+				<true/>
+			</dict>
 			<key>192.168.50.209</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
@@ -72,21 +79,20 @@
 				<key>NSExceptionAllowArbitraryLoads</key>
 				<true/>
 			</dict>
-            <key>127.0.0.1</key>
-            <dict>
-                <key>NSExceptionAllowsInsecureHTTPLoads</key>
-                <true/>
-                <key>NSExceptionAllowArbitraryLoads</key>
-                <true/>
-            </dict>
-            
-            <key>localhost:5001</key>
-            <dict>
-                <key>NSExceptionAllowsInsecureHTTPLoads</key>
-                <true/>
-                <key>NSExceptionAllowArbitraryLoads</key>
-                <true/>
-            </dict>
+			<key>127.0.0.1:5001</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSExceptionAllowArbitraryLoads</key>
+				<true/>
+			</dict>
+			<key>localhost:5001</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSExceptionAllowArbitraryLoads</key>
+				<true/>
+			</dict>
 		</dict>
 	</dict>
 	<key>UILaunchStoryboardName</key>
