@@ -4,71 +4,62 @@ import { Platform } from 'react-native';
 import RNFS from 'react-native-fs';
 import { format } from 'date-fns';
 import { Procedure } from '../domain/procedure';
-import {Image} from '../domain/image'
+import { procedurePdfStyles } from '../styles/procedurePdf';
+import Config from 'react-native-config';
 
+const getBase64Image = async (imageUri: string): Promise<string> => {
+    try {
+        imageUri = (Config.XRAI_API_HOST || '') + imageUri;
+        console.log(`imageUri: ${imageUri}`)
+        // Handle both file:// and http(s):// URIs
+        if (imageUri.startsWith('file://')) {
+            const base64Data = await RNFS.readFile(imageUri.replace('file://', ''), 'base64');
+            return `data:image/jpeg;base64,${base64Data}`;
+        } else if (imageUri.startsWith('http')) {
+            // For remote images, first download them
+            const tempFile = `${RNFS.TemporaryDirectoryPath}/${Date.now()}.jpg`;
+            await RNFS.downloadFile({
+                fromUrl: imageUri,
+                toFile: tempFile,
+            }).promise;
+            const base64Data = await RNFS.readFile(tempFile, 'base64');
+            // Clean up temp file
+            await RNFS.unlink(tempFile);
+            return `data:image/jpeg;base64,${base64Data}`;
+        }
+        throw new Error('Unsupported image URI format');
+    } catch (error) {
+        console.error('Error converting image to base64:', error);
+        return ''; // Return empty string if conversion fails
+    }
+};
 
 export const generatePDF = async (procedure: Procedure): Promise<string> => {
-  const htmlContent = `
+    // Convert all images to base64 first
+    let imagesHtml = '';
+    if (procedure.images && procedure.images.length > 0) {
+        const base64Images = await Promise.all(
+            procedure.images.map(image => getBase64Image(image.compositeImageSource || image.rawImageSource))
+        );
+
+        imagesHtml = `
+      <div class="section">
+        <div class="section-title">Procedure Images</div>
+        <div class="images-section">
+          ${base64Images.map(base64 => base64 ? `
+            <img src="${base64}" class="image" alt="Procedure Image"/>
+          ` : '').join('')}
+        </div>
+      </div>
+    `;
+    }
+    const htmlContent = `
     <!DOCTYPE html>
     <html>
       <head>
         <meta charset="utf-8">
         <title>Procedure Report</title>
-        <style>
-          body {
-            font-family: 'Helvetica';
-            padding: 20px;
-            color: #333;
-          }
-          .header {
-            font-size: 24px;
-            text-align: center;
-            margin-bottom: 30px;
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-          }
-          .section {
-            margin-bottom: 25px;
-          }
-          .section-title {
-            font-size: 18px;
-            color: #2980b9;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #bdc3c7;
-            padding-bottom: 5px;
-          }
-          .row {
-            display: flex;
-            margin-bottom: 10px;
-            padding: 5px 0;
-          }
-          .label {
-            width: 30%;
-            font-weight: bold;
-            color: #555;
-          }
-          .value {
-            width: 70%;
-          }
-          .images-section {
-            margin-top: 20px;
-          }
-          .image {
-            max-width: 200px;
-            margin: 10px;
-          }
-          @media print {
-            body {
-              font-size: 12px;
-            }
-            .header {
-              font-size: 20px;
-            }
-            .section-title {
-              font-size: 16px;
-            }
-          }
+        <style>${procedurePdfStyles}
         </style>
       </head>
       <body>
@@ -110,40 +101,36 @@ export const generatePDF = async (procedure: Procedure): Promise<string> => {
           </div>
           <div class="row">
             <div class="label">Indications:</div>
-            <div class="value">${Array.isArray(procedure.indication) 
-              ? procedure.indication.join(', ') 
-              : procedure.indication}</div>
+            <div class="value">${Array.isArray(procedure.indication)
+            ? procedure.indication.join(', ')
+            : procedure.indication}</div>
           </div>
         </div>
 
-        ${procedure.images && procedure.images.length > 0 ? `
-          <div class="section">
-            <div class="section-title">Procedure Images</div>
-            <div class="images-section">
-              ${procedure.images.map(image => `
-                <img src="${image.rawImageSource}" class="image" alt="Procedure Image"/>
-              `).join('')}
-            </div>
-          </div>
-        ` : ''}
+        ${imagesHtml}
       </body>
     </html>
   `;
 
-  try {
-    const options = {
-      html: htmlContent,
-      fileName: `Procedure_${procedure.caseNumber}_${format(new Date(), 'yyyyMMdd')}`,
-      directory: Platform.select({
-        ios: 'Documents',
-        android: RNFS.DownloadDirectoryPath
-      }),
-      base64: false,
-    };
+    try {
+        const options = {
+            html: htmlContent,
+            fileName: `Procedure_${procedure.caseNumber}_${format(new Date(), 'yyyyMMdd')}`,
+            directory: Platform.select({
+                ios: 'Documents',
+                android: RNFS.DownloadDirectoryPath
+            }),
+            base64: false,
+            height: 842, // A4 height in points
+            width: 595,  // A4 width in points
+            padding: 0,
+        };
 
-    const file = await RNHTMLtoPDF.convert(options);
-    return file.filePath || "could not create pdf - file.filePath is undefined";
-  } catch (error) {
-    throw new Error(`Failed to generate PDF: ${error instanceof Error ? error.message : 'Unknown error'}`);
-  }
+        const file = await RNHTMLtoPDF.convert(options);
+
+        // if there is no filePath on the file we will throw an exception
+        return file.filePath!;
+    } catch (error) {
+        throw new Error(`Failed to generate PDF: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
 };
