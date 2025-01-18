@@ -6,7 +6,7 @@ import { useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
 import { selectProcedureById } from "../../store/procedureSlice";
 import { ProcedureProp } from "../props/procedureProps";
-import AddImageToProcedure from "./AddImageToProcedure";
+import ProcedureActionButtons from "./ProcedureActionButtons";
 import ProcedureCardCover from "./ProcedureCardCover";
 import { useNavigation } from "@react-navigation/native";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
@@ -58,7 +58,7 @@ function ProcedureSummary(props: ProcedureProp) {
 
                 <Card.Actions>
 
-                    <AddImageToProcedure procedureId={procedure.id} addImageId={props.addImageId} />
+                    <ProcedureActionButtons procedureId={procedure.id} addImageId={props.addImageId} />
                     <IconButton
                         icon={"pencil"}
                         mode="contained"

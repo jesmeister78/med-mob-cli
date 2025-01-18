@@ -1,39 +1,32 @@
-import {ScrollView, StyleSheet, View} from 'react-native';
-import {Divider, Surface, Text, TextInput} from 'react-native-paper';
+import {ScrollView, StyleSheet} from 'react-native';
+import {Divider, Surface, Text} from 'react-native-paper';
 import React, {useState} from 'react';
 import {DatePickerInput} from 'react-native-paper-dates';
-import DropDown from 'react-native-paper-dropdown';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {RootState} from '../../store';
 import {
   procedureUpdated,
   selectProcedureById,
-  updateProcedure,
 } from '../../store/procedureSlice';
-import AddImageToProcedure from './AddImageToProcedure';
+import ProcedureActionButtons from './ProcedureActionButtons';
 import {indications} from '../../domain/constants/indications';
 import {surgeryTypes} from '../../domain/constants/surgeryTypes';
 import ProcedureImages from './ProcedureImages';
 import {Containers, Images, Inputs} from '../../styles';
 import ErrorComponent from '../Error';
 import {procedureService} from '../../services/procedureService';
-import ProcedurePDFButton from './PDFButton';
+import ProcedureDetailsTextInput from './ProcedureDetailsTextInput';
+import ProcedureDetailsDropDown from './ProcedureDetailsDropDown';
 
 type ProcedureDetailsProp = {
   procedureId: string;
   addImageId?: string;
 };
 
-function ProcedureDetails(props: ProcedureDetailsProp) {
+const ProcedureDetails = (props: ProcedureDetailsProp) => {
   const dispatch = useAppDispatch();
   const {loading} = useAppSelector((state: RootState) => state.procedures);
-  const procedure = useAppSelector((state: RootState) =>
-    selectProcedureById(state, props.procedureId),
-  );
-  const [showSurgeryTypesDropDown, setShowSurgeryTypesDropDown] =
-    useState(false);
-  const [showIndicationsMultiselect, setShowIndicationsMultiselect] =
-    useState(false);
+  const procedure = useAppSelector((state: RootState) => selectProcedureById(state, props.procedureId),)
 
   if (procedure) {
     return (
@@ -48,59 +41,23 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
         </ScrollView>
         <Divider style={styles.divider} />
         <ScrollView>
-          <TextInput
-            style={styles.procTextInput}
+          <ProcedureDetailsTextInput
+            procedureId={props.procedureId}
+            fieldName="caseNumber"
             label="Case Number"
-            value={procedure.caseNumber.toString()}
-            mode="outlined"
-            onChangeText={text => {
-              dispatch(
-                procedureUpdated({
-                  id: props.procedureId,
-                  changes: {caseNumber: +text},
-                }),
-              );
-              procedureService.updateProcedureAsync({
-                id: props.procedureId,
-                changes: {caseNumber: +text},
-              });
-            }}
+            value={procedure.caseNumber}
           />
-          <TextInput
-            style={styles.procTextInput}
+          <ProcedureDetailsTextInput
+            procedureId={props.procedureId}
+            fieldName="urIdentifier"
             label="UR Identifier"
             value={procedure.urIdentifier}
-            mode="outlined"
-            onChangeText={text => {
-              dispatch(
-                procedureUpdated({
-                  id: props.procedureId,
-                  changes: {urIdentifier: text},
-                }),
-              );
-              procedureService.updateProcedureAsync({
-                id: props.procedureId,
-                changes: {urIdentifier: text},
-              });
-            }}
           />
-          <TextInput
-            style={styles.procTextInput}
+          <ProcedureDetailsTextInput
+            procedureId={props.procedureId}
+            fieldName="patientName"
             label="Patient Name"
             value={procedure.patientName}
-            mode="outlined"
-            onChangeText={text => {
-              dispatch(
-                procedureUpdated({
-                  id: props.procedureId,
-                  changes: {patientName: text},
-                }),
-              );
-              procedureService.updateProcedureAsync({
-                id: props.procedureId,
-                changes: {patientName: text},
-              });
-            }}
           />
           <DatePickerInput
             style={styles.procDateInput}
@@ -122,87 +79,38 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
             inputMode="start"
             mode="outlined"
           />
-          <TextInput
-            style={styles.procTextInput}
+          <ProcedureDetailsTextInput
+            procedureId={props.procedureId}
+            fieldName="surgeon"
             label="Surgeon Name"
             value={procedure.surgeon}
-            mode="outlined"
-            onChangeText={text => {
-              dispatch(
-                procedureUpdated({
-                  id: props.procedureId,
-                  changes: {surgeon: text},
-                }),
-              );
-              procedureService.updateProcedureAsync({
-                id: props.procedureId,
-                changes: {surgeon: text},
-              });
-            }}
           />
-          <DropDown
-            label={'Surgery Type'}
-            mode={'outlined'}
-            visible={showSurgeryTypesDropDown}
-            showDropDown={() => setShowSurgeryTypesDropDown(true)}
-            onDismiss={() => setShowSurgeryTypesDropDown(false)}
+          <ProcedureDetailsDropDown
+            procedureId={props.procedureId}
+            fieldName="surgeryType"
+            label="Surgery Type"
             value={procedure.surgeryType}
-            setValue={val => {
-              dispatch(
-                procedureUpdated({
-                  id: props.procedureId,
-                  changes: {surgeryType: val},
-                }),
-              );
-              procedureService.updateProcedureAsync({
-                id: props.procedureId,
-                changes: {surgeryType: val},
-              });
-            }}
             list={surgeryTypes}
           />
-          <TextInput
-            style={styles.procTextInput}
+          <ProcedureDetailsTextInput
+            procedureId={props.procedureId}
+            fieldName="hospital"
             label="Hospital"
             value={procedure.hospital}
-            mode="outlined"
-            onChangeText={text => {
-              dispatch(
-                procedureUpdated({
-                  id: props.procedureId,
-                  changes: {hospital: text},
-                }),
-              );
-              procedureService.updateProcedureAsync({
-                id: props.procedureId,
-                changes: {hospital: text},
-              });
-            }}
           />
-          <DropDown
-            label={'Indications'}
-            mode={'outlined'}
-            visible={showIndicationsMultiselect}
-            showDropDown={() => setShowIndicationsMultiselect(true)}
-            onDismiss={() => setShowIndicationsMultiselect(false)}
+          <ProcedureDetailsDropDown
+            procedureId={props.procedureId}
+            fieldName="indication"
+            label="Indications"
             value={procedure.indication}
-            setValue={val =>
-              dispatch(
-                procedureUpdated({
-                  id: props.procedureId,
-                  changes: {indication: val},
-                }),
-              )
-            }
             list={indications}
-            multiSelect
+            multiselect
           />
         </ScrollView>
 
         <Divider style={styles.divider} />
-        <AddImageToProcedure procedureId={procedure.id} />
-        <ProcedurePDFButton
-          procedure={procedure}
+        <ProcedureActionButtons
+          procedureId={props.procedureId}
           onSuccess={path => {
             console.log('PDF generated at:', path);
             // Add your success handling here
@@ -220,7 +128,7 @@ function ProcedureDetails(props: ProcedureDetailsProp) {
         <Text>Procedure not found.</Text>
       </Surface>
     );
-}
+};
 
 const styles = StyleSheet.create({
   surface: {...Containers.container.outerSurface},
