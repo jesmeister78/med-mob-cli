@@ -52,6 +52,15 @@ export const generatePDF = async (procedure: Procedure): Promise<string> => {
         </div>
       </div>
     `;
+    } else {
+        imagesHtml = `
+      <div class="section">
+        <div class="section-title">Procedure Images</div>
+        <div class="images-section">
+          <div class="no-images">No images available</div>
+        </div>
+      </div>
+    `;
     }
     const htmlContent = `
     <!DOCTYPE html>
