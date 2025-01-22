@@ -37,28 +37,6 @@ const ProcedureDetails = (props: ProcedureDetailsProp) => {
         }
     }, [procedure?.indication]);
 
-    const handleMultiSelectChange = (newValues: string[]) => {
-        setLocalValue(newValues);
-        const newValue = newValues.join(',');
-
-        if (newValue === procedure?.indication) return;
-
-        procedure && dispatch(
-            procedureUpdated({
-                id: procedure?.id,
-                changes: {
-                    indication: newValue,
-                },
-            }),
-        );
-
-        procedure && procedureService.updateProcedureAsync({
-            id: procedure?.id,
-                changes: {
-                    indication: newValue,
-                },
-        });
-    };
     if (procedure) {
         return (
             <Surface key={procedure.id} style={styles.surface}>
