@@ -6,14 +6,19 @@ import { format } from 'date-fns';
 import { Procedure } from '../domain/procedure';
 import { procedurePdfStyles } from '../styles/procedurePdf';
 import Config from 'react-native-config';
+import { surgeryTypes } from '../domain/constants/surgeryTypes';
+import { indications } from '../domain/constants/indications';
 
 const getBase64Image = async (imageUri: string): Promise<string> => {
     try {
         imageUri = (Config.XRAI_API_HOST || '') + imageUri;
-        console.log(`imageUri: ${imageUri}`)
+        console.log(`imageUri: ${imageUri}`);
         // Handle both file:// and http(s):// URIs
         if (imageUri.startsWith('file://')) {
-            const base64Data = await RNFS.readFile(imageUri.replace('file://', ''), 'base64');
+            const base64Data = await RNFS.readFile(
+                imageUri.replace('file://', ''),
+                'base64',
+            );
             return `data:image/jpeg;base64,${base64Data}`;
         } else if (imageUri.startsWith('http')) {
             // For remote images, first download them
@@ -34,21 +39,49 @@ const getBase64Image = async (imageUri: string): Promise<string> => {
     }
 };
 
+const getSurgeryTypeLabel = (value: string): string | undefined => {
+    const surgeryType = surgeryTypes.find(type => type.value === value);
+    return surgeryType?.label;
+};
+
+const getIndicationLabels = (values: string): string => {
+    if (!values) return '';
+
+    const valueArray = values.split(',').map(v => v.trim());
+
+    const labels = valueArray
+        .map(
+            value =>
+                indications.find(indication => indication.value === value)?.label,
+        )
+        .filter((label): label is string => label !== undefined); // Type guard to remove undefined values
+
+    return labels.join(', ');
+};
+
 export const generatePDF = async (procedure: Procedure): Promise<string> => {
     // Convert all images to base64 first
     let imagesHtml = '';
     if (procedure.images && procedure.images.length > 0) {
         const base64Images = await Promise.all(
-            procedure.images.map(image => getBase64Image(image.compositeImageSource || image.rawImageSource))
+            procedure.images.map(image =>
+                getBase64Image(image.compositeImageSource || image.rawImageSource),
+            ),
         );
 
         imagesHtml = `
       <div class="section">
         <div class="section-title">Procedure Images</div>
         <div class="images-section">
-          ${base64Images.map(base64 => base64 ? `
+          ${base64Images
+                .map(base64 =>
+                    base64
+                        ? `
             <img src="${base64}" class="image" alt="Procedure Image"/>
-          ` : '').join('')}
+          `
+                        : '',
+                )
+                .join('')}
         </div>
       </div>
     `;
@@ -90,7 +123,10 @@ export const generatePDF = async (procedure: Procedure): Promise<string> => {
           </div>
           <div class="row">
             <div class="label">Date:</div>
-            <div class="value">${format(new Date(procedure.date), 'dd/MM/yyyy')}</div>
+            <div class="value">${format(
+        new Date(procedure.date),
+        'dd/MM/yyyy',
+    )}</div>
           </div>
         </div>
 
@@ -102,7 +138,9 @@ export const generatePDF = async (procedure: Procedure): Promise<string> => {
           </div>
           <div class="row">
             <div class="label">Surgery Type:</div>
-            <div class="value">${procedure.surgeryType}</div>
+            <div class="value">${getSurgeryTypeLabel(
+        procedure.surgeryType,
+    )}</div>
           </div>
           <div class="row">
             <div class="label">Hospital:</div>
@@ -110,9 +148,9 @@ export const generatePDF = async (procedure: Procedure): Promise<string> => {
           </div>
           <div class="row">
             <div class="label">Indications:</div>
-            <div class="value">${Array.isArray(procedure.indication)
-            ? procedure.indication.join(', ')
-            : procedure.indication}</div>
+            <div class="value">${getIndicationLabels(
+        procedure.indication || '',
+    )}</div>
           </div>
         </div>
 
@@ -124,14 +162,17 @@ export const generatePDF = async (procedure: Procedure): Promise<string> => {
     try {
         const options = {
             html: htmlContent,
-            fileName: `Procedure_${procedure.caseNumber}_${format(new Date(), 'yyyyMMdd')}`,
+            fileName: `Procedure_${procedure.caseNumber}_${format(
+                new Date(),
+                'yyyyMMdd',
+            )}`,
             directory: Platform.select({
                 ios: 'Documents',
-                android: RNFS.DownloadDirectoryPath
+                android: RNFS.DownloadDirectoryPath,
             }),
             base64: false,
             height: 842, // A4 height in points
-            width: 595,  // A4 width in points
+            width: 595, // A4 width in points
             padding: 0,
         };
 
@@ -140,6 +181,9 @@ export const generatePDF = async (procedure: Procedure): Promise<string> => {
         // if there is no filePath on the file we will throw an exception
         return file.filePath!;
     } catch (error) {
-        throw new Error(`Failed to generate PDF: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        throw new Error(
+            `Failed to generate PDF: ${error instanceof Error ? error.message : 'Unknown error'
+            }`,
+        );
     }
 };

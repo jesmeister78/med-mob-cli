@@ -67,7 +67,7 @@ const ProcedureActionButtons = (props: ProcedureActionProps) => {
     return null;
   }
 
-  // Render the image source selection buttons
+  // Render the buttons for adding images and generating PDF
   if (!props.addImageId) {
     return (
       <Card.Actions>
