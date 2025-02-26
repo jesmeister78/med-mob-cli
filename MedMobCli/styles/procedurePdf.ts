@@ -38,6 +38,13 @@ export const procedurePdfStyles = `
           .images-section {
             margin-top: 20px;
           }
+          .image-container {
+            margin-bottom: 20px;
+          }
+          .image-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
           .image {
             max-width: 200px;
             margin: 10px;

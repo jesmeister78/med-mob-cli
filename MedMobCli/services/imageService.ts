@@ -47,7 +47,7 @@ export const imageService = (() => {
         },
 
         deleteImageAsync: async (imageId: string) => {
-            await xraiApi.delete(`/${imagesPath}/${processedPath}/${imageId}/`);
+            await xraiApi.delete(`/${imagesPath}/${imageId}/`);
         },
     };
 })();

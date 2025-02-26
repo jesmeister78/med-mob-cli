@@ -60,39 +60,70 @@ const getIndicationLabels = (values: string): string => {
 };
 
 export const generatePDF = async (procedure: Procedure): Promise<string> => {
-    // Convert all images to base64 first
     let imagesHtml = '';
     if (procedure.images && procedure.images.length > 0) {
-        const base64Images = await Promise.all(
-            procedure.images.map(image =>
-                getBase64Image(image.compositeImageSource || image.rawImageSource),
-            ),
-        );
+        // Prepare an array to collect all base64 image promises
+        const imagePromises: Promise<{ base64: string, label: string }>[] = [];
 
-        imagesHtml = `
-      <div class="section">
-        <div class="section-title">Procedure Images</div>
-        <div class="images-section">
-          ${base64Images
-                .map(base64 =>
-                    base64
-                        ? `
-            <img src="${base64}" class="image" alt="Procedure Image"/>
-          `
-                        : '',
-                )
-                .join('')}
+        // For each image, add both raw and composite to our promises array (when they exist)
+        procedure.images.forEach(image => {
+            if (image.compositeImageSource) {
+                imagePromises.push(
+                    getBase64Image(image.compositeImageSource).then(base64 => ({
+                        base64,
+                        label: 'Composite Image'
+                    }))
+                );
+            }
+
+            if (image.rawImageSource) {
+                imagePromises.push(
+                    getBase64Image(image.rawImageSource).then(base64 => ({
+                        base64,
+                        label: 'Raw Image'
+                    }))
+                );
+            }
+        });
+
+        // Resolve all promises
+        const allImages = await Promise.all(imagePromises);
+
+        // Filter out any failures (empty strings)
+        const validImages = allImages.filter(img => img.base64);
+
+        if (validImages.length > 0) {
+            imagesHtml = `
+        <div class="section">
+            <div class="section-title">Procedure Images</div>
+            <div class="images-section">
+                ${validImages.map(img => `
+                    <div class="image-container">
+                        <div class="image-label">${img.label}</div>
+                        <img src="${img.base64}" class="image" alt="Procedure Image"/>
+                    </div>
+                `).join('')}
+            </div>
         </div>
-      </div>
-    `;
+        `;
+        } else {
+            imagesHtml = `
+        <div class="section">
+            <div class="section-title">Procedure Images</div>
+            <div class="images-section">
+                <div class="no-images">No images available</div>
+            </div>
+        </div>
+        `;
+        }
     } else {
         imagesHtml = `
-      <div class="section">
+    <div class="section">
         <div class="section-title">Procedure Images</div>
         <div class="images-section">
-          <div class="no-images">No images available</div>
+            <div class="no-images">No images available</div>
         </div>
-      </div>
+    </div>
     `;
     }
     const htmlContent = `

@@ -1,9 +1,9 @@
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Alert, Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Containers, Images } from "../../styles";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { RootState } from "../../store";
-import { fetchImagesForProcedure, selectImagesByProcedureId } from "../../store/imageSlice";
+import { deleteImage, fetchImagesForProcedure, selectImagesByProcedureId } from "../../store/imageSlice";
 import { ProcedureListScreenNavProp } from "../../screens/navigation/screenNavProps";
 import { imageMode } from "../../domain/constants/imageMode";
 import { selectProcedureById } from "../../store/procedureSlice";
@@ -20,8 +20,28 @@ function ProcedureImages(props: ProcedureImagesProp) {
     const procedure = useAppSelector((state: RootState) => selectProcedureById(state, props.procedureId));
     const thumbnails = useAppSelector((state: RootState) => selectImagesByProcedureId(state, props.procedureId));
     const navigation = useNavigation<ProcedureListScreenNavProp>();
+    
     const navToProcessedImageDetails = (imageId: string, imgMode: string) => {
         navigation.navigate("ProcessedImage", { imageId: imageId, mode: imgMode })
+    };
+
+    const handleDeleteImage = (imageId: string) => {
+        Alert.alert(
+            "Delete Image", 
+            "Are you sure you want to delete this image?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        dispatch(deleteImage(imageId));
+                    }
+                }
+            ]
+        );
     };
 
     thumbnails.map((i, idx) => console.log(`image ${idx}: ${i.rawImageSource}`))
@@ -29,7 +49,7 @@ function ProcedureImages(props: ProcedureImagesProp) {
     useEffect(() => {
         dispatch(fetchImagesForProcedure(props.procedureId));
     }, []);
-    // TODO: need to show more than just the first image
+    
     return procedure && thumbnails && thumbnails.length > 0 ? (
         <View style={styles.imgContainer}>
             {
@@ -39,6 +59,7 @@ function ProcedureImages(props: ProcedureImagesProp) {
                     return img.rawImageSource ? (
                         <TouchableOpacity key={index}
                             onPress={() => navToProcessedImageDetails(img.id, imageMode.RAW)}
+                            onLongPress={() => handleDeleteImage(img.id)}
                         >
                             <Image key={index}
                                 style={styles.imgThumbnail}
@@ -49,8 +70,6 @@ function ProcedureImages(props: ProcedureImagesProp) {
                 })
             }
         </View>
-
-
     ) : (null)
 }
 

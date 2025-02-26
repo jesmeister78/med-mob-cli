@@ -41,8 +41,8 @@ const ProcedureDetails = (props: ProcedureDetailsProp) => {
         return (
             <Surface key={procedure.id} style={styles.surface}>
                 <ErrorComponent />
-                <Text variant="titleMedium">
-                    Tap on an image to send it to the xrAI engine
+                <Text variant="titleSmall">
+                    Tap on an image to send it to the xrAI engine, or hold to delete it.
                 </Text>
                 <Divider style={styles.divider} />
                 <ScrollView horizontal={true}>
