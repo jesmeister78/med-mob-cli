@@ -22,7 +22,7 @@ const getBase64Image = async (imageUri: string): Promise<string> => {
             return `data:image/jpeg;base64,${base64Data}`;
         } else if (imageUri.startsWith('http')) {
             // For remote images, first download them
-            const tempFile = `${RNFS.TemporaryDirectoryPath}/${Date.now()}.jpg`;
+            const tempFile = `${RNFS.TemporaryDirectoryPath}${Date.now()}.png`;
             await RNFS.downloadFile({
                 fromUrl: imageUri,
                 toFile: tempFile,
@@ -30,7 +30,7 @@ const getBase64Image = async (imageUri: string): Promise<string> => {
             const base64Data = await RNFS.readFile(tempFile, 'base64');
             // Clean up temp file
             await RNFS.unlink(tempFile);
-            return `data:image/jpeg;base64,${base64Data}`;
+            return `data:image/png;base64,${base64Data}`;
         }
         throw new Error('Unsupported image URI format');
     } catch (error) {
@@ -96,6 +96,7 @@ export const generatePDF = async (procedure: Procedure): Promise<string> => {
             imagesHtml = `
         <div class="section">
             <div class="section-title">Procedure Images</div>
+            <div class="section-title">Number of Images: ${validImages.length}</div>
             <div class="images-section">
                 ${validImages.map(img => `
                     <div class="image-container">

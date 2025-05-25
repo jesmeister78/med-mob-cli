@@ -30,6 +30,10 @@ npm install
 # Clean iOS
 echo "🍎 Cleaning iOS build..."
 cd ios
+# Clear pod cache
+echo "• Clear pod cache..."
+pod cache clean --all
+pod repo update
 echo " • Removing Pods..."
 rm -rf Pods
 echo " • Removing build folder..."
@@ -41,7 +45,7 @@ pod deintegrate
 echo " • Removing Podfile.lock..."
 rm -f Podfile.lock
 echo " • Installing pods..."
-pod install --repo-update  # Added --repo-update flag to ensure latest pods
+pod install
 cd ..
 
 # Launch React Native Debugger

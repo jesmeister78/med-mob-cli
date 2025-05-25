@@ -54,9 +54,10 @@ function ProcedureImages(props: ProcedureImagesProp) {
         <View style={styles.imgContainer}>
             {
                 thumbnails.map((img, index) => {
-                    const path = `${getImagePathPrefix(img.rawImageSource)}${img.rawImageSource}`
+                    const imgSrc = img.compositeImageSource || img.rawImageSource;
+                    const path = `${getImagePathPrefix(imgSrc)}${imgSrc}`
                     console.log(`mapping img ${index}: ${path}`)
-                    return img.rawImageSource ? (
+                    return imgSrc ? (
                         <TouchableOpacity key={index}
                             onPress={() => navToProcessedImageDetails(img.id, imageMode.RAW)}
                             onLongPress={() => handleDeleteImage(img.id)}
