@@ -10,9 +10,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		36984BE8E19B071E23D508B6 /* libPods-MedMobCli-MedMobCli - Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 733712C16DFD45E1E20E7E6B /* libPods-MedMobCli-MedMobCli - Dev.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		90DBBD98CA72574450F290BB /* libPods-MedMobCli-MedMobCli - Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA48F0B3996E6000B8A05D23 /* libPods-MedMobCli-MedMobCli - Dev.a */; };
-		A517C397D461352C17C1BCDC /* libPods-MedMobCli-MedMobCli - Staging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9297D9E19260DF23E1378154 /* libPods-MedMobCli-MedMobCli - Staging.a */; };
 		C180509F2CEE8F7C0079C80A /* Dev-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C180509E2CEE8F7B0079C80A /* Dev-Info.plist */; };
 		C18050A12CEE8F8D0079C80A /* Staging-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C18050A02CEE8F8D0079C80A /* Staging-Info.plist */; };
 		C1FCECAE2CDEBD3700E62EE5 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
@@ -25,15 +24,15 @@
 		C1FCECCA2CDEBD6B00E62EE5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C1FCECCB2CDEBD6B00E62EE5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		C1FCECCC2CDEBD6B00E62EE5 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 123F681FFC885439AC9651A5 /* PrivacyInfo.xcprivacy */; };
-		EF2B6C893B0FE2BA724340B7 /* libPods-MedMobCli.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C67744AB3F1A67488F3FA2 /* libPods-MedMobCli.a */; };
+		FE3984BBA8DC2071F61FAB4F /* libPods-MedMobCli.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 76CE999CF4E4D251224F065C /* libPods-MedMobCli.a */; };
+		FEA6E6D01F925796942A7479 /* libPods-MedMobCli-MedMobCli - Staging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8146837244DB22EA4CB8C2F /* libPods-MedMobCli-MedMobCli - Staging.a */; };
 		FFE9384BA849DC4E680B9222 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 123F681FFC885439AC9651A5 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* MedMobCliTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MedMobCliTests.m; sourceTree = "<group>"; };
-		0362D77A187DC51AFF2F23B2 /* Pods-MedMobCli-MedMobCli - Dev.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli-MedMobCli - Dev.staging.xcconfig"; path = "Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev.staging.xcconfig"; sourceTree = "<group>"; };
-		075C8F62C12BDCE1ABE9FA4B /* Pods-MedMobCli-MedMobCli - Staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli-MedMobCli - Staging.release.xcconfig"; path = "Target Support Files/Pods-MedMobCli-MedMobCli - Staging/Pods-MedMobCli-MedMobCli - Staging.release.xcconfig"; sourceTree = "<group>"; };
+		0F3BF6E7506B0BA66343B8E5 /* Pods-MedMobCli-MedMobCli - Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli-MedMobCli - Dev.release.xcconfig"; path = "Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev.release.xcconfig"; sourceTree = "<group>"; };
 		123F681FFC885439AC9651A5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = MedMobCli/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* xrAImobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xrAImobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MedMobCli/AppDelegate.h; sourceTree = "<group>"; };
@@ -41,22 +40,23 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MedMobCli/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MedMobCli/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MedMobCli/main.m; sourceTree = "<group>"; };
-		2AAAE9AA43373644FB95DA5C /* Pods-MedMobCli.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli.debug.xcconfig"; path = "Target Support Files/Pods-MedMobCli/Pods-MedMobCli.debug.xcconfig"; sourceTree = "<group>"; };
-		34C67744AB3F1A67488F3FA2 /* libPods-MedMobCli.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MedMobCli.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		568495D8F2AFB3F03A87C710 /* Pods-MedMobCli-MedMobCli - Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli-MedMobCli - Dev.release.xcconfig"; path = "Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev.release.xcconfig"; sourceTree = "<group>"; };
-		6749AAD9BA901FC0B12D4372 /* Pods-MedMobCli.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli.staging.xcconfig"; path = "Target Support Files/Pods-MedMobCli/Pods-MedMobCli.staging.xcconfig"; sourceTree = "<group>"; };
+		1B3D460B612F7414AD634560 /* Pods-MedMobCli.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli.release.xcconfig"; path = "Target Support Files/Pods-MedMobCli/Pods-MedMobCli.release.xcconfig"; sourceTree = "<group>"; };
+		2898F53DF93FC0A77F472149 /* Pods-MedMobCli-MedMobCli - Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli-MedMobCli - Dev.debug.xcconfig"; path = "Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev.debug.xcconfig"; sourceTree = "<group>"; };
+		301B1A013614E20501B88070 /* Pods-MedMobCli.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli.debug.xcconfig"; path = "Target Support Files/Pods-MedMobCli/Pods-MedMobCli.debug.xcconfig"; sourceTree = "<group>"; };
+		5EDEA5611D060C5B3A63F033 /* Pods-MedMobCli-MedMobCli - Staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli-MedMobCli - Staging.release.xcconfig"; path = "Target Support Files/Pods-MedMobCli-MedMobCli - Staging/Pods-MedMobCli-MedMobCli - Staging.release.xcconfig"; sourceTree = "<group>"; };
+		733712C16DFD45E1E20E7E6B /* libPods-MedMobCli-MedMobCli - Dev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MedMobCli-MedMobCli - Dev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		76CE999CF4E4D251224F065C /* libPods-MedMobCli.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MedMobCli.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7ED11C4989F69CD78A260A7A /* Pods-MedMobCli-MedMobCli - Staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli-MedMobCli - Staging.debug.xcconfig"; path = "Target Support Files/Pods-MedMobCli-MedMobCli - Staging/Pods-MedMobCli-MedMobCli - Staging.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MedMobCli/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		82AB8F0E8629B90AAECB55F2 /* Pods-MedMobCli-MedMobCli - Staging.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli-MedMobCli - Staging.staging.xcconfig"; path = "Target Support Files/Pods-MedMobCli-MedMobCli - Staging/Pods-MedMobCli-MedMobCli - Staging.staging.xcconfig"; sourceTree = "<group>"; };
-		9297D9E19260DF23E1378154 /* libPods-MedMobCli-MedMobCli - Staging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MedMobCli-MedMobCli - Staging.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B1DF65344D342541FEB2D069 /* Pods-MedMobCli.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli.release.xcconfig"; path = "Target Support Files/Pods-MedMobCli/Pods-MedMobCli.release.xcconfig"; sourceTree = "<group>"; };
+		B6C6B92E214E1D09FE62BFF0 /* Pods-MedMobCli.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli.staging.xcconfig"; path = "Target Support Files/Pods-MedMobCli/Pods-MedMobCli.staging.xcconfig"; sourceTree = "<group>"; };
 		C180509E2CEE8F7B0079C80A /* Dev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Dev-Info.plist"; sourceTree = "<group>"; };
 		C18050A02CEE8F8D0079C80A /* Staging-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Staging-Info.plist"; sourceTree = "<group>"; };
 		C1FCECBE2CDEBD3700E62EE5 /* MedMobCli - Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MedMobCli - Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1FCECD42CDEBD6B00E62EE5 /* MedMobCli - Staging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MedMobCli - Staging.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB3217BB9374FB611A64BCB7 /* Pods-MedMobCli-MedMobCli - Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli-MedMobCli - Dev.debug.xcconfig"; path = "Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev.debug.xcconfig"; sourceTree = "<group>"; };
-		EA48F0B3996E6000B8A05D23 /* libPods-MedMobCli-MedMobCli - Dev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MedMobCli-MedMobCli - Dev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC685618E71387495D544FB9 /* Pods-MedMobCli-MedMobCli - Staging.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli-MedMobCli - Staging.staging.xcconfig"; path = "Target Support Files/Pods-MedMobCli-MedMobCli - Staging/Pods-MedMobCli-MedMobCli - Staging.staging.xcconfig"; sourceTree = "<group>"; };
+		D8146837244DB22EA4CB8C2F /* libPods-MedMobCli-MedMobCli - Staging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MedMobCli-MedMobCli - Staging.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		FB074C5EBF4A1133245E8411 /* Pods-MedMobCli-MedMobCli - Staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli-MedMobCli - Staging.debug.xcconfig"; path = "Target Support Files/Pods-MedMobCli-MedMobCli - Staging/Pods-MedMobCli-MedMobCli - Staging.debug.xcconfig"; sourceTree = "<group>"; };
+		F2B835EF1D707FCDDFFCE02F /* Pods-MedMobCli-MedMobCli - Dev.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MedMobCli-MedMobCli - Dev.staging.xcconfig"; path = "Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev.staging.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF2B6C893B0FE2BA724340B7 /* libPods-MedMobCli.a in Frameworks */,
+				FE3984BBA8DC2071F61FAB4F /* libPods-MedMobCli.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90DBBD98CA72574450F290BB /* libPods-MedMobCli-MedMobCli - Dev.a in Frameworks */,
+				36984BE8E19B071E23D508B6 /* libPods-MedMobCli-MedMobCli - Dev.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A517C397D461352C17C1BCDC /* libPods-MedMobCli-MedMobCli - Staging.a in Frameworks */,
+				FEA6E6D01F925796942A7479 /* libPods-MedMobCli-MedMobCli - Staging.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,9 +124,9 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				34C67744AB3F1A67488F3FA2 /* libPods-MedMobCli.a */,
-				EA48F0B3996E6000B8A05D23 /* libPods-MedMobCli-MedMobCli - Dev.a */,
-				9297D9E19260DF23E1378154 /* libPods-MedMobCli-MedMobCli - Staging.a */,
+				76CE999CF4E4D251224F065C /* libPods-MedMobCli.a */,
+				733712C16DFD45E1E20E7E6B /* libPods-MedMobCli-MedMobCli - Dev.a */,
+				D8146837244DB22EA4CB8C2F /* libPods-MedMobCli-MedMobCli - Staging.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -166,15 +166,15 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2AAAE9AA43373644FB95DA5C /* Pods-MedMobCli.debug.xcconfig */,
-				B1DF65344D342541FEB2D069 /* Pods-MedMobCli.release.xcconfig */,
-				6749AAD9BA901FC0B12D4372 /* Pods-MedMobCli.staging.xcconfig */,
-				DB3217BB9374FB611A64BCB7 /* Pods-MedMobCli-MedMobCli - Dev.debug.xcconfig */,
-				568495D8F2AFB3F03A87C710 /* Pods-MedMobCli-MedMobCli - Dev.release.xcconfig */,
-				0362D77A187DC51AFF2F23B2 /* Pods-MedMobCli-MedMobCli - Dev.staging.xcconfig */,
-				FB074C5EBF4A1133245E8411 /* Pods-MedMobCli-MedMobCli - Staging.debug.xcconfig */,
-				075C8F62C12BDCE1ABE9FA4B /* Pods-MedMobCli-MedMobCli - Staging.release.xcconfig */,
-				82AB8F0E8629B90AAECB55F2 /* Pods-MedMobCli-MedMobCli - Staging.staging.xcconfig */,
+				301B1A013614E20501B88070 /* Pods-MedMobCli.debug.xcconfig */,
+				1B3D460B612F7414AD634560 /* Pods-MedMobCli.release.xcconfig */,
+				B6C6B92E214E1D09FE62BFF0 /* Pods-MedMobCli.staging.xcconfig */,
+				2898F53DF93FC0A77F472149 /* Pods-MedMobCli-MedMobCli - Dev.debug.xcconfig */,
+				0F3BF6E7506B0BA66343B8E5 /* Pods-MedMobCli-MedMobCli - Dev.release.xcconfig */,
+				F2B835EF1D707FCDDFFCE02F /* Pods-MedMobCli-MedMobCli - Dev.staging.xcconfig */,
+				7ED11C4989F69CD78A260A7A /* Pods-MedMobCli-MedMobCli - Staging.debug.xcconfig */,
+				5EDEA5611D060C5B3A63F033 /* Pods-MedMobCli-MedMobCli - Staging.release.xcconfig */,
+				CC685618E71387495D544FB9 /* Pods-MedMobCli-MedMobCli - Staging.staging.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -186,15 +186,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "MedMobCli" */;
 			buildPhases = (
-				735A9D7F07BA3FAD57B1D62B /* [CP] Check Pods Manifest.lock */,
+				AE21993D046A0FB514D301D4 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				C1FCECA92CDE052000E62EE5 /* ShellScript */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				9939E40297AF6C012BAB66EB /* [CP] Embed Pods Frameworks */,
-				E90182E4978F00AC2B37BC2C /* [CP] Copy Pods Resources */,
+				31C01CCF6391046C917B5BEF /* [CP] Embed Pods Frameworks */,
+				BD609C4FEC8ED553C8433DFF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -209,15 +209,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C1FCECBA2CDEBD3700E62EE5 /* Build configuration list for PBXNativeTarget "MedMobCli - Dev" */;
 			buildPhases = (
-				628D83F07765F3D0337BAD9B /* [CP] Check Pods Manifest.lock */,
+				A7A5E4789E8CD0AB3A869D76 /* [CP] Check Pods Manifest.lock */,
 				C1FCECAC2CDEBD3700E62EE5 /* Start Packager */,
 				C1FCECAD2CDEBD3700E62EE5 /* Sources */,
 				C1FCECB02CDEBD3700E62EE5 /* Frameworks */,
 				C1FCECB22CDEBD3700E62EE5 /* ShellScript */,
 				C1FCECB32CDEBD3700E62EE5 /* Resources */,
 				C1FCECB72CDEBD3700E62EE5 /* Bundle React Native code and images */,
-				70ACE77C5F1CC887C3F5498E /* [CP] Embed Pods Frameworks */,
-				1BA3ABA9C6C29221FD0EB5A7 /* [CP] Copy Pods Resources */,
+				E0EB50697927EC84DF3ECFA9 /* [CP] Embed Pods Frameworks */,
+				F3C420E81F373925094D190D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -232,15 +232,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C1FCECD02CDEBD6B00E62EE5 /* Build configuration list for PBXNativeTarget "MedMobCli - Staging" */;
 			buildPhases = (
-				40E1FB3D109A3B8163C1DA1A /* [CP] Check Pods Manifest.lock */,
+				9A66B08075C449F42A675897 /* [CP] Check Pods Manifest.lock */,
 				C1FCECC22CDEBD6B00E62EE5 /* Start Packager */,
 				C1FCECC32CDEBD6B00E62EE5 /* Sources */,
 				C1FCECC62CDEBD6B00E62EE5 /* Frameworks */,
 				C1FCECC82CDEBD6B00E62EE5 /* ShellScript */,
 				C1FCECC92CDEBD6B00E62EE5 /* Resources */,
 				C1FCECCD2CDEBD6B00E62EE5 /* Bundle React Native code and images */,
-				BA46042FEEEC1631074F56F9 /* [CP] Embed Pods Frameworks */,
-				FAE06FD48DBF6B5ED2AF9941 /* [CP] Copy Pods Resources */,
+				E6979159DB2BDD92688E5CB4 /* [CP] Embed Pods Frameworks */,
+				C3D639E34F3CED7C5EE5D59D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -337,24 +337,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		1BA3ABA9C6C29221FD0EB5A7 /* [CP] Copy Pods Resources */ = {
+		31C01CCF6391046C917B5BEF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli/Pods-MedMobCli-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli/Pods-MedMobCli-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MedMobCli/Pods-MedMobCli-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		40E1FB3D109A3B8163C1DA1A /* [CP] Check Pods Manifest.lock */ = {
+		9A66B08075C449F42A675897 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -376,7 +376,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		628D83F07765F3D0337BAD9B /* [CP] Check Pods Manifest.lock */ = {
+		A7A5E4789E8CD0AB3A869D76 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -398,24 +398,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		70ACE77C5F1CC887C3F5498E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		735A9D7F07BA3FAD57B1D62B /* [CP] Check Pods Manifest.lock */ = {
+		AE21993D046A0FB514D301D4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -437,38 +420,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9939E40297AF6C012BAB66EB /* [CP] Embed Pods Frameworks */ = {
+		BD609C4FEC8ED553C8433DFF /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli/Pods-MedMobCli-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli/Pods-MedMobCli-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli/Pods-MedMobCli-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli/Pods-MedMobCli-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MedMobCli/Pods-MedMobCli-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BA46042FEEEC1631074F56F9 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Staging/Pods-MedMobCli-MedMobCli - Staging-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Staging/Pods-MedMobCli-MedMobCli - Staging-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Staging/Pods-MedMobCli-MedMobCli - Staging-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MedMobCli/Pods-MedMobCli-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C1FCECA92CDE052000E62EE5 /* ShellScript */ = {
@@ -592,24 +558,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		E90182E4978F00AC2B37BC2C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli/Pods-MedMobCli-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli/Pods-MedMobCli-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MedMobCli/Pods-MedMobCli-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FAE06FD48DBF6B5ED2AF9941 /* [CP] Copy Pods Resources */ = {
+		C3D639E34F3CED7C5EE5D59D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -624,6 +573,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Staging/Pods-MedMobCli-MedMobCli - Staging-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E0EB50697927EC84DF3ECFA9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E6979159DB2BDD92688E5CB4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Staging/Pods-MedMobCli-MedMobCli - Staging-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Staging/Pods-MedMobCli-MedMobCli - Staging-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Staging/Pods-MedMobCli-MedMobCli - Staging-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F3C420E81F373925094D190D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MedMobCli-MedMobCli - Dev/Pods-MedMobCli-MedMobCli - Dev-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -680,7 +680,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2AAAE9AA43373644FB95DA5C /* Pods-MedMobCli.debug.xcconfig */;
+			baseConfigurationReference = 301B1A013614E20501B88070 /* Pods-MedMobCli.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -710,7 +710,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1DF65344D342541FEB2D069 /* Pods-MedMobCli.release.xcconfig */;
+			baseConfigurationReference = 1B3D460B612F7414AD634560 /* Pods-MedMobCli.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -974,7 +974,7 @@
 		};
 		C1FCECA32CDA113C00E62EE5 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6749AAD9BA901FC0B12D4372 /* Pods-MedMobCli.staging.xcconfig */;
+			baseConfigurationReference = B6C6B92E214E1D09FE62BFF0 /* Pods-MedMobCli.staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1002,7 +1002,7 @@
 		};
 		C1FCECBB2CDEBD3700E62EE5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB3217BB9374FB611A64BCB7 /* Pods-MedMobCli-MedMobCli - Dev.debug.xcconfig */;
+			baseConfigurationReference = 2898F53DF93FC0A77F472149 /* Pods-MedMobCli-MedMobCli - Dev.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
 				CLANG_ENABLE_MODULES = YES;
@@ -1032,7 +1032,7 @@
 		};
 		C1FCECBC2CDEBD3700E62EE5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 568495D8F2AFB3F03A87C710 /* Pods-MedMobCli-MedMobCli - Dev.release.xcconfig */;
+			baseConfigurationReference = 0F3BF6E7506B0BA66343B8E5 /* Pods-MedMobCli-MedMobCli - Dev.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
 				CLANG_ENABLE_MODULES = YES;
@@ -1060,7 +1060,7 @@
 		};
 		C1FCECBD2CDEBD3700E62EE5 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0362D77A187DC51AFF2F23B2 /* Pods-MedMobCli-MedMobCli - Dev.staging.xcconfig */;
+			baseConfigurationReference = F2B835EF1D707FCDDFFCE02F /* Pods-MedMobCli-MedMobCli - Dev.staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconDev;
 				CLANG_ENABLE_MODULES = YES;
@@ -1088,7 +1088,7 @@
 		};
 		C1FCECD12CDEBD6B00E62EE5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB074C5EBF4A1133245E8411 /* Pods-MedMobCli-MedMobCli - Staging.debug.xcconfig */;
+			baseConfigurationReference = 7ED11C4989F69CD78A260A7A /* Pods-MedMobCli-MedMobCli - Staging.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconStaging;
 				CLANG_ENABLE_MODULES = YES;
@@ -1118,7 +1118,7 @@
 		};
 		C1FCECD22CDEBD6B00E62EE5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 075C8F62C12BDCE1ABE9FA4B /* Pods-MedMobCli-MedMobCli - Staging.release.xcconfig */;
+			baseConfigurationReference = 5EDEA5611D060C5B3A63F033 /* Pods-MedMobCli-MedMobCli - Staging.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconStaging;
 				CLANG_ENABLE_MODULES = YES;
@@ -1146,7 +1146,7 @@
 		};
 		C1FCECD32CDEBD6B00E62EE5 /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 82AB8F0E8629B90AAECB55F2 /* Pods-MedMobCli-MedMobCli - Staging.staging.xcconfig */;
+			baseConfigurationReference = CC685618E71387495D544FB9 /* Pods-MedMobCli-MedMobCli - Staging.staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconStaging;
 				CLANG_ENABLE_MODULES = YES;

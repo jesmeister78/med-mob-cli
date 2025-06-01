@@ -19,6 +19,7 @@ export const imageService = (() => {
             });
             formData.append("id", img.id);
             formData.append("imageTimestamp", img.imageTimestamp);
+            img.procedureId && formData.append("procedureId", img.procedureId);
             const response = await xraiApi.post<Image>(`/${imagesPath}/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
