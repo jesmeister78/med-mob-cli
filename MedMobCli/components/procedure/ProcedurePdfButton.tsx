@@ -1,13 +1,13 @@
 // PDFButton.tsx
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {Button, IconButton, MD3Colors} from 'react-native-paper';
+import {IconButton, MD3Colors} from 'react-native-paper';
 import Share from 'react-native-share';
-import {generatePDF} from '../../services/pdfService';
-import {Procedure} from '../../domain/procedure';
 import { useAppSelector } from '../../hooks';
 import { RootState } from '../../store';
 import { selectProcedureById } from '../../store/procedureSlice';
+import { pdfService } from '../../services/pdfService';
+import { selectImagesByProcedureId } from '../../store/imageSlice';
 
 interface PDFButtonProps {
   procedureId: string;
@@ -24,9 +24,15 @@ const ProcedurePdfButton: React.FC<PDFButtonProps> = ({
     selectProcedureById(state, procedureId),
   );
 
+  const images = useAppSelector(
+    (state: RootState) => selectImagesByProcedureId(state, procedureId),
+  );
+
   const handleGeneratePDF = async () => {
     try {
-      const filePath = procedure && await generatePDF(procedure);
+     
+      // Generate the PDF using the pdfService
+      const filePath = procedure && await pdfService.generatePDF(procedure, images);
 
       if (onSuccess) {
         onSuccess(filePath!);
